@@ -22,6 +22,7 @@ import sunaba.PlatformService;
 import sunaba.PlatformDeviceType;
 import haxe.Exception;
 import sunaba.ui.ButtonGroup;
+import sunaba.core.Vector2;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -67,9 +68,11 @@ class Editor extends Widget {
 
         leftTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/leftSidebar");
         leftTabContainer.hide();
+        leftTabContainer.tabsVisible = false;
         centerTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/workspace");
         rightTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/rightSidebar");
         rightTabContainer.hide();
+        rightTabContainer.tabsVisible = false;
 
         saveFileButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/saveFile");
         reloadButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/reload");
@@ -224,6 +227,12 @@ class Editor extends Widget {
                     break;
                 }
             }
+
+            new Explorer(this, EditorArea.leftSidebar);
+            new EditorWidget(this, EditorArea.leftSidebar);
+            new EditorWidget(this, EditorArea.leftSidebar);
+            new EditorWidget(this, EditorArea.rightSidebar);
+            new EditorWidget(this, EditorArea.rightSidebar);
         }
         catch(e: Exception) {
             Debug.error(e.message);
@@ -282,14 +291,22 @@ class Editor extends Widget {
 
         var tabContainerBar = leftTabContainer.getTabBar();
         for (i in 0...leftSidebarChildren.length) {
+            trace(i);
             var tabIcon = tabContainerBar.getTabIcon(i);
             var tabTitle = tabContainerBar.getTabTitle(i);
             var tabButton = new Button();
-            if (!tabIcon.isNull()) {
+            tabButton.customMinimumSize = new Vector2(40, 40);
+            tabButton.flat = true;
+            tabButton.iconAlignment = HorizontalAlignment.center;
+            if (tabIcon.isObjectValid()) {
                 tabButton.icon = tabIcon;
             }
             else {
-
+                var iconBin = io.loadBytes("studio://icons/16_1-5x/question-button.png");
+                var iconImage = new Image();
+                iconImage.loadPngFromBuffer(iconBin);
+                var texture = ImageTexture.createFromImage(iconImage);
+                tabButton.icon = texture;
             }
             tabButton.tooltipText = tabTitle;
             tabButton.toggled.connect(Callable.fromFunction(function(toggled: Bool) {
@@ -303,7 +320,9 @@ class Editor extends Widget {
             }));
             tabButton.toggleMode = true;
             tabButton.buttonGroup = tabButtonGroup;
+            leftTabBar.addChild(tabButton);
         }
+        checkLeftSideBar();
     }
 
     public function refreshRightSidebar() {
@@ -329,11 +348,18 @@ class Editor extends Widget {
             var tabIcon = tabContainerBar.getTabIcon(i);
             var tabTitle = tabContainerBar.getTabTitle(i);
             var tabButton = new Button();
-            if (!tabIcon.isNull()) {
+            tabButton.customMinimumSize = new Vector2(40, 40);
+            tabButton.flat = true;
+            tabButton.iconAlignment = HorizontalAlignment.center;
+            if (tabIcon.isObjectValid()) {
                 tabButton.icon = tabIcon;
             }
             else {
-
+                var iconBin = io.loadBytes("studio://icons/16_1-5x/question-button.png");
+                var iconImage = new Image();
+                iconImage.loadPngFromBuffer(iconBin);
+                var texture = ImageTexture.createFromImage(iconImage);
+                tabButton.icon = texture;
             }
             tabButton.tooltipText = tabTitle;
             tabButton.toggled.connect(Callable.fromFunction(function(toggled: Bool) {
@@ -347,66 +373,64 @@ class Editor extends Widget {
             }));
             tabButton.toggleMode = true;
             tabButton.buttonGroup = tabButtonGroup;
+            rightTabBar.addChild(tabButton);
         }
+        checkRightSidebar();
     }
 
     public function setLeftSidebarTabIcon(widget: EditorWidget, icon: Texture2D) {
         var index = leftSidebarChildren.indexOf(widget);
-        if (leftTabContainer.getTabControl(index).isNull()) {
-            return;
-        }
         leftTabContainer.setTabIcon(index, icon);
+        refreshLeftSidebar();
     }
 
     public function setRightSiderbarTabIcon(widget: EditorWidget, icon: Texture2D) {
         var index = rightSidebarChildren.indexOf(widget);
-        if (rightTabContainer.getTabControl(index).isNull()) {
-            return;
-        }
         rightTabContainer.setTabIcon(index, icon);
+        refreshRightSidebar();
     }
 
     public function setLeftSidebarTabTitle(widget: EditorWidget, title: String) {
         var index = leftSidebarChildren.indexOf(widget);
-        if (leftTabContainer.getTabControl(index).isNull()) {
-            return;
-        }
         leftTabContainer.setTabTitle(index, title);
+        refreshLeftSidebar();
     }
 
     public function setRightSidebarTabTitle(widget: EditorWidget, title: String) {
         var index = rightSidebarChildren.indexOf(widget);
-        if (rightTabContainer.getTabControl(index).isNull()) {
-            return;
-        }
         rightTabContainer.setTabTitle(index, title);
+        refreshRightSidebar();
     }
 
     public function setWorkspaceTabIcon(widget: EditorWidget, icon: Texture2D) {
         var index = workspaceChildern.indexOf(widget);
-        if (centerTabContainer.getTabControl(index).isNull()) {
-            return;
-        }
         centerTabContainer.setTabIcon(index, icon);
     }
 
     public function setWorkspaceTabTitle(widget: EditorWidget, title: String) {
         var index = workspaceChildern.indexOf(widget);
-        if (centerTabContainer.getTabControl(index).isNull()) {
-            return;
-        }
         centerTabContainer.setTabTitle(index, title);
     }
 
     public function addLeftSidebarChild(child: EditorWidget) {
         leftSidebarChildren.push(child);
         leftTabContainer.addChild(child);
+        var iconBin = io.loadBytes("studio://icons/16_1-5x/question-button.png");
+        var iconImage = new Image();
+        iconImage.loadPngFromBuffer(iconBin);
+        var texture = ImageTexture.createFromImage(iconImage);
+        setLeftSidebarTabIcon(child, texture);
         refreshLeftSidebar();
     }
 
     public function addRightSidebarChild(child: EditorWidget) {
         rightSidebarChildren.push(child);
         rightTabContainer.addChild(child);
+        var iconBin = io.loadBytes("studio://icons/16_1-5x/question-button.png");
+        var iconImage = new Image();
+        iconImage.loadPngFromBuffer(iconBin);
+        var texture = ImageTexture.createFromImage(iconImage);
+        setRightSiderbarTabIcon(child, texture);
         refreshRightSidebar();
     }
 
