@@ -81,28 +81,31 @@ func _require(path: String) -> String:
 
 func _errord(msg: String, title: String) -> void:
 	var accept_dialog: AcceptDialogPlus = AcceptDialogPlus.new()
-	accept_dialog.set("Type", 0)
+	accept_dialog.SetIconType(0)
 	accept_dialog.title = title
 	accept_dialog.set("Text", msg)
-	add_child.call_deferred(accept_dialog)
+	add_child(accept_dialog)
 	accept_dialog.hide()
+	accept_dialog.theme = DefaultThemes.new().get_system_theme()
 	accept_dialog.popup_centered()
 	printerr(msg)
 
 func _warnd(msg: String, title: String) -> void:
 	var accept_dialog: AcceptDialogPlus = AcceptDialogPlus.new()
-	accept_dialog.set("Type", 1)
+	accept_dialog.SetIconType(1)
 	accept_dialog.title = title
 	accept_dialog.set("Text", msg)
-	add_child.call_deferred(accept_dialog)
+	add_child(accept_dialog)
 	accept_dialog.hide()
+	accept_dialog.theme = DefaultThemes.new().get_system_theme()
 	accept_dialog.popup_centered()
 
 func _infod(msg: String, title: String) -> void:
 	var accept_dialog: AcceptDialogPlus = AcceptDialogPlus.new()
-	accept_dialog.set("Type", 2)
+	accept_dialog.SetIconType(2)
 	accept_dialog.title = title
 	accept_dialog.set("Text", msg)
-	add_child.call_deferred(accept_dialog)
+	add_child(accept_dialog)
 	accept_dialog.hide()
+	accept_dialog.theme = DefaultThemes.new().get_system_theme()
 	accept_dialog.popup_centered()

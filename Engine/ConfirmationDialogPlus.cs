@@ -20,29 +20,24 @@ public partial class ConfirmationDialogPlus : ConfirmationDialog
         set
         {
             _type = value;
-            var oldHbox = _hBoxContainer;
-            var oldText = Text;
-            PackedScene boxScene = GD.Load<PackedScene>("res://Engine/ErrorBox.tscn");
-            if (_type == (int)TypeEnum.Warning)
+            var icon = GD.Load<Texture2D>("res://Engine/Theme/cross-circle.png");
+            if (_type == 1)
             {
-                boxScene = GD.Load<PackedScene>("res://Engine/WarnBox.tscn");
+                icon = GD.Load<Texture2D>("res://Engine/Theme/exclamation.png");
             }
-            else if (_type == (int)TypeEnum.Info)
+            else if (_type == 2)
             {
-                boxScene = GD.Load<PackedScene>("res://Engine/InfoBox.tscn");
-            }
-            else
-            {
-                return;
+                icon = GD.Load<Texture2D>("res://Engine/Theme/information.png");
             }
 
-            _hBoxContainer = (HBoxContainer)boxScene.Instantiate<HBoxContainer>();
-            AddChild(_hBoxContainer);
-            oldHbox.QueueFree();
-            Label = (Label)_hBoxContainer.GetNode("Label");
-            Text = oldText;
+            if (iconRect != null)
+            {
+                iconRect.Texture = icon;
+            }
         }
     }
+
+    private TextureRect iconRect;
     
     private HBoxContainer _hBoxContainer;
     
@@ -74,5 +69,11 @@ public partial class ConfirmationDialogPlus : ConfirmationDialog
         _hBoxContainer = (HBoxContainer)boxScene.Instantiate<HBoxContainer>();
         AddChild(_hBoxContainer);
         Label = (Label)_hBoxContainer.GetNode("Label");
+        iconRect = _hBoxContainer.GetNode<TextureRect>("IconHolder/Icon");
+    }
+    
+    public void SetIconType(int i)
+    {
+        Type = i;
     }
 }

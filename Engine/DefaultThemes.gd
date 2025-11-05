@@ -1,4 +1,5 @@
 extends RefCounted
+class_name DefaultThemes
 
 func get_system_theme() -> Theme:
 	if DisplayServer.is_dark_mode():
