@@ -149,14 +149,6 @@ class Editor extends Widget {
                 toolBarSpacer.guiInput.connect(eventFunc);
             }
 
-            /*var args = Sys.args();
-            for (arg in args) {
-                if (StringTools.endsWith(arg, ".sproj")) {
-                    sProjPath = arg;
-                    break;
-                }
-            }*/
-
             var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/File");
             fileMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
@@ -224,6 +216,14 @@ class Editor extends Widget {
             refreshLeftSidebar();
             refreshRightSidebar();
             trace("Hello, World!");
+
+            var args = Sys.args();
+            for (arg in args) {
+                if (StringTools.endsWith(arg, ".sproj")) {
+                    sProjPath = arg;
+                    break;
+                }
+            }
         }
         catch(e: Exception) {
             Debug.error(e.message);
