@@ -120,21 +120,9 @@
                 <sunaba.ui.VBoxContainer
                         name="leftTabBar">
                     <sunaba.ui.Button
-                            name="saveFile"
+                            name="explorer"
                             flat="true"
-                            icon="studio://icons/16_1-5x/disk.png"
-                            iconAlignment="1"
-                            customMinimumSize="32,32"/>
-                    <sunaba.ui.Button
-                            name="reload"
-                            flat="true"
-                            icon="studio://icons/16_1-5x/arrow-circle-315.png"
-                            iconAlignment="1"
-                            customMinimumSize="32,32"/>
-                    <sunaba.ui.Button
-                            name="build"
-                            flat="true"
-                            icon="studio://icons/16_1-5x/hammer.png"
+                            icon="studio://icons/16_1-5x/blue-folder-stand.png"
                             iconAlignment="1"
                             customMinimumSize="32,32"/>
                 </sunaba.ui.VBoxContainer>
@@ -160,21 +148,9 @@
                 <sunaba.ui.VBoxContainer
                         name="rightTabBar">
                     <sunaba.ui.Button
-                            name="saveFile"
+                            name="sceneGraph"
                             flat="true"
-                            icon="studio://icons/16_1-5x/disk.png"
-                            iconAlignment="1"
-                            customMinimumSize="32,32"/>
-                    <sunaba.ui.Button
-                            name="reload"
-                            flat="true"
-                            icon="studio://icons/16_1-5x/arrow-circle-315.png"
-                            iconAlignment="1"
-                            customMinimumSize="32,32"/>
-                    <sunaba.ui.Button
-                            name="build"
-                            flat="true"
-                            icon="studio://icons/16_1-5x/hammer.png"
+                            icon="studio://icons/16_1-5x/clapperboard--pencil.png"
                             iconAlignment="1"
                             customMinimumSize="32,32"/>
                 </sunaba.ui.VBoxContainer>
