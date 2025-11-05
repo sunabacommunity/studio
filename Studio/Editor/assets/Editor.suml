@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<suml fullscreen="true" name="clickerCounter">
+    <head></head>
+    <body>
+        <sunaba.ui.Panel
+                fullRect="true"
+                offsetBottom="10"
+                offsetTop="-10"
+                offsetLeft="-10"
+                offsetRight="10"/>
+    </body>
+</suml>

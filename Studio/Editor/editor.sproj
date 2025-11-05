@@ -1,0 +1,16 @@
+{
+    "name": "Sunaba Studio",
+    "version": "1.0",
+    "type": "executable",
+    "rootUrl": "studio://",
+    "assetsdir": "assets",
+    "scriptdir": "src",
+    "apisymbols": true,
+    "sourcemap": true,
+    "entrypoint": "Main",
+    "luabin": "main",
+    "libraries": [],
+    "compilerFlags": [
+        "-D absolute-path"
+    ]
+}

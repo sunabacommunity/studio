@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5d1u5lm4xoq1"]
+
+[ext_resource type="Script" uid="uid://dwhfshpxvniks" path="res://Studio/splash.gd" id="1_kvn61"]
+[ext_resource type="Texture2D" uid="uid://04u8hdxy5ltl" path="res://Studio/splashscreen.png" id="2_3dqo7"]
+
+[node name="App" type="Runtime"]
+script = ExtResource("1_kvn61")
+metadata/_custom_type_script = "uid://83l0ea83y7oj"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_3dqo7")

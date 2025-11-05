@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<suml fullscreen="true" name="splashscreen">
+    <head></head>
+    <body>
+        <sunaba.ui.Panel
+                fullRect="true"
+                offsetBottom="10"
+                offsetTop="-10"
+                offsetLeft="-10"
+                offsetRight="10"/>
+        <sunaba.ui.VBoxContainer
+            fullRect="true"
+            name="vbox">
+            <sunaba.ui.Control
+                name="topbar"
+                customMinimumSize="0, 50">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true">
+                    <sunaba.ui.Control customMinimumSize="10,10" texture="app://Logo.png"/>
+                    <sunaba.ui.TextureRect
+                        name="textureRect"
+                        stretchMode="3"
+                        customMinimumSize="200,50"
+                        texture="app://Logo.png"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.Panel
+                name="panel"
+                sizeFlagsVertical="3">
+                <sunaba.ui.VBoxContainer
+                    name="vbox"
+                    fullRect="true"
+                    offsetBottom="-30"
+                    offsetTop="10"
+                    offsetLeft="30"
+                    offsetRight="-30">
+                    <sunaba.ui.Control
+                        name="header"
+                        customMinimumSize="0,40">
+                        <sunaba.ui.HBoxContainer
+                            name="hbox"
+                            fullRect="true"
+                            separation="0">
+                            <sunaba.ui.Label
+                                name="label"
+                                sizeFlagsHorizontal="3"
+                                text="Projects"/>
+                            <sunaba.ui.Button
+                                name="newProject"
+                                icon="app://icons/16_2x/blue-folder--plus.png"
+                                text="New Project"
+                                flat="true"
+                                customMinimumSize="0,40"/>
+                            <sunaba.ui.Button
+                                name="openProject"
+                                icon="app://icons/16_2x/blue-folder-open-document.png"
+                                text="Open Project"
+                                flat="true"
+                                customMinimumSize="0,40"/>
+                        </sunaba.ui.HBoxContainer>
+                    </sunaba.ui.Control>
+                    <sunaba.ui.Tree
+                            name="recentProjects"
+                            sizeFlagsVertical="3"/>
+                </sunaba.ui.VBoxContainer>
+            </sunaba.ui.Panel>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>
