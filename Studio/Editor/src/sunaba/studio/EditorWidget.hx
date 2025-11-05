@@ -6,7 +6,8 @@ import sunaba.io.IoInterface;
 class EditorWidget extends Widget {
     private  var parent: Editor;
 
-    public function new(parent: Editor, area: EditorArea, ?io: IoInterface) {
+Updated Exlpor    public function new(parent: Editor, area: EditorArea) {
+        super();
         this.parent = parent;
         if (area == EditorArea.leftSidebar) {
             parent.addLeftSidebarChild(this);
@@ -17,8 +18,10 @@ class EditorWidget extends Widget {
         else if (area == EditorArea.workspace) {
             parent.addWorkspaceChild(this);
         }
-        super(io);
+        editorInit();
     }
+
+    public function editorInit() {}
 
     public function getEditor(): Editor {
         return parent;
