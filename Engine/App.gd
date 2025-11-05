@@ -80,11 +80,29 @@ func _require(path: String) -> String:
 	return io_manager.LoadText(path)
 
 func _errord(msg: String, title: String) -> void:
-	OS.alert(msg, title)
+	var accept_dialog: AcceptDialogPlus = AcceptDialogPlus.new()
+	accept_dialog.set("Type", 0)
+	accept_dialog.title = title
+	accept_dialog.set("Text", msg)
+	add_child.call_deferred(accept_dialog)
+	accept_dialog.hide()
+	accept_dialog.popup_centered()
 	printerr(msg)
 
 func _warnd(msg: String, title: String) -> void:
-	OS.alert(msg, title)
+	var accept_dialog: AcceptDialogPlus = AcceptDialogPlus.new()
+	accept_dialog.set("Type", 1)
+	accept_dialog.title = title
+	accept_dialog.set("Text", msg)
+	add_child.call_deferred(accept_dialog)
+	accept_dialog.hide()
+	accept_dialog.popup_centered()
 
 func _infod(msg: String, title: String) -> void:
-	OS.alert(msg, title)
+	var accept_dialog: AcceptDialogPlus = AcceptDialogPlus.new()
+	accept_dialog.set("Type", 2)
+	accept_dialog.title = title
+	accept_dialog.set("Text", msg)
+	add_child.call_deferred(accept_dialog)
+	accept_dialog.hide()
+	accept_dialog.popup_centered()

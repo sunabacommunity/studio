@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://btgi8pxeb6j86"]
+
+[ext_resource type="Texture2D" uid="uid://c4p524el2ayhu" path="res://Engine/Theme/information.png" id="1_3etmc"]
+
+[node name="ErrorBox" type="HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 204.0
+offset_bottom = 57.0
+
+[node name="IconHolder" type="Control" parent="."]
+custom_minimum_size = Vector2(53, 53)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="IconHolder"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 6.5
+offset_right = 20.0
+offset_bottom = 46.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_3etmc")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Hello World"

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cx0so46jfht3o"]
+
+[ext_resource type="Script" uid="uid://dcsbaogcx7iyh" path="res://Engine/AcceptDialogPlus.cs" id="1_ajvro"]
+
+[node name="AcceptDialogPlus" type="AcceptDialog"]
+oversampling_override = 1.0
+visible = true
+script = ExtResource("1_ajvro")
+Type = 0
+metadata/_custom_type_script = "uid://dcsbaogcx7iyh"
