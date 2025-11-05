@@ -11,6 +11,8 @@
     "luabin": "main",
     "libraries": [],
     "compilerFlags": [
-        "-D absolute-path"
+        "-D absolute-path",
+        "--library gamepak",
+        "-dce std"
     ]
 }
