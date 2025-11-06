@@ -51,6 +51,7 @@ class Splashscreen extends Widget {
         var args = appView.args;
         args.add(path);
         appView.init();
+        appView.setVar("projectPath", path);
 
         var studioUtils = new NativeObject("res://Studio/StudioUtils.cs", new ArrayList(), ScriptType.csharp);
         if (studioUtils.isNull()) Debug.error("StudioUtils not found");
@@ -71,5 +72,6 @@ class Splashscreen extends Widget {
         window.hide();
 
         window.popupCentered();
+        getWindow().mode = WindowMode.minimized;
     }
 }
