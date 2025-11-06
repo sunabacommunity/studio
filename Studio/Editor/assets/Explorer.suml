@@ -2,5 +2,57 @@
 <suml fullscreen="true" name="clickerCounter">
     <head></head>
     <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true"
+            separation="0">
+            <sunaba.ui.Control
+                name="toolbar1"
+                customMinimumSize="30, 30">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true"
+                    separation="0">
+                    <sunaba.ui.Control
+                        customMinimumSize="5, 5"/>
+                    <sunaba.ui.Label
+                        text="Project"/>
+                    <sunaba.ui.Control name="separator" sizeFlagsHorizontal="3"/>
+                    <sunaba.ui.CenterContainer name="throbber" customMinimumSize="30, 30">
+                        <sunaba.ui.TextureRect name="textureRect" customMinimumSize="16, 16"/>
+                    </sunaba.ui.CenterContainer>
+                    <sunaba.ui.Button
+                            name="reloadButton"
+                            flat="true"
+                            icon="studio://icons/16/arrow-circle-315.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                    <sunaba.ui.MenuButton
+                            name="newButton"
+                            flat="true"
+                            icon="studio://icons/16/plus-button.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                    <sunaba.ui.MenuButton
+                            name="hamburgerMenuButton"
+                            flat="true"
+                            icon="studio://icons/16/edit-list.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <!--sunaba.ui.Control customMinimumSize="5,5"/-->
+            <sunaba.ui.Control
+                name="view"
+                sizeFlagsVertical="3">
+                <sunaba.ui.Control
+                    name="singleColumn"
+                    fullRect="true">
+                    <sunaba.ui.Tree
+                        name="tree"
+                        fullRect="true"/>
+                </sunaba.ui.Control>
+            </sunaba.ui.Control>
+        </sunaba.ui.VBoxContainer>
     </body>
 </suml>
