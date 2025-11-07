@@ -119,7 +119,7 @@ public partial class HxFIleSystem: RefCounted
 		var directories = Directory.GetDirectories(path);
 		foreach (var directory in directories)
 		{
-			dirArray.Add(directory);
+			dirArray.Add(directory.GetFile());
 		}
 
 		var files = Directory.GetFiles(path);
