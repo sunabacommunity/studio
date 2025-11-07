@@ -13,3 +13,5 @@ func _ready() -> void:
 	
 	if (sproj.is_empty()):
 		get_tree().change_scene_to_file("res://Studio/splash.tscn")
+	else:
+		get_tree().change_scene_to_file("res://Studio/editor.tscn")
