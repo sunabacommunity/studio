@@ -109,7 +109,7 @@ class Editor extends Widget {
     public override function onReady() {
         var window = getWindow();
         var displayScale = DisplayService.screenGetScale(window.currentScreen);
-        if (OSService.getName() == "Windows") {
+        if (OSService.getName() != "macOS") {
             var dpi = DisplayService.screenGetDpi(window.currentScreen);
             displayScale = dpi * 0.01;
         }
