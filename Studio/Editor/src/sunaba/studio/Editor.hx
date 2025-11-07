@@ -24,9 +24,15 @@ import haxe.Exception;
 import sunaba.ui.ButtonGroup;
 import sunaba.core.Vector2;
 import sys.io.File;
+import sys.FileSystem;
 
 class Editor extends Widget {
     var sProjPath = "";
+
+    public var projectFilePath(get, default): String;
+    function get_projectFilePath():String {
+        return sProjPath;
+    }
 
     public var haxePath:String = "haxe"; // Default path to Haxe compiler
 
@@ -61,7 +67,7 @@ class Editor extends Widget {
 
     public var explorer: Explorer;
 
-    private var projectIo: FileSystemIo;
+    public var projectIo: FileSystemIo;
 
     private var _projectFile: ProjectFile;
     public var projectFile(get, default): ProjectFile;
@@ -242,6 +248,8 @@ class Editor extends Widget {
                 sProjPath = untyped __lua__("_G.projectPath");
             }
 
+            sProjPath = FileSystem.absolutePath(sProjPath);
+
             trace(sProjPath);
 
             var projJson: String = "";
@@ -279,6 +287,7 @@ class Editor extends Widget {
             }
 
             explorer = new Explorer(this, EditorArea.leftSidebar);
+            explorer.startExplorer();
         }
         catch(e: Exception) {
             Debug.error(e.message);
