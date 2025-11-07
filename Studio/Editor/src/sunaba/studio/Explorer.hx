@@ -14,6 +14,7 @@ import sunaba.io.FileSystemIo;
 import sys.FileSystem;
 import sunaba.core.Callable;
 import sunaba.studio.explorer.FileHandler;
+import sunaba.core.VariantType;
 
 class Explorer extends EditorWidget {
     var reloadButton: Button;
@@ -117,9 +118,23 @@ class Explorer extends EditorWidget {
 
             singleColumnTree.itemActivated.connect(Callable.fromFunction(function() {
                 var treeItem = singleColumnTree.getSelected();
+                onTreeItemActivated(treeItem);
             }));
 
             buildTreeRoot();
+        }
+    }
+
+    public function onTreeItemActivated(item: TreeItem) {
+        var metadata = item.getMetadata(0);
+        if (metadata.getType() == VariantType.string) {
+            var path: String = metadata;
+            for (fileHandler in fileHandlers) {
+                if (StringTools.endsWith(path, "." + fileHandler.extension)) {
+                    fileHandler.openFile(path);
+                    break;
+                }
+            }
         }
     }
 
