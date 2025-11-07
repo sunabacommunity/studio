@@ -70,7 +70,7 @@ class Editor extends Widget {
 
     public var projectIo: FileSystemIo;
 
-    private var _projectFile: ProjectFile;
+    private var _projectFile: ProjectFile = null;
     public var projectFile(get, default): ProjectFile;
     function get_projectFile():ProjectFile {
         return _projectFile;
@@ -87,6 +87,7 @@ class Editor extends Widget {
         leftTabContainer.hide();
         leftTabContainer.tabsVisible = false;
         centerTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/workspace");
+        centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
         rightTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/rightSidebar");
         rightTabContainer.hide();
         rightTabContainer.tabsVisible = false;
@@ -168,6 +169,14 @@ class Editor extends Widget {
                 menuBarControl.guiInput.connect(eventFunc);
                 toolBarSpacer.guiInput.connect(eventFunc);
             }
+
+            centerTabContainer.getTabBar().tabClosePressed.connect(Callable.fromFunction(function(tab: Int) {
+                var widget = workspaceChildern[tab];
+                if (widget != null) {
+                    widget.destroy();
+                    workspaceChildern.remove(widget);
+                }
+            }));
 
             var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/File");
             fileMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
@@ -334,6 +343,30 @@ class Editor extends Widget {
 
     public override function onProcess(deltaTime: Float) {
         checkFocus();
+
+        var window = getWindow();
+
+        if (PlatformService.osName == "macOS") {
+            if (windowTitle.text != window.title)
+                windowTitle.text = window.title;
+        } else {
+            windowTitle.text = "";
+        }
+
+        var windowTitle = window.title;
+        if (projectFile != null) {
+            if (centerTabContainer.getTabCount() == 0)
+                windowTitle = projectFile.name + " - Sunaba Studio";
+            else
+                windowTitle = centerTabContainer.getTabTitle(centerTabContainer.currentTab) + " - " + projectFile.name + " - Sunaba Studio";
+        } else {
+            if (centerTabContainer.getTabCount() == 0)
+                windowTitle = "Sunaba Studio";
+            else
+                windowTitle = centerTabContainer.getTabTitle(centerTabContainer.currentTab) + " - Sunaba Studio";
+        }
+        if (window.title != windowTitle)
+            window.title = windowTitle;
 
         timeSinceClick -= deltaTime;
         if (timeSinceClick <= 0.0) {

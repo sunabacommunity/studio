@@ -26,4 +26,13 @@ class EditorWidget extends Widget {
     public function getEditor(): Editor {
         return parent;
     }
+
+    public function destroy() {
+        onDestroy();
+        queueFree();
+    }
+
+    public function onDestroy() {
+
+    }
 }
