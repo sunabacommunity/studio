@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true"
+            separation="0">
+            <sunaba.ui.CodeEdit
+                name="codeEdit"
+                sizeFlagsVertical="3"
+                guttersDrawLineNumbers="true"
+                guttersDrawFoldGutter="true"
+                codeCompletionEnabled="true"
+                indentAutomatic="true"
+                autoBraceCompletionEnabled="true"
+                drawControlChars="true"
+                drawTabs="true"/>
+            <sunaba.ui.Control
+                name="statusbar"
+                customMinimumSize="0,20">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true">
+                    <sunaba.ui.Control customMinimumSize="0.25,0"/>
+                    <sunaba.ui.Label name="languageLabel" text="Plain Text"/>
+                    <sunaba.ui.Control sizeFlagsHorizontal="3"/>
+                    <sunaba.ui.Label name="lineAndColumnLabel" text="Ln0, Col 0"/>
+                    <sunaba.ui.Control customMinimumSize="5,5"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>
