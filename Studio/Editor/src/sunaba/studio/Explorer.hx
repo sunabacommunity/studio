@@ -264,4 +264,15 @@ class Explorer extends EditorWidget {
         dirTreeCoroutines.push(dirTreeCoroutine);
         Coroutine.resume(dirTreeCoroutine);
     }
+
+    public function loadIcon(path: String) {
+        var iconBytes = io.loadBytes(path);
+        if (iconBytes != null) {
+            var iconImage = new Image();
+            iconImage.loadPngFromBuffer(iconBytes);
+            var iconTexture = ImageTexture.createFromImage(iconImage);
+            return iconTexture;
+        }
+        return null;
+    }
 }
