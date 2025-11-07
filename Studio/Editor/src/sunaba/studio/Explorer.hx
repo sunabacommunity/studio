@@ -13,6 +13,7 @@ import sunaba.Image;
 import sunaba.io.FileSystemIo;
 import sys.FileSystem;
 import sunaba.core.Callable;
+import sunaba.studio.explorer.FileHandler;
 
 class Explorer extends EditorWidget {
     var reloadButton: Button;
@@ -30,6 +31,8 @@ class Explorer extends EditorWidget {
     var projectDirectory = "";
     var assetsDirectory ="";
     var sourceDirectory = "";
+
+    public var fileHandlers: Array<FileHandler> = [];
 
     public override function editorInit() {
         trace("Hello, World!");
@@ -225,6 +228,19 @@ class Explorer extends EditorWidget {
                     var filePath = dirPath + entry;
                     fileItem.setMetadata(0, filePath);
                     fileItem.setIcon(0, fileIconTexture);
+
+                    for (fileHandler in fileHandlers) {
+                        var endWith = StringTools.endsWith(entry, "." + fileHandler.extension);
+                        if (endWith) {
+                            var iconBytes = io.loadBytes(fileHandler.iconPath);
+                            if (iconBytes != null) {
+                                var iconImage = new Image();
+                                iconImage.loadPngFromBuffer(iconBytes);
+                                var iconTexture = ImageTexture.createFromImage(iconImage);
+                                fileItem.setIcon(0, iconTexture);
+                            }
+                        }
+                    }
                 }
                 Coroutine.yield();
             }
