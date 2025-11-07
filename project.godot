@@ -42,8 +42,10 @@ project/assembly_name="Sunaba.Studio"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/native_dialogs/plugin.cfg")
+enabled=PackedStringArray()
 
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/vram_compression/import_s3tc_bptc=true
+textures/vram_compression/import_etc2_astc=true
