@@ -120,7 +120,7 @@ class Editor extends Widget {
         window.borderless = false;
         window.alwaysOnTop = false;
         window.moveToCenter();
-        //window.extendToTitle = true;
+        window.extendToTitle = true;
         window.mode = WindowMode.maximized;
 
         try {
@@ -335,6 +335,13 @@ class Editor extends Widget {
     public override function onProcess(deltaTime: Float) {
         checkFocus();
 
+        timeSinceClick -= deltaTime;
+        if (timeSinceClick <= 0.0) {
+            timeSinceClick = 1.0;
+            if (clickcount != 0) {
+                clickcount = 0;
+            }
+        }
     }
 
     private function checkLeftSideBar() {
