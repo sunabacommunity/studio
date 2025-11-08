@@ -573,6 +573,7 @@ class Editor extends Widget {
     public function addWorkspaceChild(child: EditorWidget) {
         workspaceChildern.push(child);
         centerTabContainer.addChild(child);
+        centerTabContainer.currentTab = centerTabContainer.getTabIdxFromControl(child);
     }
 
     var isSaveKeyPressed: Bool = false;
