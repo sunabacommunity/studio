@@ -113,7 +113,7 @@ class Splashscreen extends Widget {
     public function openProject(path: String) {
         var window = new Window();
 
-        var appView = new DesktopAppView();
+        var appView = new DesktopAppView(new NativeObject("res://Studio/EditorWindowChild.gd", new ArrayList(), ScriptType.gdscript));
         window.addChild(appView);
         var args = appView.args;
         args.add(path);

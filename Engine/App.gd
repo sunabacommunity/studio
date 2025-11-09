@@ -127,3 +127,6 @@ func _infod(msg: String, title: String) -> void:
 	accept_dialog.hide()
 	accept_dialog.theme = DefaultThemes.new().get_system_theme()
 	accept_dialog.popup_centered()
+
+func _exit(exitcode: int) -> void:
+	get_tree().quit(exitcode)
