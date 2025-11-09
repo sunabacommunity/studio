@@ -84,6 +84,12 @@ func _errord(msg: String, title: String) -> void:
 	accept_dialog.SetIconType(0)
 	accept_dialog.title = title
 	accept_dialog.set("Text", msg)
+	accept_dialog.confirmed.connect(func():
+		accept_dialog.queue_free()
+	)
+	accept_dialog.close_requested.connect(func():
+		accept_dialog.queue_free()
+	)
 	add_child(accept_dialog)
 	accept_dialog.hide()
 	accept_dialog.theme = DefaultThemes.new().get_system_theme()
@@ -95,6 +101,12 @@ func _warnd(msg: String, title: String) -> void:
 	accept_dialog.SetIconType(1)
 	accept_dialog.title = title
 	accept_dialog.set("Text", msg)
+	accept_dialog.confirmed.connect(func():
+		accept_dialog.queue_free()
+	)
+	accept_dialog.close_requested.connect(func():
+		accept_dialog.queue_free()
+	)
 	add_child(accept_dialog)
 	accept_dialog.hide()
 	accept_dialog.theme = DefaultThemes.new().get_system_theme()
@@ -105,6 +117,12 @@ func _infod(msg: String, title: String) -> void:
 	accept_dialog.SetIconType(2)
 	accept_dialog.title = title
 	accept_dialog.set("Text", msg)
+	accept_dialog.confirmed.connect(func():
+		accept_dialog.queue_free()
+	)
+	accept_dialog.close_requested.connect(func():
+		accept_dialog.queue_free()
+	)
 	add_child(accept_dialog)
 	accept_dialog.hide()
 	accept_dialog.theme = DefaultThemes.new().get_system_theme()
