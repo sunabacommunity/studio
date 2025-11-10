@@ -29,9 +29,9 @@ class Explorer extends EditorWidget {
     var throbberTextures = new Array<ImageTexture>();
     var throbberMaxNumber = 0;
 
-    var projectDirectory = "";
-    var assetsDirectory ="";
-    var sourceDirectory = "";
+    public var projectDirectory = "";
+    public var assetsDirectory ="";
+    public var sourceDirectory = "";
 
     public var fileHandlers: Array<FileHandler> = [];
 
