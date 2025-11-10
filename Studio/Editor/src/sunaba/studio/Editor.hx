@@ -28,6 +28,10 @@ import sys.FileSystem;
 import sunaba.studio.fileHandlers.HxFileHandler;
 import sunaba.input.InputEvent;
 import sunaba.GameEvent;
+import lua.Coroutine;
+import sunaba.ui.ProgressBar;
+import sunaba.ui.SubViewportContainer;
+import sunaba.SubViewport;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -68,6 +72,8 @@ class Editor extends Widget {
     public var windowTitle:Label;
     public var subtitle:String = "";
 
+    private var playBuildWindow: Window;
+
     public var explorer: Explorer;
 
     public var projectIo: FileSystemIo;
@@ -79,6 +85,9 @@ class Editor extends Widget {
     }
 
     public var saveEvent: GameEvent<()->Void> = new GameEvent();
+
+    private var playerSubViewportContainer: SubViewportContainer = null;
+    private var playerAppView: DesktopAppView = null;
 
     public override function init() {
         load("studio://Editor.suml");
@@ -103,11 +112,29 @@ class Editor extends Widget {
         pauseButton = getNodeT(Button, "vbox/toolbar/hbox/rightToolbar/pause");
         stopButton = getNodeT(Button, "vbox/toolbar/hbox/rightToolbar/stop");
 
+        playButton.pressed.connect(Callable.fromFunction(function() {
+            if (isGameRunning == true && isGamePaused == true)
+                unpause();
+            else if (isGameRunning == false)
+                buildSnbForPlay();
+        }));
+        pauseButton.pressed.connect(Callable.fromFunction(function() {
+            pause();
+        }));
+        stopButton.pressed.connect(Callable.fromFunction(function() {
+            stop();
+        }));
+
+        pauseButton.disabled = true;
+        stopButton.disabled = true;
+
         windowTitle = getNodeT(Label, "vbox/menuBarControl/windowTitle");
         if (OSService.getName() != "macOS") {
             windowTitle.hide();
         }
 
+        playBuildWindow = getNodeT(Window, "playBuildWindow");
+        playBuildWindow.hide();
     }
 
     public override function onReady() {
@@ -201,6 +228,9 @@ class Editor extends Widget {
                 else if (id == 5) {
                     Debug.error("'Open Project in Visual Studio Code' not implemented");
                 }
+                else if (id == 6) {
+                    App.exit(0);
+                }
             }));
 
             saveFileButton.pressed.connect(Callable.fromFunction(function() {
@@ -278,6 +308,7 @@ class Editor extends Widget {
             trace(projJson == "");
             if (sProjPath == "" || projJson == "") {
                 Debug.error("Project not found.");
+                App.exit(-1);
                 return;
             }
 
@@ -380,6 +411,26 @@ class Editor extends Widget {
                 clickcount = 0;
             }
         }
+
+        if (gamepakBuildCoroutine != null) {
+            if (Coroutine.status(gamepakBuildCoroutine) != CoroutineState.Dead) {
+                Coroutine.resume(gamepakBuildCoroutine);
+            }
+            else {
+                gamepakBuildCoroutine = null;
+                playBuildWindow.hide();
+
+                play();
+            }
+        }
+
+        if (playerSubViewportContainer != null)
+            if (centerTabContainer.currentTab == playerSubViewportContainer.getIndex())
+                centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showNever;
+            else
+                centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
+        else
+            centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
     }
 
     private function checkLeftSideBar() {
@@ -599,5 +650,91 @@ class Editor extends Widget {
     public function save() {
         trace(saveEvent == null);
         saveEvent.call();
+    }
+
+    var buildSystem: Gamepak = new Gamepak();
+    var gamepakBuildCoroutine:Coroutine<()->Void>;
+
+    var isGamePaused = false;
+
+    public function buildSnbForPlay() {
+        if (isGameRunning) return;
+
+        playButton.disabled = true;
+        if (playBuildWindow != null) {
+            var scaleFactor = window.contentScaleFactor;
+
+            var windowSize = playBuildWindow.size;
+            playBuildWindow.minSize = new Vector2i(Std.int(windowSize.x * scaleFactor), Std.int(windowSize.y * scaleFactor));
+            playBuildWindow.contentScaleFactor = scaleFactor;
+            playBuildWindow.popupCentered();
+        }
+
+        gamepakBuildCoroutine = buildSystem.buildCoroutine(projectFilePath);
+
+        Coroutine.resume(gamepakBuildCoroutine);
+    }
+
+    function unpause() {
+        playButton.disabled = true;
+        pauseButton.disabled = false;
+        stopButton.disabled = false;
+        isGamePaused = false;
+
+        playerSubViewportContainer.processMode = CanvasItemProcessMode.inherit;
+        playerAppView.processMode = CanvasItemProcessMode.inherit;
+    }
+
+    function pause() {
+        pauseButton.disabled = true;
+        playButton.disabled = false;
+        stopButton.disabled = false;
+        isGamePaused = true;
+
+        playerSubViewportContainer.processMode = CanvasItemProcessMode.disabled;
+        playerAppView.processMode = CanvasItemProcessMode.disabled;
+    }
+
+    function stop() {
+        playButton.disabled = false;
+        pauseButton.disabled = true;
+        stopButton.disabled = true;
+        isGameRunning = false;
+        isGamePaused = false;
+
+        playerSubViewportContainer.queueFree();
+        playerSubViewportContainer = null;
+        playerAppView = null;
+    }
+
+    function play() {
+        playButton.disabled = true;
+        pauseButton.disabled = false;
+        stopButton.disabled = false;
+        isGameRunning = true;
+        isGamePaused = false;
+
+        playerSubViewportContainer = new SubViewportContainer();
+        centerTabContainer.addChild(playerSubViewportContainer);
+        playerSubViewportContainer.name = "Game";
+        var iconBytes = io.loadBytes("studio://icons/16/game-monitor.png");
+        var iconImage = new Image();
+        iconImage.loadPngFromBuffer(iconBytes);
+        var iconTexture = ImageTexture.createFromImage(iconImage);
+        var index = playerSubViewportContainer.getIndex();
+        centerTabContainer.setTabIcon(index, iconTexture);
+        playerSubViewportContainer.stretch = true;
+        centerTabContainer.currentTab = index;
+
+        var subViewport = new SubViewport();
+        playerSubViewportContainer.addChild(subViewport);
+        subViewport.guiEmbedSubwindows = true;
+
+        var snbPath = buildSystem.zipOutputPath;
+
+        playerAppView = new DesktopAppView();
+        subViewport.addChild(playerAppView);
+        playerAppView.init(false);
+        playerAppView.loadApp(snbPath);
     }
 }

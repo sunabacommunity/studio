@@ -153,7 +153,36 @@
                             customMinimumSize="40,40"/>
                 </sunaba.ui.VBoxContainer>
             </sunaba.ui.HBoxContainer>
-
         </sunaba.ui.VBoxContainer>
+        <sunaba.desktop.Window
+            name="playBuildWindow"
+            title="Building project"
+            size="270,80"
+            popupWindow="true">
+            <sunaba.ui.Panel
+                fullRect="true"
+                offsetBottom="10"
+                offsetTop="-10"
+                offsetLeft="-10"
+                offsetRight="10"/>
+            <sunaba.ui.VBoxContainer
+                fullRect="true"
+                name="vbox"
+                offsetBottom="-10"
+                offsetTop="10"
+                offsetLeft="10"
+                offsetRight="-10"
+                separation="0">
+                <sunaba.ui.Label
+                    name="buildLabel"
+                    text="Building project..."/>
+                <sunaba.ui.Control
+                    customMinimumSize="0,10"/>
+                <sunaba.ui.ProgressBar
+                    name="buildProgress"
+                    sizeFlagsVertical="3"
+                    indeterminate="true"/>
+            </sunaba.ui.VBoxContainer>
+        </sunaba.desktop.Window>
     </body>
 </suml>
