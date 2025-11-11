@@ -32,6 +32,8 @@ class Main {
             return;
         }
 
+        var skipbuild: Bool = false;
+
         for (i in 0...args.length) {
             var arg = args[i];
             if (StringTools.startsWith(arg, "--godot-command=")) {
@@ -50,28 +52,33 @@ class Main {
             else if (StringTools.startsWith(arg, "-t=")) {
                 targetPlatform = StringTools.replace(arg, "-t=", "");
             }
+            else if (arg == "--skip") {
+                skipbuild = true;
+            }
         }
 
         var currentDir = Sys.getCwd();
         if (StringTools.contains(currentDir, "\\"))
             currentDir = StringTools.replace(currentDir, "\\", "/");
 
-        var gamepak = new Gamepak();
-        gamepak.zipOutputPath = currentDir + "splashscreen.snb";
-        gamepak.build(currentDir + "/Studio/Splashscreen/splash.sproj");
+        if (!skipbuild) {
+            var gamepak = new Gamepak();
+            gamepak.zipOutputPath = currentDir + "splashscreen.snb";
+            gamepak.build(currentDir + "/Studio/Splashscreen/splash.sproj");
 
-        var editorGamepak = new Gamepak();
-        editorGamepak.zipOutputPath = currentDir + "editor.snb";
-        editorGamepak.build(currentDir + "/Studio/Editor/editor.sproj");
+            var editorGamepak = new Gamepak();
+            editorGamepak.zipOutputPath = currentDir + "editor.snb";
+            editorGamepak.build(currentDir + "/Studio/Editor/editor.sproj");
 
-        var dotnetRestore = Sys.command("dotnet restore Sunaba.Studio.sln");
-        if (dotnetRestore != 0) {
-            Sys.exit(dotnetRestore);
-        }
+            var dotnetRestore = Sys.command("dotnet restore Sunaba.Studio.sln");
+            if (dotnetRestore != 0) {
+                Sys.exit(dotnetRestore);
+            }
 
-        var dotnetBuild = Sys.command("dotnet build Sunaba.Studio.sln");
-        if (dotnetBuild != 0) {
-            Sys.exit(dotnetBuild);
+            var dotnetBuild = Sys.command("dotnet build Sunaba.Studio.sln");
+            if (dotnetBuild != 0) {
+                Sys.exit(dotnetBuild);
+            }
         }
 
         if (args[0] == "run") {
