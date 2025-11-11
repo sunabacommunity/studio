@@ -15,5 +15,23 @@
     <orderEntry type="library" exported="" name="sunaba" level="project" />
     <orderEntry type="library" exported="" name="gamepak" level="project" />
     <orderEntry type="library" exported="" name="nodejs" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/libsunaba/api" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$USER_HOME$/gamepak" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
