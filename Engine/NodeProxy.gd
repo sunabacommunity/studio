@@ -47,3 +47,8 @@ func _shortcut_input(event: InputEvent) -> void:
 	if instance != null:
 		if instance.has_function("_onShortcutInput"):
 			instance.call_function("_onShortcutInput", [instance, event])
+
+func _notification(what: int) -> void:
+	if instance != null:
+		if instance.has_function("onNotification"):
+			instance.call_function("onNotification", [instance, what])
