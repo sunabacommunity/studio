@@ -111,10 +111,8 @@ class Splashscreen extends Widget {
     }
 
     public function openProject(path: String) {
-        var window = new Window();
-
-        var appView = new DesktopAppView(new NativeObject("res://Studio/EditorWindowChild.gd", new ArrayList(), ScriptType.gdscript));
-        window.addChild(appView);
+        var appView = new DesktopAppView();
+        getParent().addChild(appView);
         var args = appView.args;
         args.add(path);
         appView.init();
@@ -128,20 +126,12 @@ class Splashscreen extends Widget {
         if (!StringTools.endsWith(baseDir, "/"))
             baseDir += "/";
 
+        var window = getWindow();
+        window.unresizable = false;
+        window.extendToTitle = true;
+        window.mode = WindowMode.maximized;
+
         appView.loadApp(baseDir + "editor.snb");
-
-        window.closeRequested.connect(Callable.fromFunction(function() {
-            window.queueFree();
-        }));
-
-        window.hide();
-        addChild(window);
-        window.hide();
-
-        window.popupCentered();
-        reloadRecentProjects();
-        if (OSService.getName() == "Windows") {
-            getWindow().mode = WindowMode.minimized;
-        }
+        queueFree();
     }
 }
