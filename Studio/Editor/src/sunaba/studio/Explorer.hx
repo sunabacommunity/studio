@@ -157,7 +157,6 @@ class Explorer extends EditorWidget {
         rootTreeItem = singleColumnTree.createItem();
         rootTreeItem.setText(0, projectName);
 
-        trace(io.fileExists("studio://icons/16/application-blue-studio.png"));
         var projectIconBytes = io.loadBytes("studio://icons/16/application-blue-studio.png");
         var projectIconImage = new Image();
         projectIconImage.loadPngFromBuffer(projectIconBytes);
