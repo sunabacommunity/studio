@@ -484,6 +484,7 @@ class Editor extends Widget {
 
         leftTabBar.show();
         var tabButtonGroup = new ButtonGroup();
+        tabButtonGroup.allowUnpress = true;
 
         var tabContainerBar = leftTabContainer.getTabBar();
         for (i in 0...leftSidebarChildren.length) {
@@ -506,13 +507,15 @@ class Editor extends Widget {
             }
             tabButton.tooltipText = tabTitle;
             tabButton.toggled.connect(Callable.fromFunction(function(toggled: Bool) {
-                if (toggled == true) {
+                if (leftTabContainer.currentTab != i || leftTabContainer.visible == false) {
                     leftTabContainer.currentTab = i;
+                    leftTabContainer.show();
+                    checkLeftSideBar();
                 }
                 else if (leftTabContainer.currentTab == i) {
-                    leftTabContainer.currentTab = -1;
+                    leftTabContainer.hide();
                 }
-                checkLeftSideBar();
+
             }));
             tabButton.toggleMode = true;
             tabButton.buttonGroup = tabButtonGroup;
@@ -538,6 +541,7 @@ class Editor extends Widget {
 
         rightTabBar.show();
         var tabButtonGroup = new ButtonGroup();
+        tabButtonGroup.allowUnpress = true;
 
         var tabContainerBar = rightTabContainer.getTabBar();
         for (i in 0...rightSidebarChildren.length) {
@@ -559,13 +563,14 @@ class Editor extends Widget {
             }
             tabButton.tooltipText = tabTitle;
             tabButton.toggled.connect(Callable.fromFunction(function(toggled: Bool) {
-                if (toggled == true) {
+                if (rightTabContainer.currentTab != i || rightTabContainer.visible == false) {
                     rightTabContainer.currentTab = i;
+                    rightTabContainer.show();
+                    checkRightSidebar();
                 }
-                else if (rightTabContainer.currentTab == i) {
-                    rightTabContainer.currentTab = -1;
+                else if (leftTabContainer.currentTab == i) {
+                    rightTabContainer.hide();
                 }
-                checkRightSidebar();
             }));
             tabButton.toggleMode = true;
             tabButton.buttonGroup = tabButtonGroup;
