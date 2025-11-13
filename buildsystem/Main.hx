@@ -1,6 +1,9 @@
 import sys.FileSystem;
 import sys.io.File;
 import js.node.Os;
+import haxe.io.BytesInput;
+import haxe.zip.Reader;
+import haxe.io.Bytes;
 
 class Main {
 
@@ -29,6 +32,17 @@ class Main {
             Sys.println("  --debug -d: Export in debug mode");
             Sys.println("  --release -r: Export in release mode");
             Sys.println("  --pkgformat=<format> -p: Specify the package format (none, nsis, deb, dmg)");
+            return;
+        }
+
+        if (args[0] == "libupdate") {
+            var filepath = FileSystem.absolutePath(args[1]);
+            if (!StringTools.endsWith(filepath, ".zip")) {
+                Sys.println("Invalid File");
+                Sys.exit(-1);
+            }
+            var filebytes = File.getBytes(filepath);
+            extractArchiveV2(filebytes);
             return;
         }
 
@@ -163,6 +177,42 @@ class Main {
         var targetPath = rootPath + "/" + targetPlatform + "-" + exportType;
         if (!FileSystem.exists(targetPath)) {
             FileSystem.createDirectory(targetPath);
+        }
+    }
+
+    public static function extractArchiveV2(bytes:Bytes) {
+        if (bytes.length == 0) {
+            trace("Download failed: empty archive");
+            return;
+        }
+        var cwd = Sys.getCwd();
+        var input = new BytesInput(bytes);
+        var entries = Reader.readZip(input);
+        if (!FileSystem.exists(cwd + "/lib/")) {
+            FileSystem.createDirectory(cwd + "/lib/");
+        }
+        for (entry in entries) {
+            if (!StringTools.startsWith(entry.fileName, "lib/")) {
+                continue;
+            }
+            var entryPath = cwd + "/lib/" + entry.fileName;
+            if (StringTools.contains(entryPath, "\\")) {
+                entryPath = StringTools.replace(entryPath, "\\", "/");
+            }
+            if (StringTools.endsWith(entryPath, "/") || StringTools.endsWith(entryPath, "\\") || !StringTools.contains(entryPath, ".")) {
+                Sys.println("Creating Directory: " + entryPath);
+                FileSystem.createDirectory(entryPath);
+                continue;
+            }
+            var stringArray = entryPath.split("/");
+            var baseDir:String = "";
+            for (i in 0...stringArray.length - 1) {
+                baseDir += stringArray[i] + "/";
+                checkDir(baseDir);
+            }
+            Sys.println("Updating File: " + entryPath);
+            var entryBytes = entry.data;
+            File.saveBytes(entryPath, entryBytes);
         }
     }
 
