@@ -103,7 +103,7 @@ jobs:
           haxelib install hxnodejs
           haxelib install codegen
           haxelib dev gamepak ${{github.workspace}}/gamepak
-          haxelib dev sunaba ${{github.workspace}}/libsunaba
+          haxelib dev libsunaba ${{github.workspace}}/libsunaba
 
       - name: Download Libraries
         uses: robinraju/release-downloader@v1
