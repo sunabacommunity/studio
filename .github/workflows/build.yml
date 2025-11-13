@@ -1,0 +1,189 @@
+name: Build
+on:
+  push:
+    paths-ignore:
+      - ".gitignore"
+      - "*.md"
+
+  schedule:
+    - cron: "0 8 * * *" # run at 9 AM UTC/ 1 AM AKDT
+    #- cron: '0 21 * * *' # run at 9 PM UTC/ 1 PM AKDT
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: ["debug", "release"]
+        config:
+          - {
+              name: "🍏 macOS",
+              target: mac-universal,
+              os: macos-latest,
+              #pkgformat: dmg,
+            }
+          - {
+              name: "🐧 Linux",
+              target: linux-x86_64,
+              os: ubuntu-latest,
+              #pkgformat: deb,
+            }
+          - {
+              name: "🪟 Windows",
+              target: windows-x86_64,
+              os: ubuntu-latest,
+              #pkgformat: nsis,
+            }
+          #- { name: '💪🪟 Windows Arm', target: windows-arm64, os: ubuntu-latest, pkgformat: nsis }
+
+    name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
+    runs-on: ${{ matrix.config.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          # Version must include major, minor, and patch, and be >= 4.0.0
+          # Pre-release label is optional.
+          version: 4.5.0 # also valid: 4.0.0.rc1 or 4.0.0 or "global.json", etc
+          # Use .NET-enabled version of Godot (the default is also true).
+          use-dotnet: true
+          # Include the Godot Export Templates (the default is false).
+          include-templates: true
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 19
+
+      - name: Install Dependencies (macOS)
+        if: matrix.config.os == 'macos-latest'
+        run: brew install haxe
+
+      - name: Install Dependencies (Linux)
+        if: matrix.config.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y haxe nsis dpkg-dev
+
+      - name: Setup Haxelib
+        run: |
+          haxelib setup ${{ github.workspace }}/.hxlib
+
+      - name: Checkout Sunaba
+        uses: actions/checkout@v4
+        with:
+          repository: sunabagg/libsunaba
+          path: ${{github.workspace}}/libsunaba
+          token: ${{ secrets.ACCESS_TOKEN }}
+          persist-credentials: true`
+
+      - name: Checkout Gamepak
+        uses: actions/checkout@v4
+        with:
+          repository: sunabagg/gamepak
+          path: ${{github.workspace}}/gamepak
+          token: ${{ secrets.ACCESS_TOKEN }}
+          persist-credentials: true
+
+      - name: Install Haxelib Dependencies
+        run: |
+          haxelib install hxnodejs
+          haxelib install codegen
+          haxelib dev tsukuru ${{github.workspace}}/gamepak
+          haxelib dev sunaba ${{github.workspace}}/libsunaba
+
+      - name: Download Libraries
+        uses: robinraju/release-downloader@v1
+        with:
+          # The source repository path.
+          # Expected format {owner}/{repo}
+          # Default: ${{ github.repository }}
+          repository: sunabagg/libsunaba
+          latest: true
+          preRelease: true
+          tag: "nightly"
+          fileName: "godot-cpp-template.zip"
+          out-file-path: "dl"
+          extract: false
+          #token: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Install Libraries
+        run: |
+          ${{ github.workspace }}/build.sh libupdate ${{ github.workspace }}/dl/godot-cpp-template.zip
+
+
+      #- name: Install Windows Haxe Toolchain
+      #  if: matrix.config.target == 'windows-x86_64'
+      #  run: |
+      #    ${{ github.workspace }}/build.sh hxupd --platform=windows
+
+      - name: Build Project
+        run: |
+          ${{ github.workspace }}/build.sh publish --${{ matrix.build_type }} --target=${{ matrix.config.target }}
+
+      - name: Build Project (Zip) (Linux Release)
+        if: matrix.config.target == 'linux-x86_64' && matrix.build_type == 'release'
+        run: |
+          cd ${{ github.workspace }}/bin/linux-x86_64-release
+          zip -r -0 ${{ github.workspace }}/bin/linux-x86_64-release.zip *
+
+      - name: Build Project (Zip) (Linux Debug)
+        if: matrix.config.target == 'linux-x86_64' && matrix.build_type == 'debug'
+        run: |
+          cd ${{ github.workspace }}/bin/linux-x86_64-debug
+          zip -r -0 ${{ github.workspace }}/bin/linux-x86_64-debug.zip *
+      
+      - name: Build Project (Zip) (Mac Release)
+        if: matrix.config.target == 'mac-universal' && matrix.build_type == 'release'
+        run: |
+          cd ${{ github.workspace }}/bin/mac-universal-release
+          zip -r -0 ${{ github.workspace }}/bin/mac-universal-release.zip *
+
+      - name: Build Project (Zip) (Mac Debug)
+        if: matrix.config.target == 'mac-universal' && matrix.build_type == 'debug'
+        run: |
+          cd ${{ github.workspace }}/bin/mac-universal-debug
+          zip -r -0 ${{ github.workspace }}/bin/mac-universal-debug.zip *
+          
+      - name: Build Project (Zip) (Windows Release)
+        if: matrix.config.target == 'windows-x86_64' && matrix.build_type == 'release'
+        run: |
+          cd ${{ github.workspace }}/bin/windows-x86_64-release
+          zip -r -0 ${{ github.workspace }}/bin/windows-x86_64-release.zip *
+
+      - name: Build Project (Zip) (Windows Debug)
+        if: matrix.config.target == 'windows-x86_64' && matrix.build_type == 'debug'
+        run: |
+          cd ${{ github.workspace }}/bin/windows-x86_64-debug
+          zip -r -0 ${{ github.workspace }}/bin/windows-x86_64-debug.zip *
+
+      - name: Upload artifact
+        #if: matrix.config.os != 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ matrix.config.target }}-${{ matrix.build_type }}
+          path: |
+            ${{ github.workspace }}/bin/*.exe
+            ${{ github.workspace }}/bin/*.zip
+            ${{ github.workspace }}/bin/*.deb
+
+      #- name: Upload macOS artifact
+      #  if: matrix.config.os == 'macos-latest'
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: ${{ github.event.repository.name }}-${{ matrix.config.target }}-${{ matrix.build_type }}
+      #    path: |
+      #      ${{ github.workspace }}/bin/*.dmg
