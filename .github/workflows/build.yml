@@ -102,7 +102,7 @@ jobs:
         run: |
           haxelib install hxnodejs
           haxelib install codegen
-          haxelib dev tsukuru ${{github.workspace}}/gamepak
+          haxelib dev gamepak ${{github.workspace}}/gamepak
           haxelib dev sunaba ${{github.workspace}}/libsunaba
 
       - name: Download Libraries
