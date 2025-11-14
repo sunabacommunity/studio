@@ -86,8 +86,6 @@ class Editor extends Widget {
         return _projectFile;
     }
 
-    public var saveEvent: GameEvent<()->Void> = new GameEvent();
-
     private var playerSubViewportContainer: SubViewportContainer = null;
     private var playerAppView: DesktopAppView = null;
 
@@ -664,13 +662,16 @@ class Editor extends Widget {
 
     public override function onInput(event: InputEvent) {
         if (isControlKeyPressed() && InputService.isKeyLabelPressed(Key.s)) {
+            trace(isSaveKeyPressed);
             if (!isSaveKeyPressed) {
+                trace("");
                 isSaveKeyPressed = true;
                 save();
             }
         } else {
             isSaveKeyPressed = false;
         }
+
         if (isGameRunning) {
             if (InputService.isKeyLabelPressed(Key.f6) && isGamePaused)
                 unpause();
@@ -695,8 +696,10 @@ class Editor extends Widget {
     }
 
     public function save() {
-        trace(saveEvent == null);
-        saveEvent.call();
+        if (centerTabContainer.currentTab == -1) return;
+        var currentWorkspaceTab = workspaceChildern[centerTabContainer.currentTab];
+        if (currentWorkspaceTab == null) return;
+        currentWorkspaceTab.onSave();
     }
 
     var buildSystem: Gamepak = new Gamepak();

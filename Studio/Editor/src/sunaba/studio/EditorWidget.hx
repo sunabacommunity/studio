@@ -35,4 +35,8 @@ class EditorWidget extends Widget {
     public function onDestroy() {
 
     }
+
+    public function onSave() {
+
+    }
 }

@@ -7,6 +7,7 @@ import sunaba.studio.codeEditor.CodeEditorPlugin;
 import sunaba.core.Callable;
 import Type;
 import sys.io.File;
+import sunaba.input.InputService;
 
 class CodeEditor extends EditorWidget {
     public var codeEdit: CodeEdit;
@@ -33,8 +34,6 @@ class CodeEditor extends EditorWidget {
 
     public var plugin:CodeEditorPlugin;
 
-    private var savefunc: () -> Void;
-
     public override function init() {
         load("studio://CodeEditor.suml");
 
@@ -56,11 +55,6 @@ class CodeEditor extends EditorWidget {
                 getEditor().setWorkspaceTabTitle(this, StringTools.replace(tabTitle, "*", ""));
             }
         }));
-
-        savefunc = function() {
-            saveFile();
-        };
-        getEditor().saveEvent.add(savefunc);
     }
 
     public function openFile(path: String, pluginClass: Class<CodeEditorPlugin>) {
@@ -78,9 +72,10 @@ class CodeEditor extends EditorWidget {
         plugin.init();
     }
 
-    public function saveFile() {
+    public override function onSave() {
         if (code == savedCode)
             return;
+        codeEdit.editable = false;
         File.saveContent(path, code);
         savedCode = code;
         var tabTitle = getEditor().getWorkspaceTabTitle(this);
@@ -90,6 +85,9 @@ class CodeEditor extends EditorWidget {
     public override function onProcess(deltaTime: Float) {
         if (codeEdit == null)
             return;
+        if (!getEditor().isControlKeyPressed()) {
+            codeEdit.editable = true;
+        }
 
         var caretLine = codeEdit.getCaretLine(0);
         var caretColumn = codeEdit.getCaretColumn(0);
@@ -98,8 +96,19 @@ class CodeEditor extends EditorWidget {
             lineAndColumnLabel.text = labelText;
         }
     }
-
-    public override function onDestroy() {
-        getEditor().saveEvent.remove(savefunc);
+    /*
+    public override function onInput(event){
+        if (getEditor().isControlKeyPressed()) {
+            if (InputService.isKeyLabelPressed(Key.z) || InputService.isKeyLabelPressed(Key.y)) {
+                codeEdit.editable = true;
+            }
+            else {
+                codeEdit.editable = false;
+            }
+        }
+        else {
+            codeEdit.editable = true;
+        }
     }
+    */
 }
