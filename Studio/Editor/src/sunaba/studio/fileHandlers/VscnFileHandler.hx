@@ -1,4 +1,5 @@
 package sunaba.studio.fileHandlers;
+
 import sunaba.studio.explorer.FileHandler;
 
 class VscnFileHandler extends FileHandler {
