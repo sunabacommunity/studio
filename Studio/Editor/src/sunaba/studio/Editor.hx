@@ -662,9 +662,7 @@ class Editor extends Widget {
 
     public override function onInput(event: InputEvent) {
         if (isControlKeyPressed() && InputService.isKeyLabelPressed(Key.s)) {
-            trace(isSaveKeyPressed);
             if (!isSaveKeyPressed) {
-                trace("");
                 isSaveKeyPressed = true;
                 save();
             }
