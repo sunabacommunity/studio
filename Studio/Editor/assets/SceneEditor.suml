@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true">
+            <sunaba.ui.Control
+                name="toolbar"
+                customMinimumSize="0, 32">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true">
+                    <sunaba.ui.Button
+                        name="select"
+                        iconAlignment="1"
+                        icon="studio://icons/16/cursor.png"
+                        flat="true"/>
+                    <sunaba.ui.Button
+                        name="move"
+                        iconAlignment="1"
+                        icon="studio://icons/16/arrow-move.png"
+                        flat="true"/>
+                    <sunaba.ui.Button
+                        name="rotate"
+                        iconAlignment="1"
+                        icon="studio://icons/16/arrow-circle-double-135.png"
+                        flat="true"/>
+                    <sunaba.ui.Button
+                        name="scale"
+                        iconAlignment="1"
+                        icon="studio://icons/16/arrow-out.png"
+                        flat="true"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.Control
+                name="toolbar2"
+                customMinimumSize="0, 32">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true">
+                    <sunaba.ui.CenterContainer customMinimumSize="0, 32">
+                        <sunaba.ui.TextureRect texture="studio://icons/16/magnet-blue.png"/>
+                    </sunaba.ui.CenterContainer>
+                    <sunaba.ui.Label text="Translate: "/>
+                    <sunaba.ui.SpinBox name="translateSpinBox" value="1"/>
+                    <sunaba.ui.Label text="Rotate: "/>
+                    <sunaba.ui.SpinBox name="rotateSpinBox" value="1"/>
+                    <sunaba.ui.Label text="Scale: "/>
+                    <sunaba.ui.SpinBox name="scaleSpinBox" value="1"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.SubViewportContainer
+                name="container"
+                stretch="true"
+                sizeFlagsVertical="3">
+                <sunaba.SubViewport name="viewport" ownWorld_3d="true" size="352, 240"/>
+            </sunaba.ui.SubViewportContainer>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>
