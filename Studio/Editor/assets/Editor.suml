@@ -39,6 +39,7 @@
                             name="Edit">
                         <menuItem label="Undo" icon="studio://icons/16/arrow-curve-180-left.png"/>
                         <menuItem label="Redo" icon="studio://icons/16/arrow-curve.png"/>
+                        <menuItem separator="true"/>
                         <menuItem label="Cut" icon="studio://icons/16/scissors.png"/>
                         <menuItem label="Copy" icon="studio://icons/16/document-copy.png"/>
                         <menuItem label="Paste" icon="studio://icons/16/clipboard-paste.png"/>

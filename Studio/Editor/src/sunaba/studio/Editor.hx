@@ -261,13 +261,13 @@ class Editor extends Widget {
                 else if (id == 1) {
                     Debug.error("'Redo' not implemented");
                 }
-                else if (id == 2) {
+                else if (id == 3) {
                     Debug.error("'Cut' not implemented");
                 }
-                else if (id == 3) {
+                else if (id == 4) {
                     Debug.error("'Copy' not implemented");
                 }
-                else if (id == 4) {
+                else if (id == 5) {
                     Debug.error("'Paste' not implemented");
                 }
             }));
