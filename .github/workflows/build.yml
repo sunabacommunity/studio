@@ -1,9 +1,9 @@
 name: Build
 on:
-  push:
-    paths-ignore:
-      - ".gitignore"
-      - "*.md"
+  #push:
+  #  paths-ignore:
+  #    - ".gitignore"
+  #    - "*.md"
 
   schedule:
     - cron: "0 8 * * *" # run at 9 AM UTC/ 1 AM AKDT
@@ -87,7 +87,7 @@ jobs:
         with:
           repository: sunabagg/libsunaba
           path: ${{github.workspace}}/libsunaba
-          #token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
           persist-credentials: true`
 
       - name: Checkout Gamepak
@@ -95,7 +95,7 @@ jobs:
         with:
           repository: sunabagg/gamepak
           path: ${{github.workspace}}/gamepak
-          #token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
           persist-credentials: true
 
       - name: Install Haxelib Dependencies
@@ -118,7 +118,7 @@ jobs:
           fileName: "godot-cpp-template.zip"
           out-file-path: "dl"
           extract: false
-          #token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Install Libraries
         run: |
