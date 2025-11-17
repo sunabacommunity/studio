@@ -12,6 +12,8 @@ import sunaba.spatial.Camera;
 import sunaba.spatial.mesh.BoxMesh;
 import sunaba.spatial.mesh.MeshDisplay;
 import sunaba.spatial.mesh.PrimitiveMesh;
+import sunaba.studio.sceneEditor.FreeLook3D;
+import sunaba.core.Vector3;
 
 class SceneEditor extends EditorWidget {
 
@@ -29,6 +31,7 @@ class SceneEditor extends EditorWidget {
     public var fileType: FileType;
 
     public var scene: SceneRoot;
+    public var editorScene: SceneRoot;
 
     public override function init() {
         load("studio://SceneEditor.suml");
@@ -59,9 +62,39 @@ class SceneEditor extends EditorWidget {
         var worldEnv = new Node(new NativeObject("WorldEnvironment"));
         worldEnv.native.set("environment", environment.native);
         viewport.addChild(worldEnv);
+        initializeEditorScene();
     }
 
     public function openPrefab(path: String) {
 
+    }
+
+    public var camera: Camera;
+    public var freeLook3d: FreeLook3D;
+
+    public function initializeEditorScene() {
+        editorScene = new SceneRoot();
+        editorScene.name = "EditorScene";
+
+        var cameraEntity = new Entity();
+        cameraEntity.name = "EditorCamera";
+        var cameraTransform = cameraEntity.addComponent(SpatialTransform);
+        editorScene.addEntity(cameraEntity);
+        cameraTransform.position = new Vector3(4, 4, 4);
+        cameraTransform.rotation = new Vector3(30.8, -30.8, 0);
+        camera = cameraEntity.addComponent(Camera);
+        camera.current = true;
+        freeLook3d = cameraEntity.addComponent(FreeLook3D);
+
+        viewport.addChild(editorScene);
+        freeLook3d.onStart();
+        freeLook3d.transform = cameraTransform;
+    }
+
+    public override function onProcess(deltaTime: Float) {
+        if (camera == null) return;
+
+        camera.current = true;
+        freeLook3d.active = visible;
     }
 }
