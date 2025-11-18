@@ -18,6 +18,7 @@ SetCompressor lzma
 !define MUI_ABORTWARNING
 !define MUI_ICON "Studio\studio.ico"
 !define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "Studio\wizard.bmp"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
