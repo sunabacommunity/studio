@@ -22,6 +22,8 @@ import sunaba.ui.CheckButton;
 import haxe.Int64;
 import sunaba.core.Dictionary;
 import sunaba.core.Vector3;
+import sunaba.core.Variant;
+import sunaba.core.Vector4;
 
 class SceneInspector extends EditorWidget {
     public var loadButton: Button;
@@ -376,7 +378,6 @@ class SceneInspector extends EditorWidget {
                         }
                         else if (dict.get("type").toInt() == VariantType.vector3) {
                             var vec3: Vector3 = DataUtils.dictToVar(dict);
-                            trace(vec3.toString());
 
                             var vec3Vbox = new VBoxContainer();
 
@@ -446,6 +447,102 @@ class SceneInspector extends EditorWidget {
                             zHBox.addChild(zLabel);
                             zHBox.addChild(zSpinBox);
                             vec3Vbox.addChild(zHBox);
+
+                            propertyContainer.addChild(vec3Vbox);
+                        }
+                        else if (dict.get("type").toInt() == VariantType.vector4) {
+                            var vec4: Vector4 = DataUtils.dictToVar(dict);
+
+                            var vec3Vbox = new VBoxContainer();
+
+                            var xSpinBox = new SpinBox();
+                            xSpinBox.maxValue = 500;
+                            xSpinBox.minValue = -500;
+                            xSpinBox.step = 0.001;
+                            xSpinBox.value = vec4.x;
+                            xSpinBox.customMinimumSize = new Vector2(150.0, 20.0);
+                            xSpinBox.valueChanged.connect(Callable.fromFunction(function(newValue: Float) {
+                                var dataToEdit = component.getData();
+                                var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
+                                vec4.x = newValue;
+                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                component.setData(dataToEdit);
+                            }));
+                            var xLabel = new Label();
+                            xLabel.text = "x";
+                            xLabel.horizontalAlignment = HorizontalAlignment.center;
+                            xLabel.verticalAlignment = VerticalAlignment.center;
+                            var xHBox = new HBoxContainer();
+                            xHBox.addChild(xLabel);
+                            xHBox.addChild(xSpinBox);
+                            vec3Vbox.addChild(xHBox);
+
+
+                            var ySpinBox = new SpinBox();
+                            ySpinBox.maxValue = 500;
+                            ySpinBox.minValue = -500;
+                            ySpinBox.step = 0.001;
+                            ySpinBox.value = vec4.y;
+                            ySpinBox.customMinimumSize = new Vector2(150.0, 20.0);
+                            ySpinBox.valueChanged.connect(Callable.fromFunction(function(newValue: Float) {
+                                var dataToEdit = component.getData();
+                                var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
+                                vec4.y = newValue;
+                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                component.setData(dataToEdit);
+                            }));
+                            var yLabel = new Label();
+                            yLabel.text = "y";
+                            yLabel.horizontalAlignment = HorizontalAlignment.center;
+                            yLabel.verticalAlignment = VerticalAlignment.center;
+                            var yHBox = new HBoxContainer();
+                            yHBox.addChild(yLabel);
+                            yHBox.addChild(ySpinBox);
+                            vec3Vbox.addChild(yHBox);
+
+                            var zSpinBox = new SpinBox();
+                            zSpinBox.maxValue = 500;
+                            zSpinBox.minValue = -500;
+                            zSpinBox.step = 0.001;
+                            zSpinBox.value = vec4.z;
+                            zSpinBox.customMinimumSize = new Vector2(150.0, 20.0);
+                            zSpinBox.valueChanged.connect(Callable.fromFunction(function(newValue: Float) {
+                                var dataToEdit = component.getData();
+                                var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
+                                vec4.z = newValue;
+                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                component.setData(dataToEdit);
+                            }));
+                            var zLabel = new Label();
+                            zLabel.text = "z";
+                            zLabel.horizontalAlignment = HorizontalAlignment.center;
+                            zLabel.verticalAlignment = VerticalAlignment.center;
+                            var zHBox = new HBoxContainer();
+                            zHBox.addChild(zLabel);
+                            zHBox.addChild(zSpinBox);
+                            vec3Vbox.addChild(zHBox);
+
+                            var wSpinBox = new SpinBox();
+                            wSpinBox.maxValue = 500;
+                            wSpinBox.minValue = -500;
+                            wSpinBox.step = 0.001;
+                            wSpinBox.value = vec4.w;
+                            wSpinBox.customMinimumSize = new Vector2(150.0, 20.0);
+                            wSpinBox.valueChanged.connect(Callable.fromFunction(function(newValue: Float) {
+                                var dataToEdit = component.getData();
+                                var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
+                                vec4.z = newValue;
+                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                component.setData(dataToEdit);
+                            }));
+                            var wLabel = new Label();
+                            wLabel.text = "w";
+                            wLabel.horizontalAlignment = HorizontalAlignment.center;
+                            wLabel.verticalAlignment = VerticalAlignment.center;
+                            var wHBox = new HBoxContainer();
+                            wHBox.addChild(zLabel);
+                            wHBox.addChild(wSpinBox);
+                            vec3Vbox.addChild(wHBox);
 
                             propertyContainer.addChild(vec3Vbox);
                         }
