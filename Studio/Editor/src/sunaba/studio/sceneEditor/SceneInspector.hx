@@ -467,7 +467,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.x = newValue;
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var xLabel = new Label();
@@ -490,7 +490,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.y = newValue;
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var yLabel = new Label();
@@ -512,7 +512,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.z = newValue;
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var zLabel = new Label();
@@ -534,7 +534,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4 = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.z = newValue;
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var wLabel = new Label();
@@ -689,7 +689,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4i = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.x = Std.int(newValue);
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var xLabel = new Label();
@@ -712,7 +712,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4i = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.y = Std.int(newValue);
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var yLabel = new Label();
@@ -734,7 +734,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4i = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.z = Std.int(newValue);
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var zLabel = new Label();
@@ -756,7 +756,7 @@ class SceneInspector extends EditorWidget {
                                 var dataToEdit = component.getData();
                                 var vec4: Vector4i = DataUtils.dictToVar(dataToEdit.get(key));
                                 vec4.z = Std.int(newValue);
-                                dataToEdit.set(key, DataUtils.varToDict(vec3));
+                                dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
                             }));
                             var wLabel = new Label();
