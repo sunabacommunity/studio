@@ -79,12 +79,12 @@ class SceneInspector extends EditorWidget {
         trace(nothingEntityText);
 
         sceneIcon = getEditor().explorer.loadIcon("studio://icons/16/clapperboard.png");
-        prefabIcon = getEditor().explorer.loadIcon("studio://icons/16/box.png");
-        entityIcon16 = getEditor().explorer.loadIcon("studio://icons/16/block.png");
+        prefabIcon = getEditor().explorer.loadIcon("studio://icons/16/block.png");
+        entityIcon16 = getEditor().explorer.loadIcon("studio://icons/16/layer.png");
 
         sceneIcon24 = getEditor().explorer.loadIcon("studio://icons/16_1-5x/clapperboard.png");
-        prefabIcon24 = getEditor().explorer.loadIcon("studio://icons/16_1-5x/box.png");
-        entityIcon24 = getEditor().explorer.loadIcon("studio://icons/16_1-5x/block.png");
+        prefabIcon24 = getEditor().explorer.loadIcon("studio://icons/16_1-5x/block.png");
+        entityIcon24 = getEditor().explorer.loadIcon("studio://icons/16_1-5x/layer.png");
 
         sceneTree.itemSelected.connect(Callable.fromFunction(function() {
             var selectedItem = sceneTree.getSelected();
