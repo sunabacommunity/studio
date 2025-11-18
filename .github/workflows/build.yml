@@ -30,18 +30,20 @@ jobs:
               target: mac-universal,
               os: macos-latest,
               #pkgformat: dmg,
+              pkgformat: none,
             }
           - {
               name: "🐧 Linux",
               target: linux-x86_64,
               os: ubuntu-latest,
               #pkgformat: deb,
+              pkgformat: none,
             }
           - {
               name: "🪟 Windows",
               target: windows-x86_64,
               os: ubuntu-latest,
-              #pkgformat: nsis,
+              pkgformat: nsis,
             }
           #- { name: '💪🪟 Windows Arm', target: windows-arm64, os: ubuntu-latest, pkgformat: nsis }
 
@@ -132,7 +134,7 @@ jobs:
 
       - name: Build Project
         run: |
-          ${{ github.workspace }}/build.sh publish --${{ matrix.build_type }} --target=${{ matrix.config.target }} --godot-command=godot
+          ${{ github.workspace }}/build.sh publish --${{ matrix.build_type }} --target=${{ matrix.config.target }} --pkgformat=${{ matrix.config.pkgformat }} --godot-command=godot
 
       - name: Build Project (Zip) (Linux Release)
         if: matrix.config.target == 'linux-x86_64' && matrix.build_type == 'release'
