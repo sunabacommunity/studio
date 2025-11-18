@@ -259,9 +259,11 @@ class Main {
             }
         }
 
-        var nsisScript = "studio.x86_64.nsi.";
+        var cwd = Sys.getCwd();
+
+        var nsisScript = cwd + "/studio.x86_64.nsi.";
         if (exportType == ExportType.debug) {
-            nsisScript = "studio.x86_64.debug.nsi";
+            nsisScript = cwd + "/studio.x86_64.debug.nsi";
         }
 
         var command = nsisCommand + " " + nsisScript;
