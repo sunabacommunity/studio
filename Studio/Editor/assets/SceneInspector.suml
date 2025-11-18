@@ -73,7 +73,8 @@
                     name="scroll"
                     sizeFlagsVertical="3">
                     <sunaba.ui.VBoxContainer
-                        name="vbox"/>
+                        name="vbox"
+                        sizeFlagsHorizontal="3"/>
                 </sunaba.ui.ScrollContainer>
             </sunaba.ui.VBoxContainer>
         </sunaba.ui.VSplitContainer>

@@ -13,6 +13,13 @@ import sunaba.ui.VBoxContainer;
 import sunaba.ui.TreeItem;
 import sunaba.ui.ScrollContainer;
 import sunaba.core.Callable;
+import sunaba.ui.FoldableContainer;
+import sunaba.ui.HBoxContainer;
+import sunaba.core.VariantType;
+import sunaba.ui.LineEdit;
+import sunaba.ui.SpinBox;
+import sunaba.ui.CheckButton;
+import haxe.Int64;
 
 class SceneInspector extends EditorWidget {
     public var loadButton: Button;
@@ -121,6 +128,7 @@ class SceneInspector extends EditorWidget {
             scene = sceneEditor.scene;
             prefab = sceneEditor.prefab;
             mode = sceneEditor.fileType;
+            selectedEntityIndex = -1;
             refreshSceneTree();
             refreshInspector();
         }
@@ -229,5 +237,90 @@ class SceneInspector extends EditorWidget {
     public function buildComponentTree(entity: Entity) {
         if (entity.isPrefab() && entity != selectedEntity)
             return;
+
+        for (component in entity.getConponents()) {
+            var compName = component.name;
+            compName = compName.split(".").pop();
+            var compIconPath = component.editorIconPath;
+            var compIcon = getEditor().explorer.loadIcon(compIconPath);
+            var foldableContainer = new FoldableContainer();
+            foldableContainer.title = compName;
+            var componentVbox = new VBoxContainer();
+            foldableContainer.addChild(componentVbox);
+            entityVBox.addChild(foldableContainer);
+
+            var data = component.getData();
+            var dataKeys = data.keys();
+            var dataValues = data.values();
+            trace(dataKeys.size());
+            for (i in 0...dataKeys.size()) {
+                var key = dataKeys.get(i);
+                var value = dataValues.get(i);
+                var propertyContainer = new HBoxContainer();
+                var propertyName = new Label();
+                propertyName.text = key;
+                propertyName.horizontalAlignment = HorizontalAlignment.left;
+                propertyName.verticalAlignment = VerticalAlignment.center;
+                propertyName.customMinimumSize = new Vector2(0.0, 20.0);
+                propertyName.clipText = true;
+                propertyContainer.addChild(propertyName);
+                propertyName.sizeFlagsHorizontal = 3;
+
+                if (value.getType() == VariantType.string) {
+                    var strLineEdit = new LineEdit();
+                    strLineEdit.text = value;
+                    strLineEdit.customMinimumSize = new Vector2(150.0, 20.0);
+                    strLineEdit.textChanged.connect(Callable.fromFunction(function(newValue: String) {
+                        var dataToEdit = component.getData();
+                        dataToEdit.set(key, newValue);
+                        component.setData(dataToEdit);
+                    }));
+                    propertyContainer.addChild(strLineEdit);
+                }
+                else if (value.getType() == VariantType.float) {
+                    var floatSpinBox = new SpinBox();
+                    floatSpinBox.maxValue = 3.40282347e+38;
+                    floatSpinBox.minValue = -3.40282347e+38;
+                    floatSpinBox.step = 0.001;
+                    floatSpinBox.value = value;
+                    floatSpinBox.customMinimumSize = new Vector2(150.0, 20.0);
+                    floatSpinBox.valueChanged.connect(Callable.fromFunction(function(newValue: Float) {
+                        var dataToEdit = component.getData();
+                        dataToEdit.set(key, newValue);
+                        component.setData(dataToEdit);
+                    }));
+                    propertyContainer.addChild(floatSpinBox);
+                }
+                else if (value.getType() == VariantType.int) {
+                    var intSpinBox = new SpinBox();
+                    intSpinBox.maxValue = 2147483648;
+                    intSpinBox.minValue = -2147483648;
+                    intSpinBox.step = 1;
+                    intSpinBox.customMinimumSize = new Vector2(150.0, 20.0);
+                    intSpinBox.valueChanged.connect(Callable.fromFunction(function(newValue: Float) {
+                        var dataToEdit = component.getData();
+                        var intValue = Std.int(newValue);
+                        dataToEdit.set(key, intValue);
+                        component.setData(dataToEdit);
+                    }));
+                    propertyContainer.addChild(intSpinBox);
+                }
+                else if (value.getType() == VariantType.bool) {
+                    var boolCheckButton = new CheckButton();
+                    boolCheckButton.buttonPressed = value;
+                    boolCheckButton.customMinimumSize = new Vector2(0.0, 20.0);
+                    boolCheckButton.flat = true;
+                    boolCheckButton.toggled.connect(Callable.fromFunction(function(newValue: Bool) {
+                        var dataToEdit = component.getData();
+                        dataToEdit.set(key, newValue);
+                        component.setData(dataToEdit);
+                    }));
+                    propertyContainer.addChild(boolCheckButton);
+                }
+
+                componentVbox.addChild(propertyContainer);
+                propertyContainer.customMinimumSize = new Vector2(0.0, 20.0);
+            }
+        }
     }
 }
