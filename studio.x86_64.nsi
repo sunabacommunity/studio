@@ -41,7 +41,7 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "bin\Sunaba Studio Setup.exe"
+OutFile "bin\Sunaba.Studio.Setup.x86_64.exe"
 InstallDir "$PROGRAMFILES\Sunaba\Studio"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
