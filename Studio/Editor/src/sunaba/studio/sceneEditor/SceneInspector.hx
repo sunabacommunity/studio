@@ -107,7 +107,7 @@ class SceneInspector extends EditorWidget {
         if (_sceneEditor == null) {
             if (!nothingSelected) {
                 nothingSelected == true;
-                sceneEditor = _sceneEditor;
+                sceneEditor = null;
                 scene = null;
                 prefab = null;
                 sceneTree.clear();
@@ -190,11 +190,11 @@ class SceneInspector extends EditorWidget {
 
         entityMenuButton.hide();
 
-        if (nothingSelected == true) {
+        if (nothingSelected == true || sceneEditor == null) {
             entityIcon.texture = nothingEntityIcon24;
             entityText.text = nothingEntityText;
         }
-        else {
+        else if (sceneEditor != null) {
             if (selectedEntityIndex != -1) {
                 var selectedEntity = entityIndex[selectedEntityIndex];
                 entityText.text = selectedEntity.name;

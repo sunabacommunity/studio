@@ -105,4 +105,11 @@ class SceneEditor extends EditorWidget {
             getEditor().sceneInspector.openSceneEditor(this);
         }
     }
+
+    public override function onDestroy() {
+        var sceneInspector = getEditor().sceneInspector;
+        if (sceneInspector.sceneEditor == this) {
+            sceneInspector.openSceneEditor(null);
+        }
+    }
 }
