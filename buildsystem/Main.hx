@@ -69,6 +69,10 @@ class Main {
             else if (arg == "--skip") {
                 skipbuild = true;
             }
+            else if (StringTools.startsWith(arg, "--pkgformat=")) {
+                packageFormat = StringTools.replace(arg, "--pkgformat=", "");
+                trace(packageFormat);
+            }
         }
 
         var currentDir = Sys.getCwd();
@@ -100,6 +104,10 @@ class Main {
         }
         else if (args[0] == "publish") {
             publish();
+
+            if (packageFormat == PackageFormat.nsis) {
+                buildNsis();
+            }
         }
     }
 
@@ -234,5 +242,36 @@ class Main {
             Sys.println(godotCommand + " exited with code " + result);
             Sys.exit(result);
         }
+    }
+
+    public static function buildNsis() {
+        var nsisCommand = "makensis";
+        if (Sys.systemName() == "Windows") {
+            if (Sys.command(nsisCommand + " /VERSION") != 0) {
+                Sys.println("NSIS is not installed or not found in PATH.");
+                Sys.exit(-1);
+            }
+        } else if (Sys.systemName() == "Linux" || Sys.systemName() == "Mac") {
+            nsisCommand = "makensis";
+            if (Sys.command(nsisCommand + " -VERSION") != 0) {
+                Sys.println("NSIS is not installed or not found in PATH.");
+                Sys.exit(-1);
+            }
+        }
+
+        var nsisScript = "studio.x86_64.nsi.";
+        if (exportType == ExportType.debug) {
+            nsisScript = "studio.x86_64.debug.nsi";
+        }
+
+        var command = nsisCommand + " " + nsisScript;
+        trace("Running NSIS command: " + command);
+        var result = Sys.command(command);
+        if (result != 0) {
+            Sys.println("NSIS installer creation failed with code " + result);
+            Sys.exit(result);
+        }
+
+        Sys.println("NSIS installer created at: " + Sys.getCwd() + "/bin");
     }
 }
