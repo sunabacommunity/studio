@@ -30,7 +30,7 @@ jobs:
               target: mac-universal,
               os: macos-latest,
               #pkgformat: dmg,
-              pkgformat: none,
+              pkgformat: dmg,
             }
           - {
               name: "🐧 Linux",
@@ -147,19 +147,7 @@ jobs:
         run: |
           cd ${{ github.workspace }}/bin/linux-x86_64-debug
           zip -r -0 ${{ github.workspace }}/bin/linux-x86_64-debug.zip *
-      
-      - name: Build Project (Zip) (Mac Release)
-        if: matrix.config.target == 'mac-universal' && matrix.build_type == 'release'
-        run: |
-          cd ${{ github.workspace }}/bin/mac-universal-release
-          zip -r -0 ${{ github.workspace }}/bin/mac-universal-release.zip *
 
-      - name: Build Project (Zip) (Mac Debug)
-        if: matrix.config.target == 'mac-universal' && matrix.build_type == 'debug'
-        run: |
-          cd ${{ github.workspace }}/bin/mac-universal-debug
-          zip -r -0 ${{ github.workspace }}/bin/mac-universal-debug.zip *
-          
       - name: Build Project (Zip) (Windows Release)
         if: matrix.config.target == 'windows-x86_64' && matrix.build_type == 'release'
         run: |
