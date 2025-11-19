@@ -17,6 +17,7 @@ import sunaba.core.Vector3;
 import sunaba.core.Dictionary;
 
 class SceneEditor extends EditorWidget {
+    private var filePath: String;
 
     public var selectButton: Button;
     public var moveButton: Button;
@@ -52,6 +53,7 @@ class SceneEditor extends EditorWidget {
 
     public function openScene(path: String) {
         fileType = FileType.SceneType;
+        filePath = path;
 
         var name: String = path.split("/").pop();
         getEditor().setWorkspaceTabTitle(this, name);
@@ -134,6 +136,16 @@ class SceneEditor extends EditorWidget {
                 getEditor().setWorkspaceTabTitle(this, sceneName + "*");
             }
         }
+    }
+
+    public override function onSave() {
+        var sceneFile = SceneFile.create(scene);
+        var sceneData = sceneFile.getData();
+        var sceneJson = JSON.stringify(sceneData);
+        if (savedSceneJson == sceneJson) return;
+        savedSceneJson = sceneJson;
+        sceneFile.save(filePath);
+        checkScene();
     }
 
     public override function onDestroy() {
