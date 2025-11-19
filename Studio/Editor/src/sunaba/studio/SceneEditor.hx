@@ -14,6 +14,7 @@ import sunaba.spatial.mesh.MeshDisplay;
 import sunaba.spatial.mesh.PrimitiveMesh;
 import sunaba.studio.sceneEditor.FreeLook3D;
 import sunaba.core.Vector3;
+import sunaba.core.Dictionary;
 
 class SceneEditor extends EditorWidget {
 
@@ -34,6 +35,10 @@ class SceneEditor extends EditorWidget {
     public var prefab: Entity;
     public var editorScene: SceneRoot;
 
+    public var savedSceneJson: String;
+
+    var sceneName: String = "";
+
     public override function init() {
         load("studio://SceneEditor.suml");
 
@@ -50,6 +55,7 @@ class SceneEditor extends EditorWidget {
 
         var name: String = path.split("/").pop();
         getEditor().setWorkspaceTabTitle(this, name);
+        sceneName = name;
 
         var sceneFile = new SceneFile();
         sceneFile.io = getEditor().projectIo;
@@ -105,6 +111,27 @@ class SceneEditor extends EditorWidget {
             var sceneInspector = getEditor().sceneInspector;
             if (sceneInspector.sceneEditor != this) {
                 sceneInspector.openSceneEditor(this);
+            }
+        }
+    }
+
+    private var savedSceneJsonInitialized: Bool = false;
+
+    public function checkScene() {
+        getEditor().setWorkspaceTabTitle(this, sceneName);
+        if (fileType == FileType.SceneType) {
+            var sceneFile = SceneFile.create(scene);
+            var sceneData = sceneFile.getData();
+            var sceneJson = JSON.stringify(sceneData);
+            if (!savedSceneJsonInitialized) {
+                savedSceneJson = sceneJson;
+                savedSceneJsonInitialized = true;
+            }
+            Sys.println(sceneJson);
+            Sys.println(savedSceneJson);
+            trace(savedSceneJson != sceneJson);
+            if (savedSceneJson != sceneJson) {
+                getEditor().setWorkspaceTabTitle(this, sceneName + "*");
             }
         }
     }
