@@ -104,10 +104,15 @@ class Main {
         }
         else if (args[0] == "publish") {
             publish();
+        }
 
-            if (packageFormat == PackageFormat.nsis) {
-                buildNsis();
-            }
+        if (packageFormat == PackageFormat.nsis) {
+            buildNsis();
+        }
+        else if (packageFormat == PackageFormat.dmg) {
+            exportDmg();
+        } else if (packageFormat == PackageFormat.zip) {
+            exportZip();
         }
     }
 
@@ -283,5 +288,64 @@ class Main {
         }
 
         Sys.println("NSIS installer created at: " + Sys.getCwd() + "/bin");
+    }
+
+    public static function exportZip() {
+        var zipPath = Sys.getCwd() + "bin/" + targetPlatform + "-" + exportType + ".zip";
+        var binPath = Sys.getCwd() + "bin/" + targetPlatform + "-" + exportType + "/";
+        if (!FileSystem.exists(binPath)) {
+            Sys.println("Export directory does not exist: " + binPath);
+            Sys.exit(-1);
+        }
+        var output = new haxe.io.BytesOutput();
+        var zipWriter = new haxe.zip.Writer(output);
+        var entries:haxe.ds.List<haxe.zip.Entry> = new haxe.ds.List();
+        for (file in FileSystem.readDirectory(binPath)) {
+            if (FileSystem.isDirectory(file)) {
+                continue; // Skip directories
+            }
+            var relativePath = StringTools.replace(file, binPath, "");
+            Sys.println("Writing file to zip: " + relativePath);
+            var fileBytes = File.getBytes(binPath + file);
+            if (fileBytes == null) {
+                Sys.println("Failed to read file: " + file);
+                continue;
+            }
+
+            var entry:haxe.zip.Entry = {
+                fileName: relativePath,
+                fileSize: fileBytes.length,
+                fileTime: Date.now(),
+                dataSize: fileBytes.length,
+                data: fileBytes,
+                crc32: null,  // Proper CRC32 calculation
+                compressed: false,
+                extraFields: null
+            };
+            entries.push(entry);
+        }
+        zipWriter.write(entries);
+        var zipBytes = output.getBytes();
+        File.saveBytes(zipPath, zipBytes);
+    }
+
+    public static function exportDmg() {
+        var applicationsFolder = "/Applications/";
+        Sys.command("ln -s /Applications/ " + Sys.getCwd() + "/bin/" + targetPlatform + "-" + exportType + "/Applications");
+        Sys.command("hdiutil create -volname 'Sunaba Studio' -srcfolder 'bin/"
+        + targetPlatform
+        + "-"
+        + exportType
+        + "' -ov -format UDZO 'bin/sunaba-studio-"
+        + exportType
+        + ".dmg'");
+        Sys.println("DMG package created at: bin/sunaba-studio-" + exportType + ".dmg");
+        var dmgPath = Sys.getCwd() + "bin/sunaba-studio-" + exportType + ".dmg";
+        if (!FileSystem.exists(dmgPath)) {
+            Sys.println("DMG package creation failed.");
+            Sys.exit(-1);
+        } else {
+            Sys.println("DMG package created successfully at: " + dmgPath);
+        }
     }
 }
