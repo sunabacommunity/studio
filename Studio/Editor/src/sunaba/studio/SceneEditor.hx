@@ -59,10 +59,16 @@ class SceneEditor extends EditorWidget {
         getEditor().setWorkspaceTabTitle(this, name);
         sceneName = name;
 
+        var sceneJson = io.loadText(path);
+        var sceneData = JSON.parseString(sceneJson);
+        sceneJson = JSON.stringify(sceneData);
+        savedSceneJson = sceneJson;
+
         var sceneFile = new SceneFile();
         sceneFile.io = getEditor().projectIo;
         sceneFile.load(path);
         Sys.println(sceneFile.getData());
+
 
         scene = sceneFile.instance();
         trace(scene.getEntityCount());
@@ -129,9 +135,6 @@ class SceneEditor extends EditorWidget {
                 savedSceneJson = sceneJson;
                 savedSceneJsonInitialized = true;
             }
-            Sys.println(sceneJson);
-            Sys.println(savedSceneJson);
-            trace(savedSceneJson != sceneJson);
             if (savedSceneJson != sceneJson) {
                 getEditor().setWorkspaceTabTitle(this, sceneName + "*");
             }
