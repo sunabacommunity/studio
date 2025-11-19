@@ -2,9 +2,9 @@ import sunaba.App;
 
 import sunaba.studio.Editor;
 
-class Main extends App {
+class EditorMain extends App {
     public static function main() {
-        new Main();
+        new EditorMain();
     }
 
     public override function init() {

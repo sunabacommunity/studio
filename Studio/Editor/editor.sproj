@@ -7,7 +7,7 @@
     "scriptdir": "src",
     "apisymbols": true,
     "sourcemap": true,
-    "entrypoint": "Main",
+    "entrypoint": "EditorMain",
     "luabin": "main",
     "libraries": [],
     "compilerFlags": [
