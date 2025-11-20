@@ -43,7 +43,7 @@ project/assembly_name="Sunaba.Studio"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/Gizmo3DScript/plugin.cfg")
 
 [rendering]
 
