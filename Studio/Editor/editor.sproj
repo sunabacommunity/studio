@@ -13,7 +13,6 @@
     "compilerFlags": [
         "-D absolute-path",
         "--library gamepak",
-        "-dce std",
-        "--macro addClassPath('../common')"
+        "-dce std"
     ]
 }
