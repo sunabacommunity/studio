@@ -598,7 +598,7 @@ class Editor extends Widget {
         }
 
         try {
-            loadPlugin(pluginPath, pluginName);
+            loadPlugin(pluginPath, true);
         }
         catch(e: String) {
             Debug.error(e.toString(), "Error loading project plugin");
@@ -607,7 +607,7 @@ class Editor extends Widget {
 
     var projectPlugin: Plugin = null;
 
-    public inline function loadPlugin(path: String, name: String) {
+    public inline function loadPlugin(path: String, isProjectPlugin: Bool = false) {
         var loader = new LibraryLoader();
         loader.libraryName = name;
 
@@ -618,11 +618,13 @@ class Editor extends Widget {
 
         var plugin: Plugin = untyped __lua__("pluginEnv['plugin']");
         if (plugin != null) {
-            if (projectPlugin != null) {
-                projectPlugin.uninit();
-                plugins.remove(projectPlugin);
+            if (isProjectPlugin == true) {
+                if (projectPlugin != null) {
+                    projectPlugin.uninit();
+                    plugins.remove(projectPlugin);
+                }
+                projectPlugin = plugin;
             }
-            projectPlugin = plugin;
             plugins.push(plugin);
             plugin.init();
         }
