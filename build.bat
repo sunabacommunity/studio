@@ -1,2 +1,4 @@
 haxe buildsys.hxml
-node build %*
+if %errorlevel%==0 (
+    node build %*
+)
