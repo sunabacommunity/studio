@@ -16,4 +16,8 @@ class Plugin extends BaseClass {
     public function init(): Void {
 
     }
+
+    public function uninit() {
+
+    }
 }
