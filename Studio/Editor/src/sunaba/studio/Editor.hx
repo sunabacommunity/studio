@@ -409,6 +409,8 @@ class Editor extends Widget {
             ioManager.register(localPluginIo);
 
             sceneInspector = new SceneInspector(this, EditorArea.rightSidebar);
+
+            loadProjectPlugin();
         }
         catch(e: Exception) {
             Debug.error(e.message);
@@ -591,6 +593,9 @@ class Editor extends Widget {
     inline function loadProjectPlugin() {
         var pluginName = projectFile.name;
         var pluginPath = "plugin://plugin.lua";
+        if (!localPluginIo.fileExists(pluginPath)) {
+            return;
+        }
 
         try {
             loadPlugin(pluginPath, pluginName);
