@@ -56,6 +56,7 @@ Section "MainSection" SEC01
   CreateShortCut "$SMPROGRAMS\Sunaba\Studio\Sunaba Studio.lnk" "$INSTDIR\Sunaba.Studio.exe"
   CreateShortCut "$DESKTOP\Sunaba Studio.lnk" "$INSTDIR\Sunaba.Studio.exe"
   File "bin\windows-x86_64-debug\sunaba.windows.template_debug.x86_64.dll"
+  File "bin\windows-x86_64-debug\libdd3d.windows.editor.x86_64.dll"
   SetOutPath "$INSTDIR\data_Sunaba.Studio_windows_x86_64"
   SetOverwrite try
   File "bin\windows-x86_64-debug\data_Sunaba.Studio_windows_x86_64\clretwrc.dll"
@@ -473,6 +474,7 @@ Section Uninstall
   Delete "$INSTDIR\data_Sunaba.Studio_windows_x86_64\clrjit.dll"
   Delete "$INSTDIR\data_Sunaba.Studio_windows_x86_64\clrgc.dll"
   Delete "$INSTDIR\data_Sunaba.Studio_windows_x86_64\clretwrc.dll"
+  Delete "$INSTDIR\libdd3d.windows.editor.x86_64.dll"
   Delete "$INSTDIR\sunaba.windows.template_debug.x86_64.dll"
   Delete "$INSTDIR\Sunaba.Studio.exe"
 
