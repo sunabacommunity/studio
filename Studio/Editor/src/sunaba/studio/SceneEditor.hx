@@ -185,7 +185,6 @@ class SceneEditor extends EditorWidget {
 
         scopeConfig = null;
 
-        trace("");
         Gc.collect();
     }
 
