@@ -410,7 +410,7 @@ class Editor extends Widget {
 
             sceneInspector = new SceneInspector(this, EditorArea.rightSidebar);
 
-            loadProjectPlugin();
+            //loadProjectPlugin();
         }
         catch(e: Exception) {
             Debug.error(e.message);
