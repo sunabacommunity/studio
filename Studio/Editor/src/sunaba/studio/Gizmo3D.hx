@@ -8,7 +8,6 @@ import sunaba.spatial.SpatialTransform;
 import sunaba.core.TypedArray;
 import sunaba.core.Color;
 import sunaba.core.Signal;
-import js.node.crypto.Sign;
 
 class Gizmo3D extends Behavior {
     public var node: Node;
@@ -24,11 +23,11 @@ class Gizmo3D extends Behavior {
         }
     }
 
-    public var mode(get, set): GizmoToolMode;
-    function get_mode():GizmoToolMode {
+    public var mode(get, set): Int;
+    function get_mode():Int {
         return node.native.get("mode").toInt();
     }
-    function set_mode(value:GizmoToolMode):GizmoToolMode {
+    function set_mode(value:Int):Int {
         node.native.set("mode", value);
         return value;
     }
@@ -140,7 +139,7 @@ class Gizmo3D extends Behavior {
     }
     function set_rotateSnap(value:Float):Float {
         node.native.set("rotate_snap", value);
-        return this.rotateSnap = value;
+        return value;
     }
 
     public var translateSnap(get, set): Float;
