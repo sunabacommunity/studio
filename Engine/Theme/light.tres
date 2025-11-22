@@ -40,7 +40,7 @@
 [ext_resource type="FontFile" uid="uid://8mh3yfoq37h3" path="res://Engine/Theme/fonts/Oxygen-Bold.ttf" id="30_njkil"]
 [ext_resource type="StyleBox" uid="uid://djrog4w1wovc5" path="res://Engine/Theme/topbar.tres" id="34_gtgn1"]
 [ext_resource type="FontFile" uid="uid://wgmjhpg8t35s" path="res://Engine/Theme/fonts/Oxygen-Regular.ttf" id="36_qe2d6"]
-[ext_resource type="SystemFont" uid="uid://dca7seoyu4mff" path="res://Engine/Theme/fonts/sans_serif.tres" id="41_fvuun"]
+[ext_resource type="FontFile" uid="uid://8snxwxvq708x" path="res://Engine/Theme/fonts/Inter-Regular.ttf" id="41_fvuun"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ufuef"]
 texture = ExtResource("3")
