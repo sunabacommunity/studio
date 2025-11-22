@@ -169,6 +169,7 @@ jobs:
             ${{ github.workspace }}/bin/*.exe
             ${{ github.workspace }}/bin/*.zip
             ${{ github.workspace }}/bin/*.deb
+            ${{ github.workspace }}/bin/*.dmg
 
       #- name: Upload macOS artifact
       #  if: matrix.config.os == 'macos-latest'
