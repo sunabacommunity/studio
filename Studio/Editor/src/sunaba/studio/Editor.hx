@@ -156,6 +156,12 @@ class Editor extends Widget {
         playBuildWindow.hide();
         pluginBuildWindow = getNodeT(Window, "pluginBuildWindow");
         pluginBuildWindow.hide();
+
+        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Help");
+        if (OSService.getName() == "macOS") {
+            helpMenu.removeItem(helpMenu.itemCount - 1);
+            helpMenu.systemMenuId = 4;
+        }
     }
 
     public override function onReady() {
@@ -311,19 +317,12 @@ class Editor extends Widget {
 
             }));
             var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Help");
-            if ((PlatformService.deviceType == PlatformDeviceType.desktop) && (OSService.getName() != "Windows")) {
-                helpMenu.systemMenuId = 4;
-            }
-            if (OSService.getName() == "macOS") {
-                helpMenu.removeItem(helpMenu.itemCount - 1);
-                helpMenu.systemMenuId = 4;
-            }
             helpMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
-                if (id == (helpMenu.itemCount - 1)) {
-                    showAboutDialog();
-                }
-                else if (id == 0) {
+                if (id == 0) {
                     OSService.shellOpen("https://docs.sunaba.gg");
+                }
+                else if (id == (helpMenu.itemCount - 1)) {
+                    showAboutDialog();
                 }
             }));
 
