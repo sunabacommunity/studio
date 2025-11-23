@@ -279,7 +279,7 @@ class SceneInspector extends EditorWidget {
             if (selectedEntityIndex != -1) {
                 var selectedEntity = entityIndex[selectedEntityIndex];
                 entityText.text = selectedEntity.name;
-                if (selectedEntity.isPrefab())
+                if (selectedEntity.isPrefab() && selectedEntity != prefab)
                     entityIcon.texture = prefabIcon24;
                 else {
                     entityIcon.texture = entityIcon24;
@@ -307,7 +307,7 @@ class SceneInspector extends EditorWidget {
     }
 
     public function buildComponentTree(entity: Entity) {
-        if (entity.isPrefab() && entity != selectedEntity)
+        if (entity.isPrefab() && entity != selectedEntity && entity != prefab)
             return;
 
         for (component in entity.getConponents()) {
