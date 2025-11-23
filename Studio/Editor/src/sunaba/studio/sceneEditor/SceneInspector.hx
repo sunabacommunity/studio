@@ -159,6 +159,7 @@ class SceneInspector extends EditorWidget {
         dialog.minSize = minSize;
 
         dialog.fileSelected.connect(Callable.fromFunction(function(path: String) {
+            var index = selectedEntityIndex;
             var ioPath = StringTools.replace(path, getEditor().explorer.assetsDirectory, getEditor().projectIo.pathUrl);
             dialog.hide();
             dialog.queueFree();
@@ -169,7 +170,7 @@ class SceneInspector extends EditorWidget {
 
             var prefabFile = Prefab.create(selectedEntity, ioPath);
             prefabFile.save();
-            var index = selectedEntityIndex;
+
             refreshSceneTree();
             selectedEntityIndex = index;
             refreshInspector();
