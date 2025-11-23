@@ -19,6 +19,7 @@ import sunaba.studio.debugDraw.DebugDrawService3D;
 import sunaba.core.Vector2i;
 import sunaba.core.Color;
 import sunaba.core.Callable;
+import sunaba.Prefab;
 
 class SceneEditor extends EditorWidget {
     private var filePath: String;
@@ -120,13 +121,11 @@ class SceneEditor extends EditorWidget {
         var sceneFile = new SceneFile();
         sceneFile.io = getEditor().projectIo;
         sceneFile.load(path);
-        Sys.println(sceneFile.getData());
 
 
         scene = sceneFile.instance();
         trace(scene.getEntityCount());
         scene.processMode = CanvasItemProcessMode.disabled;
-        processMode = CanvasItemProcessMode.always;
         viewport.addChild(scene);
 
         var envRes = ResourceLoaderService.load("res://Engine/Environments/new_environment.tres");
@@ -140,7 +139,37 @@ class SceneEditor extends EditorWidget {
     }
 
     public function openPrefab(path: String) {
+        fileType = FileType.PrefabType;
+        filePath = path;
 
+        var name: String = path.split("/").pop();
+        getEditor().setWorkspaceTabTitle(this, name);
+        sceneName = name;
+
+        var sceneJson = io.loadText(path);
+        var sceneData = JSON.parseString(sceneJson);
+        sceneJson = JSON.stringify(sceneData);
+        savedSceneJson = sceneJson;
+        savedSceneJsonInitialized = true;
+
+        var prefabFile = new Prefab();
+        prefabFile.io = getEditor().projectIo;
+        prefabFile.load(path);
+
+        scene = new SceneRoot();
+        scene.processMode = CanvasItemProcessMode.disabled;
+        prefab = prefabFile.instance();
+        scene.addEntity(prefab);
+        viewport.addChild(scene);
+
+        var envRes = ResourceLoaderService.load("res://Engine/Environments/new_environment.tres");
+        var environment = new Environment(envRes.native);
+        var worldEnv = new Node(new NativeObject("WorldEnvironment"));
+        worldEnv.native.set("environment", environment.native);
+        viewport.addChild(worldEnv);
+        initializeEditorScene();
+        checkScene();
+        intializeCameraList();
     }
 
     public var camera: Camera;
@@ -266,6 +295,22 @@ class SceneEditor extends EditorWidget {
                 return;
             }
             if (savedSceneJson != sceneJson) {
+                getEditor().setWorkspaceTabTitle(this, sceneName + "*");
+            }
+            else {
+                getEditor().setWorkspaceTabTitle(this, sceneName);
+            }
+        }
+        else if (fileType == FileType.PrefabType) {
+            var prefabFile = Prefab.create(prefab, filePath);
+            var prefabData = prefabFile.getData();
+            var prefabJson = JSON.stringify(prefabData);
+            if (!savedSceneJsonInitialized) {
+                savedSceneJson = prefabJson;
+                savedSceneJsonInitialized = true;
+                return;
+            }
+            if (savedSceneJson != prefabJson) {
                 getEditor().setWorkspaceTabTitle(this, sceneName + "*");
             }
             else {
