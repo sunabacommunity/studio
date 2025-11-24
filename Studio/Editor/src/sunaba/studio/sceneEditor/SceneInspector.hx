@@ -168,6 +168,9 @@ class SceneInspector extends EditorWidget {
                 return;
             }
 
+            if (StringTools.contains(ioPath, "///"))
+                ioPath = StringTools.replace(ioPath, "///", "//");
+
             var prefabFile = Prefab.create(selectedEntity, ioPath);
             prefabFile.save();
 
