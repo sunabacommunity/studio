@@ -497,6 +497,12 @@ class Editor extends Widget {
             }
             else {
                 gamepakBuildCoroutine = null;
+
+                //hack fix for non-windows platforms
+                if (Sys.systemName() != "Windows") {
+                    Sys.command("\"gamepak " + projectFilePath +"\"");
+                }
+
                 playBuildWindow.hide();
 
                 play();
