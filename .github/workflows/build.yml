@@ -166,11 +166,10 @@ jobs:
           cd ${{ github.workspace }}/bin/windows-x86_64-debug
           zip -r -0 ${{ github.workspace }}/bin/windows-x86_64-debug.zip *
 
-      - name: Sign application binary (macOS Release)
-        if: matrix.config.os == 'macos-latest' && matrix.build_type == 'release'
+      - name: Sign application binary (macOS)
         uses: lando/code-sign-action@v3
         with:
-          file: ${{ github.workspace }}/bin/mac-universal-mac-universal-release/Sunaba Studio.app
+          file: ${{ github.workspace }}/bin/mac-universal-${{ matrix.build_type }}/Sunaba Studio.app
           certificate-data: ${{ secrets.APPLE_CERT_DATA }}
           certificate-id: ${{ secrets.APPLE_TEAM_ID }}
           certificate-password: ${{ secrets.APPLE_CERT_PASSWORD }}
