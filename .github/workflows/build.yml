@@ -133,14 +133,8 @@ jobs:
       #    ${{ github.workspace }}/build.sh hxupd --platform=windows
 
       - name: Build Project
-        if: matrix.config.os != 'macos-latest'
         run: |
           ${{ github.workspace }}/build.sh publish --${{ matrix.build_type }} --target=${{ matrix.config.target }} --pkgformat=${{ matrix.config.pkgformat }} --godot-command=godot
-
-      - name: Build Project (macOS)
-        if: matrix.config.os == 'macos-latest'
-        run: |
-          ${{ github.workspace }}/build.sh publish --${{ matrix.build_type }} --target=${{ matrix.config.target }} --godot-command=godot
 
       - name: Build Project (Zip) (Linux Release)
         if: matrix.config.target == 'linux-x86_64' && matrix.build_type == 'release'
@@ -165,19 +159,6 @@ jobs:
         run: |
           cd ${{ github.workspace }}/bin/windows-x86_64-debug
           zip -r -0 ${{ github.workspace }}/bin/windows-x86_64-debug.zip *
-
-      - name: Sign application binary (macOS)
-        uses: lando/code-sign-action@v3
-        with:
-          file: ${{ github.workspace }}/bin/mac-universal-${{ matrix.build_type }}/Sunaba Studio.app
-          certificate-data: ${{ secrets.APPLE_CERT_DATA }}
-          certificate-id: ${{ secrets.APPLE_TEAM_ID }}
-          certificate-password: ${{ secrets.APPLE_CERT_PASSWORD }}
-
-      - name: Build DMG (macOS)
-        if: matrix.config.os == 'macos-latest'
-        run: |
-          ${{ github.workspace }}/build.sh --skip --pkgformat=${{ matrix.config.pkgformat }}
 
       - name: Upload artifact
         #if: matrix.config.os != 'macos-latest'
