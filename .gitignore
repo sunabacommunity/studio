@@ -104,3 +104,5 @@ http-client.private.env.json
 # Apifox Helper cache
 .idea/.cache/.Apifox_Helper
 .idea/ApifoxUploaderProjectSetting.xml
+/Studio/Editor/build.hxml
+/Studio/Splashscreen/build.hxml
