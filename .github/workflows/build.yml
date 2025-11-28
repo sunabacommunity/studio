@@ -1,9 +1,9 @@
 name: Build
 on:
   workflow_call:
-  push:
+  #push:
   pull_request:
-  merge_group:
+  #merge_group:
 
   schedule:
     - cron: "0 10 * * *" # run at 10 AM UTC/ 2 AM AKDT
