@@ -121,6 +121,7 @@ jobs:
           fileName: "godot-cpp-template.zip"
           out-file-path: "dl"
           extract: false
+          token: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Install Libraries
         run: |
