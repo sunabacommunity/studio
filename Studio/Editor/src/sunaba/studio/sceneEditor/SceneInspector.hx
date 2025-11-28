@@ -512,6 +512,10 @@ class SceneInspector extends EditorWidget {
 
             var iconTextureRect = new TextureRect();
             var iconPath = component.editorIconPath;
+            trace(iconPath);
+            if (iconPath == null) {
+                iconPath = "studio://icons/16/lightning.png";
+            }
             var icon = getEditor().explorer.loadIcon(iconPath);
             iconTextureRect.texture = icon;
             foldableContainer.addTitleBarControl(iconTextureRect);
