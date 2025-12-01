@@ -41,6 +41,8 @@ import lua.Table;
 import sunaba.core.StringArray;
 import sunaba.LibraryLoader.LibraryLoadResult;
 import Type;
+import sunaba.desktop.NativeMenuService;
+import sunaba.core.VariantNative;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -161,6 +163,25 @@ class Editor extends Widget {
         if (OSService.getName() == "macOS") {
             helpMenu.removeItem(helpMenu.itemCount - 1);
             helpMenu.systemMenuId = 4;
+
+            var appMenu = NativeMenuService.getSystemMenu(2);
+
+            NativeMenuService.addSeparator(appMenu);
+
+            var settingsIdx = NativeMenuService.addItem(
+                appMenu,
+                "Settings",
+                Callable.fromFunction(function() {
+                    trace("Hello, Settings");
+                }),
+                Callable.fromFunction(function() {
+                    trace("Hello, Settings (keyCallback)");
+                }),
+                new VariantNative(),
+                KeyModifierMask.maskMeta | Key.comma
+            );
+
+            NativeMenuService.setItemIcon(appMenu, settingsIdx, loadIcon("studio://icons/16/gear.png"));
         }
     }
 
@@ -1049,5 +1070,16 @@ class Editor extends Widget {
         if (what == 2011) {
             showDialog = true;
         }
+    }
+
+    public inline function loadIcon(path: String) {
+        var iconBytes = io.loadBytes(path);
+        if (iconBytes != null) {
+            var iconImage = new Image();
+            iconImage.loadPngFromBuffer(iconBytes);
+            var iconTexture = ImageTexture.createFromImage(iconImage);
+            return iconTexture;
+        }
+        return null;
     }
 }
