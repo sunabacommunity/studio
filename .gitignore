@@ -107,3 +107,5 @@ http-client.private.env.json
 /Studio/Editor/build.hxml
 /Studio/Splashscreen/build.hxml
 /Sunaba.Studio.sln.DotSettings.user
+/libsunaba.zip
+/sunaba-studio-api.zip
