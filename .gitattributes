@@ -3,6 +3,9 @@
 *.dll filter=lfs diff=lfs merge=lfs -text
 *.dylib filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+*haxe filter=lfs diff=lfs merge=lfs -text
+*haxelib filter=lfs diff=lfs merge=lfs -text
 
 Engine/** linguist-vendored
 bit32.lua linguist-vendored
