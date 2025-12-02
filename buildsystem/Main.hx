@@ -4,6 +4,13 @@ import js.node.Os;
 import haxe.io.BytesInput;
 import haxe.zip.Reader;
 import haxe.io.Bytes;
+import haxe.zip.Entry;
+import js.node.Http;
+import js.node.Https;
+import js.node.Url;
+import js.node.buffer.Buffer;
+import haxe.http.HttpNodeJs;
+import sys.io.Process;
 
 class Main {
 
@@ -87,6 +94,9 @@ class Main {
             var editorGamepak = new Gamepak();
             editorGamepak.zipOutputPath = currentDir + "editor.snb";
             editorGamepak.build(currentDir + "/Studio/Editor/editor.sproj");
+
+            buildSunabaLibZip();
+            buildSunabaStudioLibZip();
 
             var dotnetRestore = Sys.command("dotnet restore Sunaba.Studio.sln");
             if (dotnetRestore != 0) {
@@ -346,6 +356,172 @@ class Main {
             Sys.exit(-1);
         } else {
             Sys.println("DMG package created successfully at: " + dmgPath);
+        }
+    }
+
+    public static function buildSunabaStudioLibZip() {
+        Sys.command("haxelib dev sunaba-studio ./Studio/Editor/");
+
+        var child_process = js.node.ChildProcess;
+        var fs = js.node.Fs;
+
+        try {
+            // Use Node's child_process.execSync
+            var output = child_process.execSync('haxelib path sunaba-studio', {
+                encoding: 'utf8'
+            });
+
+            // First line of output contains the library path
+            var libpath = StringTools.trim((output:String).split("\n")[0]);
+            if (libpath == "") {
+                Sys.println("Could not find sunaba-studio library path");
+                Sys.exit(-1);
+            }
+
+            if (!fs.existsSync(libpath)) {
+                Sys.println("Library path does not exist: " + libpath);
+                Sys.exit(-1);
+            }
+
+            if (!StringTools.endsWith(libpath, "/")) {
+                libpath += "/";
+            }
+
+            trace("Sunaba lib path: " + libpath);
+
+            // Create zip file of the lib directory
+            var zipOutput = new haxe.io.BytesOutput();
+            var zipWriter = new haxe.zip.Writer(zipOutput);
+            var entries = new List<haxe.zip.Entry>();
+
+            function addFilesToZip(dir:String) {
+                var files = fs.readdirSync(dir);
+                for (file in files) {
+                    var fullPath = dir + file;
+                    var stats = fs.statSync(fullPath);
+
+                    if (stats.isDirectory()) {
+                        addFilesToZip(fullPath + "/");
+                    } else {
+                        if (StringTools.endsWith(fullPath, ".zip")) continue;
+                        var fileBytes = File.getBytes(fullPath);
+
+                        var relativePath = StringTools.replace(fullPath, libpath, "");
+
+                        var entry:Entry = {
+                            fileName: relativePath,
+                            fileSize: fileBytes.length,
+                            fileTime: Date.fromTime(stats.mtime.getTime()),
+                            dataSize: fileBytes.length,
+                            data: fileBytes,
+                            crc32: null,  // Proper CRC32 calculation
+                            compressed: false,
+                            extraFields: null
+                        };
+                        entries.add(entry);
+                    }
+                }
+            }
+
+            addFilesToZip(libpath);
+            zipWriter.write(entries);
+
+            var zipBytes = zipOutput.getBytes();
+            var cwd = js.Node.process.cwd();
+            if (!StringTools.endsWith(cwd, "/")) {
+                cwd += "/";
+            }
+
+            var zipPath = cwd + "sunaba-studio-api.zip";
+            File.saveBytes(zipPath, zipBytes);
+
+            Sys.println("Created sunaba-studio library zip at: " + zipPath);
+
+        } catch (e:Dynamic) {
+            Sys.println("Failed to create sunaba-studio library zip: " + e);
+            Sys.exit(-1);
+        }
+    }
+
+    public static function buildSunabaLibZip() {
+        var child_process = js.node.ChildProcess;
+        var fs = js.node.Fs;
+
+        try {
+            // Use Node's child_process.execSync
+            var output = child_process.execSync('haxelib path libsunaba', {
+                encoding: 'utf8'
+            });
+
+            // First line of output contains the library path
+            var libpath = StringTools.trim((output:String).split("\n")[0]);
+            if (libpath == "") {
+                Sys.println("Could not find sunaba library path");
+                Sys.exit(-1);
+            }
+
+            if (!fs.existsSync(libpath)) {
+                Sys.println("Library path does not exist: " + libpath);
+                Sys.exit(-1);
+            }
+
+            if (!StringTools.endsWith(libpath, "/")) {
+                libpath += "/";
+            }
+
+            trace("Sunaba lib path: " + libpath);
+
+            // Create zip file of the lib directory
+            var zipOutput = new haxe.io.BytesOutput();
+            var zipWriter = new haxe.zip.Writer(zipOutput);
+            var entries = new List<haxe.zip.Entry>();
+
+            function addFilesToZip(dir:String) {
+                var files = fs.readdirSync(dir);
+                for (file in files) {
+                    var fullPath = dir + file;
+                    var stats = fs.statSync(fullPath);
+
+                    if (stats.isDirectory()) {
+                        addFilesToZip(fullPath + "/");
+                    } else {
+                        if (StringTools.endsWith(fullPath, ".zip")) continue;
+                        var fileBytes = File.getBytes(fullPath);
+
+                        var relativePath = StringTools.replace(fullPath, libpath, "");
+
+                        var entry:Entry = {
+                            fileName: relativePath,
+                            fileSize: fileBytes.length,
+                            fileTime: Date.fromTime(stats.mtime.getTime()),
+                            dataSize: fileBytes.length,
+                            data: fileBytes,
+                            crc32: null,  // Proper CRC32 calculation
+                            compressed: false,
+                            extraFields: null
+                        };
+                        entries.add(entry);
+                    }
+                }
+            }
+
+            addFilesToZip(libpath);
+            zipWriter.write(entries);
+
+            var zipBytes = zipOutput.getBytes();
+            var cwd = js.Node.process.cwd();
+            if (!StringTools.endsWith(cwd, "/")) {
+                cwd += "/";
+            }
+
+            var zipPath = cwd + "libsunaba.zip";
+            File.saveBytes(zipPath, zipBytes);
+
+            Sys.println("Created sunaba library zip at: " + zipPath);
+
+        } catch (e:Dynamic) {
+            Sys.println("Failed to create sunaba library zip: " + e);
+            Sys.exit(-1);
         }
     }
 }
