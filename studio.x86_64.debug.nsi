@@ -73,7 +73,7 @@ ${If} ${RunningX64}
   WriteRegStr HKCR "Software\Classes\Sunaba.Project\shell" "" "open"
   WriteRegStr HKCR "Software\Classes\Sunaba.Project\shell\open\command" "" '"$INSTDIR\Sunaba.Studio.exe" "%1"'
 ${Else}
-  MessageBox MB_ICONSTOP|MB_OK "This installer is for 64-bit systems only. Please install Sunaba Player on a 64-bit system."
+  MessageBox MB_ICONSTOP|MB_OK "This installer is for 64-bit systems only. Please install Sunaba Studio on a 64-bit system."
   Abort ; This will indicate failure and stop the install
 ${EndIf}
 SectionEnd
