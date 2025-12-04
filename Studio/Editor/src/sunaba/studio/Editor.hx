@@ -201,6 +201,13 @@ class Editor extends Widget {
         window.moveToCenter();
         window.extendToTitle = true;
         window.mode = WindowMode.maximized;
+        if (!OSService.hasFeature("editor")) {
+            haxePath = StudioUtils.singleton.getToolchainDirectory() + "/haxe";
+            if (Sys.systemName() == "Windows") {
+                haxePath += ".exe";
+            }
+        }
+        
 
         try {
             trace("hi!");
@@ -983,6 +990,8 @@ class Editor extends Widget {
             playBuildWindow.contentScaleFactor = scaleFactor;
             playBuildWindow.popupCentered();
         }
+
+        buildSystem.haxePath = haxePath;
 
         gamepakBuildCoroutine = buildSystem.buildCoroutine(projectFilePath);
 
