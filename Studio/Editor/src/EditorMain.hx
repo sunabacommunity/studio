@@ -3,6 +3,7 @@ import sunaba.App;
 import sunaba.studio.Editor;
 import sunaba.studio.StudioUtils;
 import sunaba.OSService;
+import sys.FileSystem;
 
 class EditorMain extends App {
     public static function main() {
