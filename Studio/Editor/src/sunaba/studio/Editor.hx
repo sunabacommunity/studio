@@ -464,7 +464,7 @@ class Editor extends Widget {
             if (!StringTools.endsWith(asmDir, "\\")) {
                 asmDir += "\\";
             }
-            var batContent = "@echo off\r\nset PATH=" + toolchaindir + "; && PATH";
+            var batContent = "@echo off\r\nset PATH=" + toolchaindir + ";";
             var haxelibPath = toolchaindir +  "haxelib.exe";
             batContent += " && " + haxelibPath + " newrepo";
             batContent += " && " + haxelibPath + " install " + asmDir + "libsunaba.zip";
@@ -479,8 +479,31 @@ class Editor extends Widget {
             + '\\build.log"\r\n';*/
             sys.io.File.saveContent(wrapper, batContent);
 
-            var newcmd = wrapper;
             haxePath = StringTools.replace(wrapper, ".bat", "");
+        }
+        else {
+            var hiddenDir = explorer.projectDirectory + "/.studio";
+            if (!FileSystem.exists(hiddenDir))
+                FileSystem.createDirectory(hiddenDir);
+            var wrapper = hiddenDir + "/run_haxe.sh";
+            var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+            if (!StringTools.endsWith(toolchaindir, "/")) {
+                toolchaindir += "/";
+            }
+            var asmDir = StudioUtils.singleton.getBaseDirectory();
+            if (!StringTools.endsWith(asmDir, "/")) {
+                asmDir += "/";
+            }
+            var shContent = "PATH=" + toolchaindir + ":$PATH";
+            var haxelibPath = toolchaindir +  "haxelib";
+            shContent += "; " + haxelibPath + " newrepo";
+            shContent += "; " + haxelibPath + " install " + asmDir + "libsunaba.zip";
+            shContent += "; " + haxelibPath + " install " + asmDir + "gamepak.zip";
+            shContent += "; " + haxelibPath + " install " + asmDir + "sunaba-studio-api.zip";
+            shContent += "; " + haxePath + " \"$@\"";
+            sys.io.File.saveContent(wrapper, shContent);
+
+            haxePath = wrapper
         }
     }
 
