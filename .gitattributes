@@ -9,5 +9,6 @@
 *haxelib filter=lfs diff=lfs merge=lfs -text
 
 Engine/** linguist-vendored
+toolchain/** linguist-vendored
 bit32.lua linguist-vendored
 *.nsi  linguist-vendored
