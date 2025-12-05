@@ -443,6 +443,45 @@ class Editor extends Widget {
         catch(e: Exception) {
             Debug.error(e.message);
         }
+
+        if (OSService.getName() == "Windows") {
+            var hiddenDir = explorer.projectDirectory + "/.studio";
+            if (!FileSystem.exists(hiddenDir))
+                FileSystem.createDirectory(hiddenDir);
+            // Command Prompt fucking sucks
+            var wrapper = hiddenDir + "/run_haxe.bat";
+            var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+            toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
+            toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
+            toolchaindir = StringTools.replace(toolchaindir, "/" , "\\");
+            if (!StringTools.endsWith(toolchaindir, "\\")) {
+                toolchaindir += "\\";
+            }
+            var asmDir = StudioUtils.singleton.getBaseDirectory();
+            asmDir = StringTools.replace(asmDir, "\\/" , "\\");
+            asmDir = StringTools.replace(asmDir, "/\\" , "\\");
+            asmDir = StringTools.replace(asmDir, "/" , "\\");
+            if (!StringTools.endsWith(asmDir, "\\")) {
+                asmDir += "\\";
+            }
+            var batContent = "@echo off\r\nset PATH=" + toolchaindir + "; && PATH";
+            var haxelibPath = toolchaindir +  "haxelib.exe";
+            batContent += " && " + haxelibPath + " newrepo";
+            batContent += " && " + haxelibPath + " install " + asmDir + "libsunaba.zip";
+            batContent += " && " + haxelibPath + " install " + asmDir + "gamepak.zip";
+            batContent += " && " + haxelibPath + " install " + asmDir + "sunaba-studio-api.zip";
+            batContent += " && " + haxePath + " %*";
+            /*var batContent = '@echo off\r\n'
+            + command
+            + '\r\n'
+            + 'echo %ERRORLEVEL% > "'
+            + StringTools.replace(hiddenDir, "/", "\\")
+            + '\\build.log"\r\n';*/
+            sys.io.File.saveContent(wrapper, batContent);
+
+            var newcmd = wrapper;
+            haxePath = StringTools.replace(wrapper, ".bat", "");
+        }
     }
 
     private var localPluginIo: FileSystemIo;
@@ -702,21 +741,27 @@ class Editor extends Widget {
         command += " " + this.projectFile.compilerFlags.join(" ");
 
         if (Sys.systemName() != "Windows") {
-            command += '; echo $? > ' + hiddenDir + '/build.log &';
+            //command += '; echo $? > ' + hiddenDir + '/build.log &';
+            
             return command;
         } else {
             // Create wrapper batch file
-            /*var wrapper = hiddenDir + "/run_build.bat";
-            var batContent = '@echo off\r\n'
+            //var wrapper = hiddenDir + "/run_build.bat";
+            //var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+            //toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
+            //toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
+            //toolchaindir = StringTools.replace(toolchaindir, "/" , "\\");
+            //var batContent = "@echo off\r\nset PATH=" + toolchaindir + "; && PATH && " + command;
+            /*var batContent = '@echo off\r\n'
             + command
             + '\r\n'
             + 'echo %ERRORLEVEL% > "'
             + StringTools.replace(hiddenDir, "/", "\\")
-            + '\\build.log"\r\n';
-            sys.io.File.saveContent(wrapper, batContent);
+            + '\\build.log"\r\n';*/
+            //sys.io.File.saveContent(wrapper, batContent);
 
-            var newcmd = 'start /B "" "' + wrapper + '"';
-            return StringTools.replace(wrapper, ".bat", "");*/
+            //var newcmd = wrapper;
+            //return StringTools.replace(wrapper, ".bat", "");
             return command;
         }
     }

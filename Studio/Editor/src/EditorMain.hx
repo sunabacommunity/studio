@@ -26,9 +26,10 @@ class EditorMain extends App {
             if (!FileSystem.exists(Sys.getCwd() + "/.haxelib")) {    
                 Sys.command(haxelibPath, ["newrepo"]);
             }
-            Sys.command(haxelibPath, ["install", StudioUtils.singleton.getBaseDirectory() + "/libsunaba.zip"]);
-            Sys.command(haxelibPath, ["install", StudioUtils.singleton.getBaseDirectory() + "/gamepak.zip"]);
-            Sys.command(haxelibPath, ["install", StudioUtils.singleton.getBaseDirectory() + "/sunaba-studio-api.zip"]);
+            //Sys.command(haxelibPath, ["install", StudioUtils.singleton.getBaseDirectory() + "/libsunaba.zip"]);
+            //Sys.command(haxelibPath, ["install", StudioUtils.singleton.getBaseDirectory() + "/gamepak.zip"]);
+            //Sys.command(haxelibPath, ["install", StudioUtils.singleton.getBaseDirectory() + "/sunaba-studio-api.zip"]);
+            
         }
     }
 }
