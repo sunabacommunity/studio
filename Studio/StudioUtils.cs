@@ -31,19 +31,7 @@ public partial class StudioUtils : Node
 		}
 		else if (OS.GetName() == "macOS")
 		{
-			toolchainDirectory += "mac";
-			if (RuntimeInformation.ProcessArchitecture == Architecture.X64)
-			{
-				toolchainDirectory += "-x86_64/";
-			}
-			else if (RuntimeInformation.ProcessArchitecture == Architecture.Arm64)
-			{
-				toolchainDirectory += "-arm64";
-			}
-			else
-			{
-				return "";
-			}
+			toolchainDirectory += "mac-universal";
 		}
 		else
 		{
