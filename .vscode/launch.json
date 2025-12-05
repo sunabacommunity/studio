@@ -3,7 +3,7 @@
   "configurations": [
 
     {
-      "name": "Launch Runtime",
+      "name": "Launch",
       "type": "coreclr",
       "request": "launch",
       "program": "${config:godot-dotnet-tools.executablePath}",
