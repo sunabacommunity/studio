@@ -495,15 +495,15 @@ class Editor extends Widget {
             }
             var shContent = "#!/bin/sh\n";
             var haxelibPath = toolchaindir +  "haxelib";
-            shContent += "chmod +x " + haxePath;
-            shContent += "\nchmod +x " + haxelibPath;
-            shContent += "\nchmod +x " + toolchaindir + "neko";
-            shContent += "\nexport PATH=" + toolchaindir + ":$PATH";
-            shContent += "\n" + haxelibPath + " newrepo";
-            shContent += "\n" + haxelibPath + " install " + asmDir + "libsunaba.zip";
-            shContent += "\n" + haxelibPath + " install " + asmDir + "gamepak.zip";
-            shContent += "\n" + haxelibPath + " install " + asmDir + "sunaba-studio-api.zip";
-            shContent += "\n" + haxePath + " \"$@\" ";
+            shContent += "chmod +x \"" + haxePath + "\"";
+            shContent += "\nchmod +x \"" + haxelibPath + "\"";
+            shContent += "\nchmod +x \"" + toolchaindir + "neko\"";
+            shContent += "\nexport PATH=\"" + toolchaindir + "\":$PATH";
+            shContent += "\n\"" + haxelibPath + "\" newrepo";
+            shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
+            shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
+            shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "sunaba-studio-api.zip\"";
+            shContent += "\n\"" + haxePath + "\" \"$@\" ";
             sys.io.File.saveContent(wrapper, shContent);
 
 
