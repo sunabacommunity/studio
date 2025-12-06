@@ -516,6 +516,9 @@ class Editor extends Widget {
                 shContent += "\ninstall_name_tool -add_rpath \"" + toolchaindir + "\" \"" + haxePath + "\" 2>/dev/null || true";
                 shContent += "\ninstall_name_tool -add_rpath \"" + toolchaindir + "\" \"" + toolchaindir + "neko\" 2>/dev/null || true";
             }
+            else if (OSService.getName() == "Linux") {
+                shContent += "\nexport LD_LIBRARY_PATH=\"" + toolchaindir + "\":$LD_LIBRARY_PATH";
+            }
             shContent += "\n\"" + haxelibPath + "\" newrepo";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
