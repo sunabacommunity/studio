@@ -118,7 +118,7 @@ jobs:
           repository: sunabagg/libsunaba
           latest: true
           preRelease: true
-          tag: "nightly"
+          tag: "0.7.0"
           fileName: "godot-cpp-template.zip"
           out-file-path: "dl"
           extract: false
