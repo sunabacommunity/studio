@@ -202,7 +202,12 @@ class Editor extends Widget {
         var windowSize = new Vector2i(cast 1152 * displayScale, cast 648 * displayScale);
         window.size = windowSize;
         window.minSize = windowSize;
-        window.borderless = true;
+        if (OSService.getName() == "macOS") {
+            window.borderless = false;
+        }
+        else {
+            window.borderless = true;
+        }
         window.alwaysOnTop = false;
         window.moveToCenter();
         window.extendToTitle = true;
