@@ -1213,16 +1213,21 @@ class Editor extends Widget {
                     var localX = eventMouseButton.position.x - windowPosition.x;
                     var localY = eventMouseButton.position.y - windowPosition.y;
 
+                    if (OSService.getName() == "Linux") {
+                        localX = eventMouseButton.position.x;
+                        localY = eventMouseButton.position.y;
+                    }
+
                     // Top left
-                    if (eventMouseButton.position.x < resizeThreshold && eventMouseButton.position.y < resizeThreshold) {
+                    if (localX < resizeThreshold && localY < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.fdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.topLeft);
                         return;
                     }
                     // Top Right
                     if (
-                    eventMouseButton.position.x > window.size.x - resizeThreshold &&
-                    eventMouseButton.position.y < resizeThreshold
+                    localX > window.size.x - resizeThreshold &&
+                    localY < resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.bdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.topRight);
@@ -1230,8 +1235,8 @@ class Editor extends Widget {
                     }
                     // Bottom left
                     if (
-                    eventMouseButton.position.x < resizeThreshold &&
-                    eventMouseButton.position.y > window.size.y - resizeThreshold
+                    localX < resizeThreshold &&
+                    localY > window.size.y - resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.bdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.bottomLeft);
@@ -1239,33 +1244,33 @@ class Editor extends Widget {
                     }
                     // Bottom Right
                     if (
-                    eventMouseButton.position.x > window.size.x - resizeThreshold &&
-                    eventMouseButton.position.y > window.size.y - resizeThreshold
+                    localX > window.size.x - resizeThreshold &&
+                    localY > window.size.y - resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.fdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.bottomRight);
                         return;
                     }
                     // Left
-                    if (eventMouseButton.position.x < resizeThreshold) {
+                    if (localX < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.hsize);
                         DisplayService.windowStartResize(WindowResizeEdge.left);
                         return;
                     }
                     // Right
-                    if (eventMouseButton.position.x > window.size.x - resizeThreshold) {
+                    if (localX > window.size.x - resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.hsize);
                         DisplayService.windowStartResize(WindowResizeEdge.right);
                         return;
                     }
                     // Top
-                    if (eventMouseButton.position.y < resizeThreshold) {
+                    if (localY < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.vsize);
                         DisplayService.windowStartResize(WindowResizeEdge.top);
                         return;
                     }
                     // Bottom
-                    if (eventMouseButton.position.y > window.size.y - resizeThreshold) {
+                    if (localY > window.size.y - resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.vsize);
                         DisplayService.windowStartResize(WindowResizeEdge.bottom);
                         return;
