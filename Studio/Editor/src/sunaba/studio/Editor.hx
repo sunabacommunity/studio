@@ -47,6 +47,7 @@ import sunaba.core.VariantNative;
 import sunaba.OSService;
 import sunaba.ui.StyleBoxEmpty;
 import sunaba.SystemFont;
+import sunaba.HorizontalAlignment;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -190,8 +191,6 @@ class Editor extends Widget {
         }
     }
 
-    var lastWindowMode : WindowMode = WindowMode.maximized;
-
     public override function onReady() {
         window = getWindow();
         var displayScale = DisplayService.screenGetScale(window.currentScreen);
@@ -222,7 +221,7 @@ class Editor extends Widget {
                 if (window == null)
                     return;
 
-                if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed) {
+                if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed && clickcount == 0) {
                     titlebarLmbPressed = true;
                     window.startDrag();
                     clickcount++;
@@ -380,6 +379,7 @@ class Editor extends Widget {
             minimizeButton.focusMode = FocusModeEnum.none;
             minimizeButton.addThemeFontOverride("font", buttonFont);
             minimizeButton.text = "🗕";
+            minimizeButton.alignment = HorizontalAlignment.center;
             var isMaximized = true;
             minimizeButton.pressed.add(() -> {
                 if (window.mode != WindowMode.minimized) {
@@ -401,6 +401,7 @@ class Editor extends Widget {
             maximizeButton.focusMode = FocusModeEnum.none;
             maximizeButton.addThemeFontOverride("font", buttonFont);
             maximizeButton.text = "🗗";
+            maximizeButton.alignment = HorizontalAlignment.center;
             if (window.mode == WindowMode.maximized) {
                 maximizeButton.text = "🗗";
             }
@@ -424,6 +425,7 @@ class Editor extends Widget {
             closeButton.focusMode = FocusModeEnum.none;
             closeButton.addThemeFontOverride("font", buttonFont);
             closeButton.text = "🗙";
+            closeButton.alignment = HorizontalAlignment.center;
             closeButton.pressed.add(() -> {
                 App.exit(0);
             });
