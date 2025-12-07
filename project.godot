@@ -39,7 +39,7 @@ window/size/viewport_height=360
 window/size/resizable=false
 window/size/borderless=true
 window/subwindows/embed_subwindows=false
-display_server/driver.linuxbsd="wayland"
+display_server/driver.linuxbsd="x11"
 
 [dotnet]
 
