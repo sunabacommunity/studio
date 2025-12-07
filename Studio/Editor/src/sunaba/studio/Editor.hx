@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import sunaba.ui.StyleBox;
 import sunaba.ui.Widget;
 import sunaba.ui.Panel;
 import sunaba.ui.VBoxContainer;
@@ -44,6 +45,8 @@ import Type;
 import sunaba.desktop.NativeMenuService;
 import sunaba.core.VariantNative;
 import sunaba.OSService;
+import sunaba.ui.StyleBoxEmpty;
+import sunaba.SystemFont;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -160,7 +163,7 @@ class Editor extends Widget {
         pluginBuildWindow = getNodeT(Window, "pluginBuildWindow");
         pluginBuildWindow.hide();
 
-        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Help");
+        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Help");
         if (OSService.getName() == "macOS") {
             helpMenu.removeItem(helpMenu.itemCount - 1);
             helpMenu.systemMenuId = 4;
@@ -210,7 +213,7 @@ class Editor extends Widget {
 
         try {
             trace("hi!");
-            var menuBarControl: Control = getNodeT(Control, "vbox/menuBarControl");
+            var menuBarControl: Control = getNodeT(Control, "vbox/menuBarControl/hbox/spacer");
             trace("");
             if (OSService.getName() == "macOS") {
                 trace("");
@@ -247,7 +250,7 @@ class Editor extends Widget {
                 };
                 trace("");
 
-                var menuBar: Control = getNodeT(Control, "vbox/menuBarControl/menuBar");
+                var menuBar: Control = getNodeT(Control, "vbox/menuBarControl/hbox/menuBar");
                 var toolBarSpacer: Control = getNodeT(Control, "vbox/toolbar/hbox/spacer");
                 menuBar.guiInput.connect(eventFunc);
                 menuBarControl.guiInput.connect(eventFunc);
@@ -274,7 +277,7 @@ class Editor extends Widget {
                 workspaceChildern = newWorkspaceChildren;
             }));
 
-            var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/File");
+            var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/File");
             fileMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     Debug.error("'New File' not implemented");
@@ -303,7 +306,7 @@ class Editor extends Widget {
                 save();
             }));
 
-            var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Edit");
+            var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Edit");
             editMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     Debug.error("'Undo' not implemented");
@@ -321,15 +324,15 @@ class Editor extends Widget {
                     Debug.error("'Paste' not implemented");
                 }
             }));
-            var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/View");
+            var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/View");
             viewMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
 
             }));
-            var toolsMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Tools");
+            var toolsMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Tools");
             toolsMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
 
             }));
-            debugMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Debug");
+            debugMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Debug");
             debugMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     if (isGameRunning)
@@ -343,7 +346,7 @@ class Editor extends Widget {
                     stop();
 
             }));
-            var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Help");
+            var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Help");
             helpMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     OSService.shellOpen("https://docs.sunaba.gg");
@@ -352,6 +355,42 @@ class Editor extends Widget {
                     showAboutDialog();
                 }
             }));
+
+            var styleBoxEmpty = new StyleBoxEmpty();
+            
+            var buttonFont = new SystemFont();
+            if (OSService.getName() == "Windows") {
+                buttonFont.fontNames = StringArray.fromArray([
+                    "Segoe MDL2 Assets",
+                    "Segoe UI Symbol",
+                    "Arial Unicode MS"
+                ]);
+            }
+            else if (OSService.getName() == "Linux") {
+                var fontNames = buttonFont.fontNames;
+                fontNames.add("DejaVu Sans");
+                buttonFont.fontNames = fontNames;
+                trace(fontNames.toArray().toString());
+                trace(buttonFont.fontNames.toArray().toString());
+            }
+
+            var minimizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/minimizeButton");
+            minimizeButton.addThemeStyleboxOverride("normal", styleBoxEmpty);
+            minimizeButton.focusMode = FocusModeEnum.none;
+            minimizeButton.addThemeFontOverride("font", buttonFont);
+            minimizeButton.text = "🗕";
+
+            var maximizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/maximizeButton");
+            maximizeButton.addThemeStyleboxOverride("normal", styleBoxEmpty);
+            maximizeButton.focusMode = FocusModeEnum.none;
+            maximizeButton.addThemeFontOverride("font", buttonFont);
+            maximizeButton.text = "🗖";
+
+            var closeButton = getNodeT(Button, "vbox/menuBarControl/hbox/closeButton");
+            closeButton.addThemeStyleboxOverride("normal", styleBoxEmpty);
+            closeButton.focusMode = FocusModeEnum.none;
+            closeButton.addThemeFontOverride("font", buttonFont);
+            closeButton.text = "🗙";
 
             refreshLeftSidebar();
             refreshRightSidebar();
