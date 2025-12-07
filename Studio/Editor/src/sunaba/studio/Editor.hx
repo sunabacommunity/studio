@@ -1,5 +1,7 @@
 package sunaba.studio;
 
+import sunaba.input.InputEventMouseButton;
+import sunaba.core.Reference;
 import sunaba.ui.StyleBox;
 import sunaba.ui.Widget;
 import sunaba.ui.Panel;
@@ -95,6 +97,10 @@ class Editor extends Widget {
     public var sceneInspector: SceneInspector;
 
     public var projectIo: FileSystemIo;
+
+    private var resizePreview: Bool = true;
+    private var resizeThreshold: Float = 10.0;
+    private var resizeThresholdBottomRight: Float = 0.25;
 
     private var _projectFile: ProjectFile = null;
     public var projectFile(get, default): ProjectFile;
@@ -202,16 +208,16 @@ class Editor extends Widget {
         var windowSize = new Vector2i(cast 1152 * displayScale, cast 648 * displayScale);
         window.size = windowSize;
         window.minSize = windowSize;
+        window.alwaysOnTop = false;
+        window.moveToCenter();
+        window.extendToTitle = true;
+        window.mode = WindowMode.maximized;
         if (OSService.getName() == "macOS") {
             window.borderless = false;
         }
         else {
             window.borderless = true;
         }
-        window.alwaysOnTop = false;
-        window.moveToCenter();
-        window.extendToTitle = true;
-        window.mode = WindowMode.maximized;
         haxePath = StudioUtils.singleton.getToolchainDirectory() + "/haxe";
         if (Sys.systemName() == "Windows") {
             haxePath += ".exe";
@@ -221,7 +227,6 @@ class Editor extends Widget {
         try {
             trace("hi!");
             var menuBarControl: Control = getNodeT(Control, "vbox/menuBarControl/hbox/spacer");
-            var windowSize = null;
             var eventFunc = function(eventN: NativeReference) {
                 if (window == null)
                     return;
@@ -715,6 +720,50 @@ class Editor extends Widget {
                 centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
         else
             centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
+
+        if (OSService.getName() != "macOS") {
+            var window = getWindow();
+            if (window != null) {
+                if (window.mode != WindowMode.windowed) return;
+
+                var windowsize = window.size;
+
+                var mousePosition = window.getMousePosition();
+                if (mousePosition.x < resizeThreshold && mousePosition.y < resizeThreshold) { // Top left
+                    DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                    return;
+                }
+                if (mousePosition.x > windowsize.x - resizeThreshold && mousePosition.y < resizeThreshold) { // Top Right
+                    DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                    return;
+                }
+                if (mousePosition.x < resizeThreshold && mousePosition.y > windowsize.y - resizeThreshold) { // Bottom left
+                    DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                    return;
+                }
+                if (mousePosition.x > windowsize.x - resizeThreshold && mousePosition.y > windowsize.y - resizeThreshold) { // Bottom Right
+                    DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                    return;
+                }
+                if (mousePosition.x < resizeThreshold) { // left
+                    DisplayService.cursorSetShape(CursorShape.hsize);
+                    return;
+                }
+                trace(mousePosition.x > windowsize.x + 50.0);
+                if (mousePosition.x > windowsize.x - resizeThreshold) { // Right
+                    DisplayService.cursorSetShape(CursorShape.hsize);
+                    return;
+                }
+                if (mousePosition.y < resizeThreshold) { // Top
+                    DisplayService.cursorSetShape(CursorShape.vsize);
+                    return;
+                }
+                if (mousePosition.y > windowsize.y - resizeThreshold) { // Bottom
+                    DisplayService.cursorSetShape(CursorShape.vsize);
+                    return;
+                }
+            }
+        }
     }
 
     var buildTask:Coroutine<() -> Void> = null;
@@ -1124,6 +1173,80 @@ class Editor extends Widget {
             if (InputService.isKeyLabelPressed(Key.f6))
                 buildSnbForPlay();
 
+
+        if (OSService.getName() != "macOS") {
+            if (event.native.isClass("InputEventMouseButton")) {
+                var eventMouseButton = Reference.castTo(event, InputEventMouseButton);
+                var window = getWindow();
+                if (window.mode != WindowMode.windowed) return;
+                if (
+                eventMouseButton.buttonIndex == MouseButton.left &&
+                eventMouseButton.pressed
+                ) {
+                    var windowPosition = window.position;
+                    var localX = eventMouseButton.position.x - windowPosition.x;
+                    var localY = eventMouseButton.position.y - windowPosition.y;
+
+                    // Top left
+                    if (localX < resizeThreshold && localY < resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.topLeft);
+                        return;
+                    }
+                    // Top Right
+                    if (
+                    localX > window.size.x - resizeThreshold &&
+                    localY < resizeThreshold
+                    ) {
+                        DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.topRight);
+                        return;
+                    }
+                    // Bottom left
+                    if (
+                    localX < resizeThreshold &&
+                    localY > window.size.y - resizeThreshold
+                    ) {
+                        DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.bottomLeft);
+                        return;
+                    }
+                    // Bottom Right
+                    if (
+                    localX > window.size.x - resizeThreshold &&
+                    localY > window.size.y - resizeThreshold
+                    ) {
+                        DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.bottomRight);
+                        return;
+                    }
+                    // Left
+                    if (localX < resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.hsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.left);
+                        return;
+                    }
+                    // Right
+                    if (localX > window.size.x - resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.hsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.right);
+                        return;
+                    }
+                    // Top
+                    if (localY < resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.vsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.top);
+                        return;
+                    }
+                    // Bottom
+                    if (localY > window.size.y - resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.vsize);
+                        DisplayService.windowStartResize(WindowResizeEdge.bottom);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     public function isControlKeyPressed(): Bool {
