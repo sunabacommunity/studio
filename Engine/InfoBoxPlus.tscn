@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://cd47gbadene1x"]
+
+[ext_resource type="Script" uid="uid://dqt5xisr46tfq" path="res://Engine/InfoBoxPlus.gd" id="1_0jrpb"]
+[ext_resource type="PackedScene" uid="uid://btgi8pxeb6j86" path="res://Engine/InfoBox.tscn" id="1_ydcio"]
+
+[sub_resource type="SystemFont" id="SystemFont_0jrpb"]
+font_names = PackedStringArray("Noto Sans Symbols2")
+subpixel_positioning = 0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1rrs7"]
+
+[node name="InfoBoxPlus" type="VBoxContainer"]
+offset_right = 200.0
+offset_bottom = 84.0
+theme_override_constants/separation = 0
+script = ExtResource("1_0jrpb")
+
+[node name="Titlebar" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 27)
+layout_mode = 2
+
+[node name="WIndowTitle" type="Label" parent="Titlebar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Window"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="Titlebar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="Spacer" type="Control" parent="Titlebar/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="Titlebar/HBox"]
+custom_minimum_size = Vector2(29, 27)
+layout_mode = 2
+focus_mode = 0
+theme_override_fonts/font = SubResource("SystemFont_0jrpb")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_1rrs7")
+text = "🗙"
+
+[node name="Box" parent="." instance=ExtResource("1_ydcio")]
+layout_mode = 2
+
+[connection signal="gui_input" from="Titlebar/HBox/Spacer" to="." method="_on_spacer_gui_input"]
+[connection signal="pressed" from="Titlebar/HBox/CloseButton" to="." method="_on_close_button_pressed"]
