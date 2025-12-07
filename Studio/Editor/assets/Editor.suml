@@ -25,11 +25,11 @@
                     name="hbox"
                     fullRect="true"
                     separation="0"
-                    customMinimumSize="0, 27">
+                    customMinimumSize="0, 29">
                     <sunaba.ui.MenuBar
                         name="menuBar"
                         fullRect="true"
-                        customMinimumSize="0, 27">
+                        customMinimumSize="0, 29">
                         <sunaba.desktop.PopupMenu
                             name="File">
                             <menuItem label="New File" icon="studio://icons/16/blue-folder--plus.png"/>
@@ -70,15 +70,15 @@
                     <sunaba.ui.Control name="spacer" sizeFlagsHorizontal="3"/>
                     <sunaba.ui.Button
                         name="minimizeButton"
-                        customMinimumSize="27,27"/> 
+                        customMinimumSize="29,29"/> 
                     <sunaba.ui.Button
                         name="maximizeButton"
                         text="🗖"
-                        customMinimumSize="27,27"/> 
+                        customMinimumSize="29,29"/> 
                     <sunaba.ui.Button
                         name="closeButton"
                         text="🗙"
-                        customMinimumSize="27,27"/>                        >
+                        customMinimumSize="29,29"/>                        >
                 </sunaba.ui.HBoxContainer>
             </sunaba.ui.Control>
             <sunaba.ui.Control
