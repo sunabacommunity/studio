@@ -233,8 +233,34 @@ class Editor extends Widget {
 
                 if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed && clickcount == 0) {
                     titlebarLmbPressed = true;
-                    window.startDrag();
-                    clickcount++;
+                    if (eventN.isClass("InputEventMouseButton")) {
+                        var eventMouseButton = new InputEventMouseButton(eventN);
+                        clickcount++;
+                        // Top left
+                        if (eventMouseButton.position.x < resizeThreshold && eventMouseButton.position.y < resizeThreshold) {
+                            DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                            DisplayService.windowStartResize(WindowResizeEdge.topLeft);
+                            return;
+                        }
+                        // Top Right
+                        if (
+                        eventMouseButton.position.x > window.size.x - resizeThreshold &&
+                        eventMouseButton.position.y < resizeThreshold
+                        ) {
+                            DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                            DisplayService.windowStartResize(WindowResizeEdge.topRight);
+                            return;
+                        }
+                        // Top
+                        if (eventMouseButton.position.y < resizeThreshold) {
+                            DisplayService.cursorSetShape(CursorShape.vsize);
+                            DisplayService.windowStartResize(WindowResizeEdge.top);
+                            return;
+                        }
+                        window.startDrag();
+                    }
+                    
+                    
                 }
                 else if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed) {
                     titlebarLmbPressed = true;
@@ -1188,15 +1214,15 @@ class Editor extends Widget {
                     var localY = eventMouseButton.position.y - windowPosition.y;
 
                     // Top left
-                    if (localX < resizeThreshold && localY < resizeThreshold) {
+                    if (eventMouseButton.position.x < resizeThreshold && eventMouseButton.position.y < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.fdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.topLeft);
                         return;
                     }
                     // Top Right
                     if (
-                    localX > window.size.x - resizeThreshold &&
-                    localY < resizeThreshold
+                    eventMouseButton.position.x > window.size.x - resizeThreshold &&
+                    eventMouseButton.position.y < resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.bdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.topRight);
@@ -1204,8 +1230,8 @@ class Editor extends Widget {
                     }
                     // Bottom left
                     if (
-                    localX < resizeThreshold &&
-                    localY > window.size.y - resizeThreshold
+                    eventMouseButton.position.x < resizeThreshold &&
+                    eventMouseButton.position.y > window.size.y - resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.bdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.bottomLeft);
@@ -1213,33 +1239,33 @@ class Editor extends Widget {
                     }
                     // Bottom Right
                     if (
-                    localX > window.size.x - resizeThreshold &&
-                    localY > window.size.y - resizeThreshold
+                    eventMouseButton.position.x > window.size.x - resizeThreshold &&
+                    eventMouseButton.position.y > window.size.y - resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.fdiagsize);
                         DisplayService.windowStartResize(WindowResizeEdge.bottomRight);
                         return;
                     }
                     // Left
-                    if (localX < resizeThreshold) {
+                    if (eventMouseButton.position.x < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.hsize);
                         DisplayService.windowStartResize(WindowResizeEdge.left);
                         return;
                     }
                     // Right
-                    if (localX > window.size.x - resizeThreshold) {
+                    if (eventMouseButton.position.x > window.size.x - resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.hsize);
                         DisplayService.windowStartResize(WindowResizeEdge.right);
                         return;
                     }
                     // Top
-                    if (localY < resizeThreshold) {
+                    if (eventMouseButton.position.y < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.vsize);
                         DisplayService.windowStartResize(WindowResizeEdge.top);
                         return;
                     }
                     // Bottom
-                    if (localY > window.size.y - resizeThreshold) {
+                    if (eventMouseButton.position.y > window.size.y - resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.vsize);
                         DisplayService.windowStartResize(WindowResizeEdge.bottom);
                         return;
