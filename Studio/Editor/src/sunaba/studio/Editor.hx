@@ -218,6 +218,7 @@ class Editor extends Widget {
         window.moveToCenter();
         window.extendToTitle = true;
         window.mode = WindowMode.maximized;
+        window.unresizable = false;
         if (OSService.getName() == "macOS") {
             window.borderless = false;
         }
