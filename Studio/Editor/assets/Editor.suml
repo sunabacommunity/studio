@@ -2,15 +2,14 @@
 <suml fullscreen="true" name="editor">
     <head></head>
     <body>
-        <sunaba.ui.Panel
-                fullRect="true"
-                offsetBottom="10"
-                offsetTop="-10"
-                offsetLeft="-10"
-                offsetRight="10"/>
+        <sunaba.ui.Panel fullRect="true"/>
         <sunaba.ui.VBoxContainer
                 name="vbox"
                 fullRect="true"
+                offsetBottom="-5"
+                offsetTop="5"
+                offsetLeft="5"
+                offsetRight="-5"
                 separation="0">
             <sunaba.ui.Control
                     name="menuBarControl"
@@ -21,47 +20,73 @@
                         text="Sunaba Studio"
                         verticalAlignment="1"
                         horizontalAlignment="1"/>
-                <sunaba.ui.MenuBar
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true"
+                    separation="0"
+                    customMinimumSize="0, 27">
+                    <sunaba.ui.CenterContainer
+                        name="iconContainer"
+                        customMinimumSize="30,27">
+                        <sunaba.ui.TextureRect
+                            name="icon"
+                            customMinimumSize="24,24"
+                            texture="studio://icons/24/studio.png"/>    
+                    </sunaba.ui.CenterContainer>
+                    <sunaba.ui.MenuBar
                         name="menuBar"
                         fullRect="true"
                         customMinimumSize="0, 27">
-                    <sunaba.desktop.PopupMenu
+                        <sunaba.desktop.PopupMenu
                             name="File">
-                        <menuItem label="New File" icon="studio://icons/16/blue-folder--plus.png"/>
-                        <menuItem label="Open File" icon="studio://icons/16/blue-folder-open-document.png"/>
-                        <menuItem label="Save File" icon="studio://icons/16/disk.png"/>
-                        <menuItem label="Publish" icon="studio://icons/16/box--arrow.png"/>
-                        <menuItem separator="true"/>
-                        <menuItem label="Open Project in Visual Studio Code" icon="studio://icons/16/vscode.png"/>
-                        <menuItem label="Exit" icon="studio://icons/16/door-open-in.png"/>
-                    </sunaba.desktop.PopupMenu>
-                    <sunaba.desktop.PopupMenu
+                            <menuItem label="New File" icon="studio://icons/16/blue-folder--plus.png"/>
+                            <menuItem label="Open File" icon="studio://icons/16/blue-folder-open-document.png"/>
+                            <menuItem label="Save File" icon="studio://icons/16/disk.png"/>
+                            <menuItem label="Publish" icon="studio://icons/16/box--arrow.png"/>
+                            <menuItem separator="true"/>
+                            <menuItem label="Open Project in Visual Studio Code" icon="studio://icons/16/vscode.png"/>
+                            <menuItem label="Exit" icon="studio://icons/16/door-open-in.png"/>
+                        </sunaba.desktop.PopupMenu>
+                        <sunaba.desktop.PopupMenu
                             name="Edit">
-                        <menuItem label="Undo" icon="studio://icons/16/arrow-curve-180-left.png"/>
-                        <menuItem label="Redo" icon="studio://icons/16/arrow-curve.png"/>
-                        <menuItem separator="true"/>
-                        <menuItem label="Cut" icon="studio://icons/16/scissors.png"/>
-                        <menuItem label="Copy" icon="studio://icons/16/document-copy.png"/>
-                        <menuItem label="Paste" icon="studio://icons/16/clipboard-paste.png"/>
-                    </sunaba.desktop.PopupMenu>
-                    <sunaba.desktop.PopupMenu
-                        name="View">
-                    </sunaba.desktop.PopupMenu>
-                    <sunaba.desktop.PopupMenu
-                        name="Tools">
-                    </sunaba.desktop.PopupMenu>
-                    <sunaba.desktop.PopupMenu
+                            <menuItem label="Undo" icon="studio://icons/16/arrow-curve-180-left.png"/>
+                            <menuItem label="Redo" icon="studio://icons/16/arrow-curve.png"/>
+                            <menuItem separator="true"/>
+                            <menuItem label="Cut" icon="studio://icons/16/scissors.png"/>
+                            <menuItem label="Copy" icon="studio://icons/16/document-copy.png"/>
+                            <menuItem label="Paste" icon="studio://icons/16/clipboard-paste.png"/>
+                        </sunaba.desktop.PopupMenu>
+                        <sunaba.desktop.PopupMenu
+                            name="View">
+                        </sunaba.desktop.PopupMenu>
+                        <sunaba.desktop.PopupMenu
+                            name="Tools">
+                        </sunaba.desktop.PopupMenu>
+                        <sunaba.desktop.PopupMenu
                             name="Debug">
-                        <menuItem label="Play" icon="studio://icons/16/control.png"/>
-                        <menuItem label="Pause" icon="studio://icons/16/control-pause.png" disabled="true"/>
-                        <menuItem label="Stop" icon="studio://icons/16/control-stop-square.png" disabled="true"/>
-                    </sunaba.desktop.PopupMenu>
-                    <sunaba.desktop.PopupMenu
+                            <menuItem label="Play" icon="studio://icons/16/control.png"/>
+                            <menuItem label="Pause" icon="studio://icons/16/control-pause.png" disabled="true"/>
+                            <menuItem label="Stop" icon="studio://icons/16/control-stop-square.png" disabled="true"/>
+                        </sunaba.desktop.PopupMenu>
+                        <sunaba.desktop.PopupMenu
                             name="Help">
-                        <menuItem label="Sunaba Docs" icon="studio://icons/16/book.png"/>
-                        <menuItem label="About" icon="studio://icons/16/information-italic.png"/>
-                    </sunaba.desktop.PopupMenu>
-                </sunaba.ui.MenuBar>
+                            <menuItem label="Sunaba Docs" icon="studio://icons/16/book.png"/>
+                            <menuItem label="About" icon="studio://icons/16/information-italic.png"/>
+                        </sunaba.desktop.PopupMenu>
+                    </sunaba.ui.MenuBar>
+                    <sunaba.ui.Control name="spacer" sizeFlagsHorizontal="3"/>
+                    <sunaba.ui.Button
+                        name="minimizeButton"
+                        customMinimumSize="27,27"/> 
+                    <sunaba.ui.Button
+                        name="maximizeButton"
+                        text="🗖"
+                        customMinimumSize="27,27"/> 
+                    <sunaba.ui.Button
+                        name="closeButton"
+                        text="🗙"
+                        customMinimumSize="27,27"/>                        >
+                </sunaba.ui.HBoxContainer>
             </sunaba.ui.Control>
             <sunaba.ui.Control
                 name="toolbar"
@@ -165,13 +190,10 @@
                 name="pluginBuildWindow"
                 title="Building project"
                 size="270,80"
+                borderless="true"
                 popupWindow="true">
             <sunaba.ui.Panel
-                    fullRect="true"
-                    offsetBottom="10"
-                    offsetTop="-10"
-                    offsetLeft="-10"
-                    offsetRight="10"/>
+                    fullRect="true"/>
             <sunaba.ui.VBoxContainer
                     fullRect="true"
                     name="vbox"
@@ -194,14 +216,11 @@
         <sunaba.desktop.Window
             name="playBuildWindow"
             title="Building project"
+            borderless="true"
             size="270,80"
             popupWindow="true">
             <sunaba.ui.Panel
-                fullRect="true"
-                offsetBottom="10"
-                offsetTop="-10"
-                offsetLeft="-10"
-                offsetRight="10"/>
+                fullRect="true"/>
             <sunaba.ui.VBoxContainer
                 fullRect="true"
                 name="vbox"

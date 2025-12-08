@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=55 format=3 uid="uid://6bab046nbndc"]
+[gd_resource type="Theme" load_steps=56 format=3 uid="uid://6bab046nbndc"]
 
 [ext_resource type="Texture2D" uid="uid://bqgdxuc66ewbe" path="res://Engine/Theme/dark/grey_button11.png" id="1_mpyv7"]
 [ext_resource type="StyleBox" uid="uid://bh56hnamxq06b" path="res://Engine/Theme/button_focus_red.tres" id="2_qlgkm"]
@@ -22,6 +22,14 @@
 [ext_resource type="Texture2D" uid="uid://byb3sj4xvhp6y" path="res://Engine/Theme/expand.png" id="20_o1tc1"]
 [ext_resource type="Texture2D" uid="uid://cqe50bdau567b" path="res://Engine/Theme/dark/window.png" id="21_od2p8"]
 [ext_resource type="FontFile" uid="uid://8snxwxvq708x" path="res://Engine/Theme/fonts/Inter-Regular.ttf" id="22_h4jox"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bksoy"]
+texture = ExtResource("7_03ey2")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+region_rect = Rect2(0, 0, 100, 100)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ufuef"]
 texture = ExtResource("1_mpyv7")
@@ -252,7 +260,7 @@ texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(0, 0, 49, 45)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aotmt"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qlgkm"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -262,15 +270,13 @@ texture_margin_left = 10.0
 texture_margin_top = 40.0
 texture_margin_right = 10.0
 texture_margin_bottom = 10.0
-expand_margin_left = 2.0
-expand_margin_top = 30.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+expand_margin_top = 28.0
 region_rect = Rect2(0, 0, 100, 100)
 
 [resource]
 default_font = ExtResource("22_h4jox")
 default_font_size = 13
+AcceptDialog/styles/panel = SubResource("StyleBoxTexture_bksoy")
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_color_disabled = Color(1, 1, 1, 0.486275)
 Button/colors/font_disabled_color = Color(1, 1, 1, 0.486275)
@@ -466,10 +472,11 @@ VSlider/styles/slider = SubResource("StyleBoxTexture_0w288")
 Window/colors/title_color = Color(1, 1, 1, 1)
 Window/colors/title_outline_modulate = Color(1, 1, 1, 1)
 Window/constants/close_h_offset = 24
-Window/constants/close_v_offset = 26
-Window/constants/title_height = 32
+Window/constants/close_v_offset = 24
+Window/constants/title_height = 30
 Window/font_sizes/title_font_size = 14
 Window/icons/close = ExtResource("11_u8wlw")
 Window/icons/close_pressed = ExtResource("11_u8wlw")
-Window/styles/embedded_border = SubResource("StyleBoxTexture_aotmt")
-Window/styles/panel = SubResource("StyleBoxTexture_aotmt")
+Window/styles/embedded_border = SubResource("StyleBoxTexture_qlgkm")
+Window/styles/embedded_unfocused_border = SubResource("StyleBoxTexture_qlgkm")
+Window/styles/panel = SubResource("StyleBoxTexture_qlgkm")

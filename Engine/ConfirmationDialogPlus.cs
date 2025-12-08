@@ -39,7 +39,7 @@ public partial class ConfirmationDialogPlus : ConfirmationDialog
 
     private TextureRect iconRect;
     
-    private HBoxContainer _hBoxContainer;
+    private VBoxContainer _vBoxContainer;
     
     public Label Label;
 
@@ -52,12 +52,12 @@ public partial class ConfirmationDialogPlus : ConfirmationDialog
     
     public ConfirmationDialogPlus()
     {
-        PackedScene boxScene = GD.Load<PackedScene>("res://Engine/InfoBox.tscn");
+        PackedScene boxScene = GD.Load<PackedScene>("res://Engine/InfoBoxPlus.tscn");
 
-        _hBoxContainer = (HBoxContainer)boxScene.Instantiate<HBoxContainer>();
-        AddChild(_hBoxContainer);
-        Label = (Label)_hBoxContainer.GetNode("VBoxContainer/Label");
-        iconRect = _hBoxContainer.GetNode<TextureRect>("IconHolder/Icon");
+        _vBoxContainer = boxScene.Instantiate<VBoxContainer>();
+        AddChild(_vBoxContainer);
+        Label = (Label)_vBoxContainer.GetNode("Box/VBoxContainer/Label");
+        iconRect = _vBoxContainer.GetNode<TextureRect>("Box/IconHolder/Icon");
     }
     
     public override void _Ready()

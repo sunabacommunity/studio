@@ -1,5 +1,9 @@
 package sunaba.studio;
 
+import sunaba.core.Color;
+import sunaba.input.InputEventMouseButton;
+import sunaba.core.Reference;
+import sunaba.ui.StyleBox;
 import sunaba.ui.Widget;
 import sunaba.ui.Panel;
 import sunaba.ui.VBoxContainer;
@@ -44,6 +48,9 @@ import Type;
 import sunaba.desktop.NativeMenuService;
 import sunaba.core.VariantNative;
 import sunaba.OSService;
+import sunaba.ui.StyleBoxEmpty;
+import sunaba.SystemFont;
+import sunaba.HorizontalAlignment;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -78,6 +85,7 @@ class Editor extends Widget {
 
     public var window:Window;
     public var windowSize:Vector2i;
+    private var ogWindowSize: Vector2i;
     public var titlebarLmbPressed:Bool = false;
     public var clickcount = 0;
     public var timeSinceClick = 0.1;
@@ -91,6 +99,10 @@ class Editor extends Widget {
     public var sceneInspector: SceneInspector;
 
     public var projectIo: FileSystemIo;
+
+    private var resizePreview: Bool = true;
+    private var resizeThreshold: Float = 10.0;
+    private var resizeThresholdBottomRight: Float = 0.25;
 
     private var _projectFile: ProjectFile = null;
     public var projectFile(get, default): ProjectFile;
@@ -107,6 +119,10 @@ class Editor extends Widget {
 
     public override function init() {
         load("studio://Editor.suml");
+
+        if (OSService.getName() == "Windows") {
+            resizeThreshold = 2.5;
+        }
 
         var __this__ = this;
         untyped __lua__("_G['editor'] = __this__");
@@ -151,16 +167,22 @@ class Editor extends Widget {
         stopButton.disabled = true;
 
         windowTitle = getNodeT(Label, "vbox/menuBarControl/windowTitle");
-        if (OSService.getName() != "macOS") {
+        windowTitle.show();
+        var labelSetting = new LabelSettings();
+        labelSetting.font = Reference.castTo(ResourceLoaderService.load("res://Engine/Theme/fonts/Inter-Medium.ttf"), Font);
+        labelSetting.fontColor = Color.html("#000000");
+        labelSetting.fontSize = theme.defaultFontSize;
+        windowTitle.labelSettings = labelSetting;
+        /*if (OSService.getName() != "macOS") {
             windowTitle.hide();
-        }
+        }*/
 
         playBuildWindow = getNodeT(Window, "playBuildWindow");
         playBuildWindow.hide();
         pluginBuildWindow = getNodeT(Window, "pluginBuildWindow");
         pluginBuildWindow.hide();
 
-        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Help");
+        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Help");
         if (OSService.getName() == "macOS") {
             helpMenu.removeItem(helpMenu.itemCount - 1);
             helpMenu.systemMenuId = 4;
@@ -194,14 +216,21 @@ class Editor extends Widget {
             displayScale = dpi * 0.01;
         }
         window.contentScaleFactor = displayScale;
-        var windowSize = new Vector2i(cast 1152 * displayScale, cast 648 * displayScale);
+        windowSize = new Vector2i(cast 1152 * displayScale, cast 648 * displayScale);
+        ogWindowSize = windowSize;
         window.size = windowSize;
         window.minSize = windowSize;
-        window.borderless = false;
         window.alwaysOnTop = false;
         window.moveToCenter();
         window.extendToTitle = true;
         window.mode = WindowMode.maximized;
+        window.unresizable = false;
+        if (OSService.getName() == "macOS") {
+            DisplayService.windowSetWindowButtonsOffset(new Vector2i(35, 37), window.getWindowId());
+        }
+        else {
+            window.borderless = true;
+        }
         haxePath = StudioUtils.singleton.getToolchainDirectory() + "/haxe";
         if (Sys.systemName() == "Windows") {
             haxePath += ".exe";
@@ -210,49 +239,83 @@ class Editor extends Widget {
 
         try {
             trace("hi!");
-            var menuBarControl: Control = getNodeT(Control, "vbox/menuBarControl");
-            trace("");
-            if (OSService.getName() == "macOS") {
-                trace("");
-                var windowSize = null;
-                trace("");
-                var eventFunc = function(eventN: NativeReference) {
-                    if (window == null)
-                        return;
+            var menuBarControl: Control = getNodeT(Control, "vbox/menuBarControl/hbox/spacer");
+            var eventFunc = function(eventN: NativeReference) {
+                if (window == null)
+                    return;
 
-                    if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed) {
-                        titlebarLmbPressed = true;
+                if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed && clickcount == 0) {
+                    titlebarLmbPressed = true;
+                    if (eventN.isClass("InputEventMouseButton")) {
+                        var eventMouseButton = new InputEventMouseButton(eventN);
+                        clickcount++;
+                        // Top left
+                        if (eventMouseButton.position.x < resizeThreshold && eventMouseButton.position.y < resizeThreshold) {
+                            DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                            window.startResize(WindowResizeEdge.topLeft);
+                            return;
+                        }
+                        // Top Right
+                        if (
+                        eventMouseButton.position.x > window.getVisibleRect().size.x - resizeThreshold &&
+                        eventMouseButton.position.y < resizeThreshold
+                        ) {
+                            DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                            window.startResize(WindowResizeEdge.topRight);
+                            return;
+                        }
+                        // Top
+                        if (eventMouseButton.position.y < resizeThreshold) {
+                            DisplayService.cursorSetShape(CursorShape.vsize);
+                            window.startResize(WindowResizeEdge.top);
+                            return;
+                        }
                         window.startDrag();
-                        clickcount++;
                     }
-                    else if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed) {
-                        titlebarLmbPressed = true;
-                        clickcount++;
-                    }
-                    else if (!InputService.isMouseButtonPressed(MouseButton.left) && titlebarLmbPressed) {
-                        titlebarLmbPressed = false;
-                    }
+                    
+                    
+                }
+                else if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed) {
+                    titlebarLmbPressed = true;
+                    clickcount++;
+                }
+                else if (!InputService.isMouseButtonPressed(MouseButton.left) && titlebarLmbPressed) {
+                    titlebarLmbPressed = false;
+                }
 
-                    if (clickcount == 2) {
-                        trace(clickcount);
-                        clickcount = 0;
-                        if (window.mode == WindowMode.maximized) {
-                            window.mode = WindowMode.windowed;
+                if (clickcount == 2) {
+                    trace(clickcount);
+                    clickcount = 0;
+                    var maximizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/maximizeButton");
+                    if (window.mode == WindowMode.maximized) {
+                        var maximizedSize = window.size;
+                        window.mode = WindowMode.windowed;
+                        if (window.size.x == maximizedSize.x && window.size.y == maximizedSize.y) {
+                            window.size = ogWindowSize;
+                            window.moveToCenter();
                         }
-                        else if (window.mode == WindowMode.windowed) {
-                            windowSize = window.size;
-                            window.mode = WindowMode.maximized;
+                        else {
+                            window.size = windowSize;
                         }
+                        maximizeButton.text = "🗖";
                     }
-                };
-                trace("");
+                    else if (window.mode == WindowMode.windowed) {
+                        windowSize = window.size;
+                        window.mode = WindowMode.maximized;
+                        maximizeButton.text = "🗗";
+                    }
+                }
+            };
 
-                var menuBar: Control = getNodeT(Control, "vbox/menuBarControl/menuBar");
-                var toolBarSpacer: Control = getNodeT(Control, "vbox/toolbar/hbox/spacer");
-                menuBar.guiInput.connect(eventFunc);
-                menuBarControl.guiInput.connect(eventFunc);
-                toolBarSpacer.guiInput.connect(eventFunc);
-            }
+            var menuBar: Control = getNodeT(Control, "vbox/menuBarControl/hbox/menuBar");
+            var toolBarSpacer: Control = getNodeT(Control, "vbox/toolbar/hbox/spacer");
+            var iconContainer = getNodeT(Control, "vbox/menuBarControl/hbox/iconContainer");
+            var iconRect = getNodeT(Control, "vbox/menuBarControl/hbox/iconContainer/icon");
+            menuBar.guiInput.connect(eventFunc);
+            menuBarControl.guiInput.connect(eventFunc);
+            toolBarSpacer.guiInput.connect(eventFunc);
+            iconContainer.guiInput.connect(eventFunc);
+            iconRect.guiInput.connect(eventFunc);
 
             centerTabContainer.getTabBar().tabClosePressed.connect(Callable.fromFunction(function(tab: Int) {
                 var widget = workspaceChildern[tab];
@@ -274,7 +337,7 @@ class Editor extends Widget {
                 workspaceChildern = newWorkspaceChildren;
             }));
 
-            var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/File");
+            var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/File");
             fileMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     Debug.error("'New File' not implemented");
@@ -303,7 +366,7 @@ class Editor extends Widget {
                 save();
             }));
 
-            var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Edit");
+            var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Edit");
             editMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     Debug.error("'Undo' not implemented");
@@ -321,15 +384,15 @@ class Editor extends Widget {
                     Debug.error("'Paste' not implemented");
                 }
             }));
-            var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/View");
+            var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/View");
             viewMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
 
             }));
-            var toolsMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Tools");
+            var toolsMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Tools");
             toolsMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
 
             }));
-            debugMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Debug");
+            debugMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Debug");
             debugMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     if (isGameRunning)
@@ -343,7 +406,7 @@ class Editor extends Widget {
                     stop();
 
             }));
-            var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/menuBar/Help");
+            var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Help");
             helpMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     OSService.shellOpen("https://docs.sunaba.gg");
@@ -352,6 +415,96 @@ class Editor extends Widget {
                     showAboutDialog();
                 }
             }));
+
+            var styleBoxEmpty = new StyleBoxEmpty();
+            
+            var buttonFont = new SystemFont();
+            if (OSService.getName() == "Windows") {
+                buttonFont.fontNames = StringArray.fromArray([
+                    "Segoe MDL2 Assets",
+                    "Segoe UI Symbol",
+                    "Arial Unicode MS"
+                ]);
+            }
+            else if (OSService.getName() == "Linux") {
+                var fontNames = buttonFont.fontNames;
+                fontNames.add("Noto Sans Symbols2");
+                fontNames.add("DejaVu Sans");
+                buttonFont.fontNames = fontNames;
+                trace(fontNames.toArray().toString());
+                trace(buttonFont.fontNames.toArray().toString());
+            }
+
+            var minimizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/minimizeButton");
+            minimizeButton.addThemeStyleboxOverride("normal", styleBoxEmpty);
+            minimizeButton.focusMode = FocusModeEnum.none;
+            minimizeButton.addThemeFontOverride("font", buttonFont);
+            minimizeButton.text = "🗕";
+            minimizeButton.alignment = HorizontalAlignment.center;
+            var isMaximized = true;
+            minimizeButton.pressed.add(() -> {
+                if (window.mode != WindowMode.minimized) {
+                    isMaximized = window.mode == WindowMode.maximized;
+                    window.mode = WindowMode.minimized;
+                }
+                else {
+                    if (isMaximized == true) {
+                        window.mode = WindowMode.maximized;
+                    }
+                    else {
+                        window.mode = WindowMode.windowed;
+                    }
+                }
+            });
+
+            var maximizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/maximizeButton");
+            maximizeButton.addThemeStyleboxOverride("normal", styleBoxEmpty);
+            maximizeButton.focusMode = FocusModeEnum.none;
+            maximizeButton.addThemeFontOverride("font", buttonFont);
+            maximizeButton.text = "🗗";
+            maximizeButton.alignment = HorizontalAlignment.center;
+            if (window.mode == WindowMode.maximized) {
+                maximizeButton.text = "🗗";
+            }
+            else {
+                maximizeButton.text = "🗖";
+            }
+            maximizeButton.pressed.add(() -> {
+                if (window.mode == WindowMode.maximized) {
+                    maximizeButton.text = "🗖";
+                    var maximizedSize = window.size;
+                    window.mode = WindowMode.windowed;
+                    if (window.size.x == maximizedSize.x && window.size.y == maximizedSize.y) {
+                        window.size = ogWindowSize;
+                        window.moveToCenter();
+                    }
+                    else {
+                        window.size = windowSize;
+                    }
+                }
+                else if (window.mode == WindowMode.windowed) {
+                    maximizeButton.text = "🗗";
+                    windowSize = window.size;
+                    window.mode = WindowMode.maximized;
+                }
+            });
+
+            var closeButton = getNodeT(Button, "vbox/menuBarControl/hbox/closeButton");
+            closeButton.addThemeStyleboxOverride("normal", styleBoxEmpty);
+            closeButton.focusMode = FocusModeEnum.none;
+            closeButton.addThemeFontOverride("font", buttonFont);
+            closeButton.text = "🗙";
+            closeButton.alignment = HorizontalAlignment.center;
+            closeButton.pressed.add(() -> {
+                App.exit(0);
+            });
+
+            if (OSService.getName() == "macOS") {
+                iconContainer.hide();
+                minimizeButton.hide();
+                maximizeButton.hide();
+                closeButton.hide();
+            }
 
             refreshLeftSidebar();
             refreshRightSidebar();
@@ -579,12 +732,8 @@ class Editor extends Widget {
             showAboutDialog();
         }
 
-        if (PlatformService.osName == "macOS") {
-            if (windowTitle.text != window.title)
-                windowTitle.text = window.title;
-        } else {
-            windowTitle.text = "";
-        }
+        if (windowTitle.text != window.title)
+            windowTitle.text = window.title;
 
         var windowTitle = window.title;
         if (projectFile != null) {
@@ -637,6 +786,49 @@ class Editor extends Widget {
                 centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
         else
             centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
+
+        if (OSService.getName() != "macOS") {
+            if (window != null) {
+                if (window.mode != WindowMode.windowed) return;
+
+                var windowsize = window.getVisibleRect().size;
+
+                var mousePosition = window.getMousePosition();
+                if (mousePosition.x < resizeThreshold && mousePosition.y < resizeThreshold) { // Top left
+                    DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                    return;
+                }
+                if (mousePosition.x > windowsize.x - resizeThreshold && mousePosition.y < resizeThreshold) { // Top Right
+                    DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                    return;
+                }
+                if (mousePosition.x < resizeThreshold && mousePosition.y > windowsize.y - resizeThreshold) { // Bottom left
+                    DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                    return;
+                }
+                if (mousePosition.x > windowsize.x - resizeThreshold && mousePosition.y > windowsize.y - resizeThreshold) { // Bottom Right
+                    DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                    return;
+                }
+                if (mousePosition.x < resizeThreshold) { // left
+                    DisplayService.cursorSetShape(CursorShape.hsize);
+                    return;
+                }
+                trace(mousePosition.x > windowsize.x + 50.0);
+                if (mousePosition.x > windowsize.x - resizeThreshold) { // Right
+                    DisplayService.cursorSetShape(CursorShape.hsize);
+                    return;
+                }
+                if (mousePosition.y < resizeThreshold) { // Top
+                    DisplayService.cursorSetShape(CursorShape.vsize);
+                    return;
+                }
+                if (mousePosition.y > windowsize.y - resizeThreshold) { // Bottom
+                    DisplayService.cursorSetShape(CursorShape.vsize);
+                    return;
+                }
+            }
+        }
     }
 
     var buildTask:Coroutine<() -> Void> = null;
@@ -1046,6 +1238,84 @@ class Editor extends Widget {
             if (InputService.isKeyLabelPressed(Key.f6))
                 buildSnbForPlay();
 
+
+        if (OSService.getName() != "macOS") {
+            if (event.native.isClass("InputEventMouseButton")) {
+                var eventMouseButton = Reference.castTo(event, InputEventMouseButton);
+                if (window.mode != WindowMode.windowed) return;
+                if (
+                eventMouseButton.buttonIndex == MouseButton.left &&
+                eventMouseButton.pressed
+                ) {
+                    var windowPosition = window.position;
+                    var localX = eventMouseButton.position.x;
+                    var localY = eventMouseButton.position.y;
+
+                    /*if (OSService.getName() == "Linux") {
+                        localX = eventMouseButton.position.x;
+                        localY = eventMouseButton.position.y;
+                    }*/
+
+                    // Top left
+                    if (localX < resizeThreshold && localY < resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                        window.startResize(WindowResizeEdge.topLeft);
+                        return;
+                    }
+                    // Top Right
+                    if (
+                    localX > window.getVisibleRect().size.x - resizeThreshold &&
+                    localY < resizeThreshold
+                    ) {
+                        DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                        window.startResize(WindowResizeEdge.topRight);
+                        return;
+                    }
+                    // Bottom left
+                    if (
+                    localX < resizeThreshold &&
+                    localY > window.getVisibleRect().size.y - resizeThreshold
+                    ) {
+                        DisplayService.cursorSetShape(CursorShape.bdiagsize);
+                        window.startResize(WindowResizeEdge.bottomLeft);
+                        return;
+                    }
+                    // Bottom Right
+                    if (
+                    localX > window.getVisibleRect().size.x - resizeThreshold &&
+                    localY > window.getVisibleRect().size.y - resizeThreshold
+                    ) {
+                        DisplayService.cursorSetShape(CursorShape.fdiagsize);
+                        window.startResize(WindowResizeEdge.bottomRight);
+                        return;
+                    }
+                    // Left
+                    if (localX < resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.hsize);
+                        window.startResize(WindowResizeEdge.left);
+                        return;
+                    }
+                    // Right
+                    if (localX > window.getVisibleRect().size.x - resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.hsize);
+                        window.startResize(WindowResizeEdge.right);
+                        return;
+                    }
+                    // Top
+                    if (localY < resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.vsize);
+                        window.startResize(WindowResizeEdge.top);
+                        return;
+                    }
+                    // Bottom
+                    if (localY > window.getVisibleRect().size.y - resizeThreshold) {
+                        DisplayService.cursorSetShape(CursorShape.vsize);
+                        window.startResize(WindowResizeEdge.bottom);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     public function isControlKeyPressed(): Bool {

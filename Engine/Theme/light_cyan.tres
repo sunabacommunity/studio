@@ -173,7 +173,7 @@ texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(0, 0, 49, 45)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x3uks"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5fr45"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -183,15 +183,13 @@ texture_margin_left = 10.0
 texture_margin_top = 40.0
 texture_margin_right = 10.0
 texture_margin_bottom = 10.0
-expand_margin_left = 2.0
-expand_margin_top = 30.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+expand_margin_top = 28.0
 region_rect = Rect2(0, 0, 100, 100)
 
 [resource]
 default_font = ExtResource("40_cs1qo")
 default_font_size = 13
+AcceptDialog/styles/panel = ExtResource("28_esr2x")
 Button/colors/font_color = Color(0, 0, 0, 1)
 Button/colors/font_color_disabled = Color(0, 0, 0, 0.486275)
 Button/colors/font_disabled_color = Color(0, 0, 0, 0.486275)
@@ -450,9 +448,10 @@ VSlider/styles/slider = SubResource("StyleBoxTexture_8qy5i")
 Window/colors/title_color = Color(0, 0, 0, 1)
 Window/colors/title_outline_modulate = Color(0, 0, 0, 1)
 Window/constants/close_h_offset = 24
-Window/constants/close_v_offset = 26
-Window/constants/title_height = 32
+Window/constants/close_v_offset = 24
+Window/constants/title_height = 30
 Window/icons/close = ExtResource("35_7sm8g")
 Window/icons/close_pressed = ExtResource("35_7sm8g")
-Window/styles/embedded_border = SubResource("StyleBoxTexture_x3uks")
-Window/styles/panel = SubResource("StyleBoxTexture_x3uks")
+Window/styles/embedded_border = SubResource("StyleBoxTexture_5fr45")
+Window/styles/embedded_unfocused_border = SubResource("StyleBoxTexture_5fr45")
+Window/styles/panel = SubResource("StyleBoxTexture_5fr45")

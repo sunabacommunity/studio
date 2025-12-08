@@ -107,7 +107,7 @@ texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(0, 0, 49, 45)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ghsb1"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vib3r"]
 texture = ExtResource("7_vs6dx")
 texture_margin_left = 10.0
 texture_margin_top = 10.0
@@ -252,7 +252,7 @@ texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 region_rect = Rect2(0, 0, 49, 45)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aotmt"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b7021"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
@@ -262,10 +262,7 @@ texture_margin_left = 10.0
 texture_margin_top = 40.0
 texture_margin_right = 10.0
 texture_margin_bottom = 10.0
-expand_margin_left = 2.0
-expand_margin_top = 30.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+expand_margin_top = 28.0
 region_rect = Rect2(0, 0, 100, 100)
 
 [resource]
@@ -356,7 +353,7 @@ MenuButton/colors/font_color_pressed = Color(1, 1, 1, 1)
 MenuButton/colors/font_focus_color = Color(1, 1, 1, 1)
 MenuButton/colors/font_hover_color = Color(1, 1, 1, 1)
 MenuButton/colors/font_pressed_color = Color(1, 1, 1, 1)
-Panel/styles/panel = SubResource("StyleBoxTexture_ghsb1")
+Panel/styles/panel = SubResource("StyleBoxTexture_vib3r")
 PanelContainer/styles/panel = SubResource("StyleBoxTexture_c4270")
 Popup/styles/panel = SubResource("StyleBoxTexture_16jl1")
 PopupMenu/colors/font_accelerator_color = Color(1, 1, 1, 0.8)
@@ -466,10 +463,11 @@ VSlider/styles/slider = SubResource("StyleBoxTexture_0w288")
 Window/colors/title_color = Color(1, 1, 1, 1)
 Window/colors/title_outline_modulate = Color(1, 1, 1, 1)
 Window/constants/close_h_offset = 24
-Window/constants/close_v_offset = 26
-Window/constants/title_height = 32
+Window/constants/close_v_offset = 24
+Window/constants/title_height = 30
 Window/font_sizes/title_font_size = 14
 Window/icons/close = ExtResource("11_t70ca")
 Window/icons/close_pressed = ExtResource("11_t70ca")
-Window/styles/embedded_border = SubResource("StyleBoxTexture_aotmt")
-Window/styles/panel = SubResource("StyleBoxTexture_aotmt")
+Window/styles/embedded_border = SubResource("StyleBoxTexture_b7021")
+Window/styles/embedded_unfocused_border = SubResource("StyleBoxTexture_b7021")
+Window/styles/panel = SubResource("StyleBoxTexture_b7021")
