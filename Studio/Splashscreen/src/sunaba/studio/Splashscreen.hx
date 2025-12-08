@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import sunaba.core.Color;
 import sunaba.ui.StyleBoxEmpty;
 import sunaba.core.StringArray;
 import sunaba.ui.StyleBoxEmpty;
@@ -95,7 +96,7 @@ class Splashscreen extends Widget {
         window.mode = WindowMode.windowed;
         window.unresizable = false;
         if (OSService.getName() == "macOS") {
-            window.borderless = false;
+            DisplayService.windowSetWindowButtonsOffset(new Vector2i(35, 37), window.getWindowId());
         }
         else {
             window.borderless = true;

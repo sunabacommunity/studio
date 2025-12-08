@@ -220,7 +220,7 @@ class Editor extends Widget {
         window.mode = WindowMode.maximized;
         window.unresizable = false;
         if (OSService.getName() == "macOS") {
-            window.borderless = false;
+            DisplayService.windowSetWindowButtonsOffset(new Vector2i(35, 37), window.getWindowId());
         }
         else {
             window.borderless = true;
