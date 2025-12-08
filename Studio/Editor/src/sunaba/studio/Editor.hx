@@ -1228,7 +1228,6 @@ class Editor extends Widget {
         if (OSService.getName() != "macOS") {
             if (event.native.isClass("InputEventMouseButton")) {
                 var eventMouseButton = Reference.castTo(event, InputEventMouseButton);
-                var window = getWindow();
                 if (window.mode != WindowMode.windowed) return;
                 if (
                 eventMouseButton.buttonIndex == MouseButton.left &&
