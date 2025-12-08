@@ -118,6 +118,10 @@ class Editor extends Widget {
     public override function init() {
         load("studio://Editor.suml");
 
+        if (OSService.getName() == "Windows") {
+            resizeThreshold = 2.5;
+        }
+
         var __this__ = this;
         untyped __lua__("_G['editor'] = __this__");
 
@@ -239,7 +243,7 @@ class Editor extends Widget {
                         // Top left
                         if (eventMouseButton.position.x < resizeThreshold && eventMouseButton.position.y < resizeThreshold) {
                             DisplayService.cursorSetShape(CursorShape.fdiagsize);
-                            DisplayService.windowStartResize(WindowResizeEdge.topLeft);
+                            window.startResize(WindowResizeEdge.topLeft);
                             return;
                         }
                         // Top Right
@@ -248,13 +252,13 @@ class Editor extends Widget {
                         eventMouseButton.position.y < resizeThreshold
                         ) {
                             DisplayService.cursorSetShape(CursorShape.bdiagsize);
-                            DisplayService.windowStartResize(WindowResizeEdge.topRight);
+                            window.startResize(WindowResizeEdge.topRight);
                             return;
                         }
                         // Top
                         if (eventMouseButton.position.y < resizeThreshold) {
                             DisplayService.cursorSetShape(CursorShape.vsize);
-                            DisplayService.windowStartResize(WindowResizeEdge.top);
+                            window.startResize(WindowResizeEdge.top);
                             return;
                         }
                         window.startDrag();
@@ -1221,7 +1225,7 @@ class Editor extends Widget {
                     // Top left
                     if (localX < resizeThreshold && localY < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.fdiagsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.topLeft);
+                        window.startResize(WindowResizeEdge.topLeft);
                         return;
                     }
                     // Top Right
@@ -1230,7 +1234,7 @@ class Editor extends Widget {
                     localY < resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.bdiagsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.topRight);
+                        window.startResize(WindowResizeEdge.topRight);
                         return;
                     }
                     // Bottom left
@@ -1239,7 +1243,7 @@ class Editor extends Widget {
                     localY > window.size.y - resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.bdiagsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.bottomLeft);
+                        window.startResize(WindowResizeEdge.bottomLeft);
                         return;
                     }
                     // Bottom Right
@@ -1248,31 +1252,31 @@ class Editor extends Widget {
                     localY > window.size.y - resizeThreshold
                     ) {
                         DisplayService.cursorSetShape(CursorShape.fdiagsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.bottomRight);
+                        window.startResize(WindowResizeEdge.bottomRight);
                         return;
                     }
                     // Left
                     if (localX < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.hsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.left);
+                        window.startResize(WindowResizeEdge.left);
                         return;
                     }
                     // Right
                     if (localX > window.size.x - resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.hsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.right);
+                        window.startResize(WindowResizeEdge.right);
                         return;
                     }
                     // Top
                     if (localY < resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.vsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.top);
+                        window.startResize(WindowResizeEdge.top);
                         return;
                     }
                     // Bottom
                     if (localY > window.size.y - resizeThreshold) {
                         DisplayService.cursorSetShape(CursorShape.vsize);
-                        DisplayService.windowStartResize(WindowResizeEdge.bottom);
+                        window.startResize(WindowResizeEdge.bottom);
                         return;
                     }
                 }
