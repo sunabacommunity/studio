@@ -84,6 +84,7 @@ class Editor extends Widget {
 
     public var window:Window;
     public var windowSize:Vector2i;
+    private var ogWindowSize: Vector2i;
     public var titlebarLmbPressed:Bool = false;
     public var clickcount = 0;
     public var timeSinceClick = 0.1;
@@ -209,7 +210,8 @@ class Editor extends Widget {
             displayScale = dpi * 0.01;
         }
         window.contentScaleFactor = displayScale;
-        var windowSize = new Vector2i(cast 1152 * displayScale, cast 648 * displayScale);
+        windowSize = new Vector2i(cast 1152 * displayScale, cast 648 * displayScale);
+        ogWindowSize = windowSize;
         window.size = windowSize;
         window.minSize = windowSize;
         window.alwaysOnTop = false;
@@ -279,7 +281,15 @@ class Editor extends Widget {
                     clickcount = 0;
                     var maximizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/maximizeButton");
                     if (window.mode == WindowMode.maximized) {
+                        var maximizedSize = window.size;
                         window.mode = WindowMode.windowed;
+                        if (window.size.x == maximizedSize.x && window.size.y == maximizedSize.y) {
+                            window.size = ogWindowSize;
+                            window.moveToCenter();
+                        }
+                        else {
+                            window.size = windowSize;
+                        }
                         maximizeButton.text = "🗖";
                     }
                     else if (window.mode == WindowMode.windowed) {
@@ -451,7 +461,15 @@ class Editor extends Widget {
             maximizeButton.pressed.add(() -> {
                 if (window.mode == WindowMode.maximized) {
                     maximizeButton.text = "🗖";
+                    var maximizedSize = window.size;
                     window.mode = WindowMode.windowed;
+                    if (window.size.x == maximizedSize.x && window.size.y == maximizedSize.y) {
+                        window.size = ogWindowSize;
+                        window.moveToCenter();
+                    }
+                    else {
+                        window.size = windowSize;
+                    }
                 }
                 else if (window.mode == WindowMode.windowed) {
                     maximizeButton.text = "🗗";
