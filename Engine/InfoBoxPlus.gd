@@ -23,6 +23,8 @@ func _ready() -> void:
 			"Arial Unicode MS"
 		]
 		closeButton.add_theme_font_override("font", button_sys_font)
+	elif (OS.get_name() == "macOS"):
+		closeButton.hide()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
