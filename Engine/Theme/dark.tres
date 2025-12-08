@@ -255,10 +255,7 @@ texture_margin_left = 10.0
 texture_margin_top = 40.0
 texture_margin_right = 10.0
 texture_margin_bottom = 10.0
-expand_margin_left = 2.0
-expand_margin_top = 30.0
-expand_margin_right = 2.0
-expand_margin_bottom = 2.0
+expand_margin_top = 28.0
 region_rect = Rect2(0, 0, 100, 100)
 
 [resource]
@@ -459,10 +456,11 @@ VSlider/styles/slider = SubResource("StyleBoxTexture_0w288")
 Window/colors/title_color = Color(1, 1, 1, 1)
 Window/colors/title_outline_modulate = Color(1, 1, 1, 1)
 Window/constants/close_h_offset = 24
-Window/constants/close_v_offset = 26
-Window/constants/title_height = 32
+Window/constants/close_v_offset = 24
+Window/constants/title_height = 30
 Window/font_sizes/title_font_size = 14
 Window/icons/close = ExtResource("16_il6h1")
 Window/icons/close_pressed = ExtResource("16_il6h1")
 Window/styles/embedded_border = SubResource("StyleBoxTexture_aotmt")
+Window/styles/embedded_unfocused_border = SubResource("StyleBoxTexture_aotmt")
 Window/styles/panel = SubResource("StyleBoxTexture_aotmt")
