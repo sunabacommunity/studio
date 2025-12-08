@@ -302,9 +302,13 @@ class Editor extends Widget {
 
             var menuBar: Control = getNodeT(Control, "vbox/menuBarControl/hbox/menuBar");
             var toolBarSpacer: Control = getNodeT(Control, "vbox/toolbar/hbox/spacer");
+            var iconContainer = getNodeT(Control, "vbox/menuBarControl/hbox/iconContainer");
+            var iconRect = getNodeT(Control, "vbox/menuBarControl/hbox/iconContainer/icon");
             menuBar.guiInput.connect(eventFunc);
             menuBarControl.guiInput.connect(eventFunc);
             toolBarSpacer.guiInput.connect(eventFunc);
+            iconContainer.guiInput.connect(eventFunc);
+            iconRect.guiInput.connect(eventFunc);
 
             centerTabContainer.getTabBar().tabClosePressed.connect(Callable.fromFunction(function(tab: Int) {
                 var widget = workspaceChildern[tab];

@@ -26,6 +26,14 @@
                     fullRect="true"
                     separation="0"
                     customMinimumSize="0, 27">
+                    <sunaba.ui.CenterContainer
+                        name="iconContainer"
+                        customMinimumSize="30,27">
+                        <sunaba.ui.TextureRect
+                            name="icon"
+                            customMinimumSize="24,24"
+                            texture="studio://icons/24/studio.png"/>    
+                    </sunaba.ui.CenterContainer>
                     <sunaba.ui.MenuBar
                         name="menuBar"
                         fullRect="true"
