@@ -318,15 +318,11 @@ class Splashscreen extends Widget {
     }
 
     public override function onInput(event:InputEvent) {
-        trace("");
         if (OSService.getName() != "macOS") {
-            trace("");
             if (event.native.isClass("InputEventMouseButton")) {
-                trace("");
                 var eventMouseButton = Reference.castTo(event, InputEventMouseButton);
                 window = getWindow();
                 if (window.mode != WindowMode.windowed) return;
-                trace("");
                 if (
                     eventMouseButton.buttonIndex == MouseButton.left &&
                     eventMouseButton.pressed
