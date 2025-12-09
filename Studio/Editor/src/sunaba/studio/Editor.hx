@@ -720,8 +720,15 @@ class Editor extends Widget {
         }
     }
 
+    private var pluginBuilt: Bool = false;
+
     public override function onProcess(deltaTime: Float) {
         checkFocus();
+
+        if (pluginBuilt == false) {
+            pluginBuilt = true;
+            buildPlugin();
+        }
 
         if (showDialog == true) {
             showDialog = false;
