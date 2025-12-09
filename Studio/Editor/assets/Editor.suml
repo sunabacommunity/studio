@@ -191,7 +191,8 @@
                 title="Building project"
                 size="270,80"
                 borderless="true"
-                popupWindow="true">
+                transient="true"
+                exclusive="true">
             <sunaba.ui.Panel
                     fullRect="true"/>
             <sunaba.ui.VBoxContainer
@@ -218,7 +219,8 @@
             title="Building project"
             borderless="true"
             size="270,80"
-            popupWindow="true">
+            transient="true"
+            exclusive="true">
             <sunaba.ui.Panel
                 fullRect="true"/>
             <sunaba.ui.VBoxContainer
