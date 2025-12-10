@@ -90,6 +90,8 @@ class Main {
         var currentDir = Sys.getCwd();
         if (StringTools.contains(currentDir, "\\"))
             currentDir = StringTools.replace(currentDir, "\\", "/");
+        if (!StringTools.endsWith(currentDir, "/"))
+            currentDir += "/";
 
         if (!skipbuild) {
             var gamepak = new Gamepak();
