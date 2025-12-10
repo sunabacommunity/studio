@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using Godot.Collections;
 using Godot;
-using MessagePack;
-using MessagePack.Resolvers;
 
 namespace Sunaba.Engine
 {
