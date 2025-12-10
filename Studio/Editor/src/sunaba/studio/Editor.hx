@@ -1,5 +1,7 @@
 package sunaba.studio;
 
+import sunaba.core.Dictionary;
+import sunaba.core.ByteArray;
 import sunaba.core.Color;
 import sunaba.input.InputEventMouseButton;
 import sunaba.core.Reference;
@@ -51,6 +53,7 @@ import sunaba.OSService;
 import sunaba.ui.StyleBoxEmpty;
 import sunaba.SystemFont;
 import sunaba.HorizontalAlignment;
+import sunaba.core.native.ScriptType;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -624,6 +627,7 @@ class Editor extends Widget {
             var batContent = "@echo off\r\nset PATH=" + toolchaindir + ";";
             var haxelibPath = toolchaindir +  "haxelib.exe";
             batContent += " && " + haxelibPath + " newrepo";
+            batContent += " && " + haxelibPath + " install msgpack-haxe";
             batContent += " && " + haxelibPath + " install " + asmDir + "libsunaba.zip";
             batContent += " && " + haxelibPath + " install " + asmDir + "gamepak.zip";
             batContent += " && " + haxelibPath + " install " + asmDir + "sunaba-studio-api.zip";
@@ -678,6 +682,7 @@ class Editor extends Widget {
                 shContent += "\nexport LD_LIBRARY_PATH=\"" + toolchaindir + "\":$LD_LIBRARY_PATH";
             }
             shContent += "\n\"" + haxelibPath + "\" newrepo";
+            shContent += "\n\"" + haxelibPath + "\" install msgpack-haxe";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "sunaba-studio-api.zip\"";
@@ -1370,6 +1375,27 @@ class Editor extends Widget {
         buildSystem.chmodder = (shpath: String) -> {
             OSService.execute("chmod", StringArray.fromArray(["+x", shpath]));
         }
+
+        buildSystem.jsonToMsgpackConverter = (json: String) -> {
+            trace("");
+            var data : Dictionary = JSON.parseString(json);
+            trace(data.keys().size());
+            trace("");
+
+            var script = new NativeReference("res://Engine/MessagePack.gd", new ArrayList(), ScriptType.gdscript);
+            trace("");
+			var args = new ArrayList();
+            trace("");
+			args.append(data);
+            trace("");
+			var res: Dictionary = script.call("encode", args);
+
+            var bytes : ByteArray = res.get("value"); 
+            trace(bytes.size());
+            var haxeBytes = sunaba.core.ByteArray.BinaryDataToBytes(bytes);
+            trace(haxeBytes.length == bytes.size());
+            return haxeBytes;
+        };
 
         gamepakBuildCoroutine = buildSystem.buildCoroutine(projectFilePath);
 
