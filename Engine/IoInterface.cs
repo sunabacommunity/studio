@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Godot.Collections;
 using Godot;
+using MessagePack;
+using MessagePack.Resolvers;
 
 namespace Sunaba.Engine
 {
@@ -92,6 +94,33 @@ namespace Sunaba.Engine
         public String GetTempFilename()
         {
             return PathUrl + Path.GetTempFileName();
+        }
+
+        public Godot.Collections.Dictionary LoadData(string path)
+        {
+            var msgpackPath = path + ".msgpack";
+            if (path.EndsWith(".msgpack"))
+            {
+                msgpackPath = path;
+            }
+            if (FileExists(msgpackPath))
+            {
+                var msgpack = LoadBytes(msgpackPath);
+                
+                var msgpackOptions = MessagePackSerializerOptions.Standard.WithResolver(ContractlessStandardResolver.Instance);
+
+                var sysDictionary = MessagePackSerializer.Deserialize<System.Collections.Generic.Dictionary<string, object>>(msgpack, msgpackOptions);
+
+                return VariantUtils.ScgDictToGdDict(sysDictionary);
+            }
+            else if (FileExists(path))
+            {
+                var text = LoadText(path);
+                var json = Json.ParseString(text).AsGodotDictionary();
+                return json;
+            }
+
+            return null;
         }
     }
 }
