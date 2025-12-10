@@ -22,16 +22,29 @@ class VariantUtils
 
         return gdDictionary;
     }
-    
-    public static System.Collections.Generic.Dictionary<string, object> GdDictToScgDict(GdDictionary gdDictionary)
+    public static GdDictionary ScgDictToGdDict(System.Collections.Generic.Dictionary<object, object> dictionary)
     {
-        System.Collections.Generic.Dictionary<string, object> dictionary = new();
+        GdDictionary gdDictionary = new();
+
+        foreach (var kvp in dictionary)
+        {
+            var obj = kvp.Value;
+            var variant = ObjToVariant(obj);
+            gdDictionary[ObjToVariant(kvp.Key)] = variant;
+        }
+
+        return gdDictionary;
+    }
+    
+    public static System.Collections.Generic.Dictionary<object, object> GdDictToScgDict(GdDictionary gdDictionary)
+    {
+        System.Collections.Generic.Dictionary<object, object> dictionary = new();
 
         foreach (var key in gdDictionary.Keys)
         {
             var value = gdDictionary[key];
             var obj = VariantToObj(value);
-            dictionary[key.ToString()] = obj;
+            dictionary[VariantToObj(key)] = obj;
         }
 
         return dictionary;
@@ -69,6 +82,10 @@ class VariantUtils
         if (obj is System.Collections.Generic.Dictionary<string, object> subdict)
         {
             variant = ScgDictToGdDict(subdict);
+        }
+        if (obj is System.Collections.Generic.Dictionary<object, object> subdict2)
+        {
+            variant = ScgDictToGdDict(subdict2);
         }
         else if (obj is System.Collections.Generic.List<object> sublist)
         {
