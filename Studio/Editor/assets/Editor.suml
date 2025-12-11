@@ -33,47 +33,52 @@
                             customMinimumSize="24,24"
                             texture="studio://icons/24/studio.png"/>    
                     </sunaba.ui.CenterContainer>
-                    <sunaba.ui.MenuBar
-                        name="menuBar"
-                        fullRect="true"
-                        customMinimumSize="0, 27">
-                        <sunaba.desktop.PopupMenu
-                            name="File">
-                            <menuItem label="New File" icon="studio://icons/16/blue-folder--plus.png"/>
-                            <menuItem label="Open File" icon="studio://icons/16/blue-folder-open-document.png"/>
-                            <menuItem label="Save File" icon="studio://icons/16/disk.png"/>
-                            <menuItem label="Publish" icon="studio://icons/16/box--arrow.png"/>
-                            <menuItem separator="true"/>
-                            <menuItem label="Open Project in Visual Studio Code" icon="studio://icons/16/vscode.png"/>
-                            <menuItem label="Exit" icon="studio://icons/16/door-open-in.png"/>
-                        </sunaba.desktop.PopupMenu>
-                        <sunaba.desktop.PopupMenu
-                            name="Edit">
-                            <menuItem label="Undo" icon="studio://icons/16/arrow-curve-180-left.png"/>
-                            <menuItem label="Redo" icon="studio://icons/16/arrow-curve.png"/>
-                            <menuItem separator="true"/>
-                            <menuItem label="Cut" icon="studio://icons/16/scissors.png"/>
-                            <menuItem label="Copy" icon="studio://icons/16/document-copy.png"/>
-                            <menuItem label="Paste" icon="studio://icons/16/clipboard-paste.png"/>
-                        </sunaba.desktop.PopupMenu>
-                        <sunaba.desktop.PopupMenu
-                            name="View">
-                        </sunaba.desktop.PopupMenu>
-                        <sunaba.desktop.PopupMenu
-                            name="Tools">
-                        </sunaba.desktop.PopupMenu>
-                        <sunaba.desktop.PopupMenu
-                            name="Debug">
-                            <menuItem label="Play" icon="studio://icons/16/control.png"/>
-                            <menuItem label="Pause" icon="studio://icons/16/control-pause.png" disabled="true"/>
-                            <menuItem label="Stop" icon="studio://icons/16/control-stop-square.png" disabled="true"/>
-                        </sunaba.desktop.PopupMenu>
-                        <sunaba.desktop.PopupMenu
-                            name="Help">
-                            <menuItem label="Sunaba Docs" icon="studio://icons/16/book.png"/>
-                            <menuItem label="About" icon="studio://icons/16/information-italic.png"/>
-                        </sunaba.desktop.PopupMenu>
-                    </sunaba.ui.MenuBar>
+                    <sunaba.ui.CenterContainer
+                        name="menuBarContainer"
+                        customMinimumSize="30,27">
+                        <sunaba.ui.MenuBar
+                            name="menuBar"
+                            fullRect="true"
+                            customMinimumSize="0, 27">
+                            <sunaba.desktop.PopupMenu
+                                name="File">
+                                <menuItem label="New File" icon="studio://icons/16/blue-folder--plus.png"/>
+                                <menuItem label="Open File" icon="studio://icons/16/blue-folder-open-document.png"/>
+                                <menuItem label="Save File" icon="studio://icons/16/disk.png"/>
+                                <menuItem label="Publish" icon="studio://icons/16/box--arrow.png"/>
+                                <menuItem separator="true"/>
+                                <menuItem label="Open Project in Visual Studio Code" icon="studio://icons/16/vscode.png"/>
+                                <menuItem label="Exit" icon="studio://icons/16/door-open-in.png"/>
+                            </sunaba.desktop.PopupMenu>
+                            <sunaba.desktop.PopupMenu
+                                name="Edit">
+                                <menuItem label="Undo" icon="studio://icons/16/arrow-curve-180-left.png"/>
+                                <menuItem label="Redo" icon="studio://icons/16/arrow-curve.png"/>
+                                <menuItem separator="true"/>
+                                <menuItem label="Cut" icon="studio://icons/16/scissors.png"/>
+                                <menuItem label="Copy" icon="studio://icons/16/document-copy.png"/>
+                                <menuItem label="Paste" icon="studio://icons/16/clipboard-paste.png"/>
+                            </sunaba.desktop.PopupMenu>
+                            <sunaba.desktop.PopupMenu
+                                name="View">
+                            </sunaba.desktop.PopupMenu>
+                            <sunaba.desktop.PopupMenu
+                                name="Tools">
+                            </sunaba.desktop.PopupMenu>
+                            <sunaba.desktop.PopupMenu
+                                name="Debug">
+                                <menuItem label="Play" icon="studio://icons/16/control.png"/>
+                                <menuItem label="Pause" icon="studio://icons/16/control-pause.png" disabled="true"/>
+                                <menuItem label="Stop" icon="studio://icons/16/control-stop-square.png" disabled="true"/>
+                            </sunaba.desktop.PopupMenu>
+                            <sunaba.desktop.PopupMenu
+                                name="Help">
+                                <menuItem label="Sunaba Docs" icon="studio://icons/16/book.png"/>
+                                <menuItem label="About" icon="studio://icons/16/information-italic.png"/>
+                            </sunaba.desktop.PopupMenu>
+                        </sunaba.ui.MenuBar>
+                    </sunaba.ui.CenterContainer>
+                    
                     <sunaba.ui.Control name="spacer" sizeFlagsHorizontal="3"/>
                     <sunaba.ui.Button
                         name="minimizeButton"

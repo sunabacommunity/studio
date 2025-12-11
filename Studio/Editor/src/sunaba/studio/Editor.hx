@@ -181,7 +181,7 @@ class Editor extends Widget {
         pluginBuildWindow = getNodeT(Window, "pluginBuildWindow");
         pluginBuildWindow.hide();
 
-        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Help");
+        var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Help");
         if (OSService.getName() == "macOS") {
             helpMenu.removeItem(helpMenu.itemCount - 1);
             helpMenu.systemMenuId = 4;
@@ -336,7 +336,7 @@ class Editor extends Widget {
                 workspaceChildern = newWorkspaceChildren;
             }));
 
-            var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/File");
+            var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/File");
             fileMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     Debug.error("'New File' not implemented");
@@ -365,7 +365,7 @@ class Editor extends Widget {
                 save();
             }));
 
-            var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Edit");
+            var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Edit");
             editMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     Debug.error("'Undo' not implemented");
@@ -383,15 +383,15 @@ class Editor extends Widget {
                     Debug.error("'Paste' not implemented");
                 }
             }));
-            var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/View");
+            var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/View");
             viewMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
 
             }));
-            var toolsMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Tools");
+            var toolsMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Tools");
             toolsMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
 
             }));
-            debugMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Debug");
+            debugMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Debug");
             debugMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     if (isGameRunning)
@@ -405,7 +405,7 @@ class Editor extends Widget {
                     stop();
 
             }));
-            var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBar/Help");
+            var helpMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Help");
             helpMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
                     OSService.shellOpen("https://docs.sunaba.gg");
