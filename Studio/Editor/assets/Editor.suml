@@ -38,8 +38,7 @@
                         customMinimumSize="30,27">
                         <sunaba.ui.MenuBar
                             name="menuBar"
-                            fullRect="true"
-                            customMinimumSize="0, 27">
+                            fullRect="true">
                             <sunaba.desktop.PopupMenu
                                 name="File">
                                 <menuItem label="New File" icon="studio://icons/16/blue-folder--plus.png"/>
