@@ -968,6 +968,9 @@ class Editor extends Widget {
         untyped {
             _hxClasses[className] = _class;
         }
+        if (sceneInspector != null) {
+            sceneInspector.componentClasses.push(_class);
+        }
     }
 
     inline function getExitCode():Null<Int> {

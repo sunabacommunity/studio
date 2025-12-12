@@ -1,5 +1,10 @@
 package sunaba.studio.sceneEditor;
 
+import sunaba.spatial.mesh.BoxMesh;
+import sunaba.spatial.mesh.MeshDisplay;
+import sunaba.spatial.IGeometryInstance;
+import sunaba.spatial.IVisualInstance;
+import sunaba.spatial.Camera;
 import sunaba.ui.VSplitContainer;
 import sunaba.SizeFlags;
 import sunaba.core.Vector2i;
@@ -76,6 +81,11 @@ class SceneInspector extends EditorWidget {
 
     public override function editorInit() {
         getEditor().setRightSidebarTabTitle(this, "Scene Inspector");
+
+        componentClasses.push(SpatialTransform);
+        componentClasses.push(Camera);
+        componentClasses.push(MeshDisplay);
+        componentClasses.push(BoxMesh);
 
         var iconBin = io.loadBytes("studio://icons/16_1-5x/clapperboard--pencil.png");
         var iconImage = new Image();
@@ -215,7 +225,23 @@ class SceneInspector extends EditorWidget {
         }));
 
         addComponentDialog = getNodeT(AcceptDialog, "addComponentDialog");
-        addComponentDialogTree = getNodeT(Tree, "addEntityDialog/vbox/tree");
+        addComponentDialog.contentScaleFactor = getWindow().contentScaleFactor;
+        addComponentDialog.size = addEntityDialogSize;
+        addComponentDialog.confirmed.connect(Callable.fromFunction(function() {
+            addComponentDialog.hide();
+            if (sceneEditor == null) return;
+            if (selectedEntity == null) return;
+
+            addSelectedComponent();
+        }));
+        addComponentDialogTree = getNodeT(Tree, "addComponentDialog/vbox/tree");
+        addComponentDialogTree.itemActivated.add(function() {
+            addComponentDialog.hide();
+            if (sceneEditor == null) return;
+            if (selectedEntity == null) return;
+
+            addSelectedComponent();
+        });
 
 
         entityTemplates = new Map();
@@ -256,6 +282,50 @@ class SceneInspector extends EditorWidget {
         }
 
         addEntityDialog.popupCentered();
+    }
+
+    public var componentClasses: Array<Class<Behavior>> = new Array();
+
+    public inline function showAddComponentTree() {
+        addComponentDialogTree.clear();
+        addComponentDialogTree.hideRoot = true;
+        var rootItem = addComponentDialogTree.createItem();
+        rootItem.setMetadata(0, false);
+
+        for (componentClass in componentClasses) {
+            var className = std.Type.getClassName(componentClass);
+            var componentItem = addComponentDialogTree.createItem(rootItem);
+            componentItem.setText(0, className);
+            componentItem.setMetadata(0, true);
+        }
+
+        addComponentDialog.popupCentered();
+    }
+
+    public inline function addSelectedComponent() {
+        if (selectedEntity == null) return;
+
+        var selectedItem = addComponentDialogTree.getSelected();
+        if (selectedItem == null) return;
+        if (selectedItem.getMetadata(0).toBool() != true) return;
+
+        var componentName = selectedItem.getText(0);
+
+        var selectedClass: Class<Behavior> = null;
+        for (componentClass in componentClasses) {
+            if (std.Type.getClassName(componentClass) == componentName) {
+                selectedClass = componentClass;
+                break;
+            }
+        }
+
+        if (selectedClass != null) {
+            selectedEntity.addComponentNG(selectedClass);
+            refreshInspector();
+        }
+        else {
+            Debug.error("Component not found");
+        }
     }
 
     public inline function openLoadPrefabDialog() {
@@ -1156,6 +1226,9 @@ class SceneInspector extends EditorWidget {
         button.text = "Add Component";
         button.customMinimumSize = new Vector2(200.0, 0.0);
         button.alignment = HorizontalAlignment.center;
+        button.pressed.add(() -> {
+            showAddComponentTree();
+        });
 
         centerContainer.addChild(button);
         entityVBox.addChild(centerContainer);
