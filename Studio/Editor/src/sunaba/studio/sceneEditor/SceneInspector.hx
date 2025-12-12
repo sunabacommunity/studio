@@ -674,6 +674,16 @@ class SceneInspector extends EditorWidget {
             iconTextureRect.texture = icon;
             foldableContainer.addTitleBarControl(iconTextureRect);
 
+            var deleteButton = new Button();
+            var deleteIcon = getEditor().explorer.loadIcon("studio://icons/16/cross.png");
+            deleteButton.icon = deleteIcon;
+            deleteButton.pressed.add(() -> {
+                var compType = std.Type.getClass(component);
+                entity.removeComponent(compType);
+                refreshInspector();
+            });
+            foldableContainer.addTitleBarControl(deleteButton);
+
             var data = component.getData();
             var dataKeys = data.keys();
             var dataValues = data.values();
