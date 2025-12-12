@@ -87,6 +87,9 @@ class SceneInspector extends EditorWidget {
         load("studio://SceneInspector.suml");
 
         loadButton = getNodeT(Button, "vsplit/outliner/toolbar/hbox/load");
+        loadButton.pressed.add(() -> {
+            openLoadPrefabDialog();
+        });
 
         deleteButton = getNodeT(Button, "vsplit/outliner/toolbar/hbox/delete");
         deleteButton.pressed.connect(Callable.fromFunction(function() {
@@ -253,6 +256,69 @@ class SceneInspector extends EditorWidget {
         }
 
         addEntityDialog.popupCentered();
+    }
+
+    public inline function openLoadPrefabDialog() {
+        if (selectedEntity == null) return;
+        if (sceneEditor == null) return;
+        var dialog = new FileDialog();
+        dialog.fileMode = FileDialogMode.openFile;
+        dialog.rootSubfolder = getEditor().explorer.assetsDirectory;
+        dialog.currentDir = getEditor().explorer.assetsDirectory;
+        dialog.currentFile = selectedEntity.name + ".vpfb";
+        dialog.access = 2;
+        dialog.title = "Load Prefab";
+        dialog.addFilter("*.vpfb", "Prefab");
+        addChild(dialog);
+        dialog.hide();
+
+        dialog.currentDir = getEditor().explorer.assetsDirectory;
+
+        var dialogScaleFactor = getWindow().contentScaleFactor;
+        dialog.contentScaleFactor = dialogScaleFactor;
+        var minSize = new Vector2i(580, 460);
+        minSize.x = Std.int(minSize.x * dialogScaleFactor);
+        minSize.y = Std.int(minSize.y * dialogScaleFactor);
+        dialog.minSize = minSize;
+
+        dialog.fileSelected.connect(Callable.fromFunction(function(path: String) {
+            var ioPath = StringTools.replace(path, getEditor().explorer.assetsDirectory, getEditor().projectIo.pathUrl);
+            dialog.hide();
+            dialog.queueFree();
+            if (ioPath == "" || ioPath == path) {
+                Debug.error("Invalid file path.", "Error saving prefab");
+                return;
+            }
+
+            if (StringTools.contains(ioPath, "///"))
+                ioPath = StringTools.replace(ioPath, "///", "//");
+
+            var prefabFile = new Prefab();
+            prefabFile.io = getEditor().projectIo;
+            prefabFile.load(ioPath);
+
+            var prefab = prefabFile.instance();
+            if (selectedEntity != null)
+                selectedEntity.addChild(prefab);
+            else if (sceneEditor.prefab != null)
+                sceneEditor.prefab.addChild(prefab);
+            else
+                scene.addEntity(prefab);
+            selectedEntity = prefab;
+
+            refreshSceneTree();
+            for (idx in entityIndex.keys()) {
+                if (entityIndex[idx] == selectedEntity) {
+                    selectedEntityIndex = idx;
+                    break;
+                }
+            }
+            refreshInspector();
+            getEditor().explorer.buildTreeRoot();
+            sceneEditor.checkScene();
+        }));
+
+        dialog.popupCentered();
     }
 
     public inline function createEntity() {
