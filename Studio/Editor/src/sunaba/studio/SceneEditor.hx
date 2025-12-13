@@ -320,13 +320,24 @@ class SceneEditor extends EditorWidget {
     }
 
     public override function onSave() {
-        var sceneFile = SceneFile.create(scene);
-        var sceneData = sceneFile.getData();
-        var sceneJson = JSON.stringify(sceneData);
-        if (savedSceneJson == sceneJson) return;
-        savedSceneJson = sceneJson;
-        sceneFile.save(filePath);
-        checkScene();
+        if (fileType == FileType.SceneType) {
+            var sceneFile = SceneFile.create(scene);
+            var sceneData = sceneFile.getData();
+            var sceneJson = JSON.stringify(sceneData);
+            if (savedSceneJson == sceneJson) return;
+            savedSceneJson = sceneJson;
+            sceneFile.save(filePath);
+            checkScene();
+        }
+        else if (fileType == FileType.PrefabType) {
+            var prefabFile = Prefab.create(prefab, filePath);
+            var prefabData = prefabFile.getData();
+            var prefabJson = JSON.stringify(prefabData);
+            if (savedSceneJson == prefabJson) return;
+            savedSceneJson = prefabJson;
+            prefabFile.save(filePath);
+            checkScene();
+        }
     }
 
     public override function onDestroy() {
