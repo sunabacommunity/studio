@@ -289,6 +289,14 @@ class SceneInspector extends EditorWidget {
     public inline function deleteEntity() {
         if (sceneEditor == null) return;
         if (selectedEntity == null) return;
+
+        if (selectedEntity != null) {
+            var transform: SpatialTransform = selectedEntity.getComponent(SpatialTransform);
+            if (transform != null) {
+                sceneEditor.gizmo.deselect(transform);
+            }
+        }
+        
         selectedEntity.destroy();
         selectedEntity = null;
 
