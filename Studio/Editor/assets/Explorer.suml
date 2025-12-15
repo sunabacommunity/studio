@@ -55,5 +55,11 @@
                 </sunaba.ui.Control>
             </sunaba.ui.Control>
         </sunaba.ui.VBoxContainer>
+        <sunaba.desktop.ConfirmationDialog
+            name="newFileDialog"
+            title="New File"
+            minSize="600, 400"
+            okButtonText="Create">
+        </sunaba.desktop.ConfirmationDialog>
     </body>
 </suml>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml>
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true"
+            separation="0">
+            <sunaba.ui.ItemList
+                name="itemList"
+                sizeFlagsVertical="3"
+                fixedIconSize="32,32"
+                fixedColumnWidth="96"
+                iconMode="0"
+                selectMode="0"
+                maxColumns="0"/>
+            <sunaba.ui.HBoxContainer
+                name="hbox"
+                separation="0">
+                <sunaba.ui.LineEdit
+                    name="lineEdit"
+                    sizeFlagsHorizontal="3"/>
+                <sunaba.ui.Button
+                    name="browseButton"
+                    text="Browse"/>
+            </sunaba.ui.HBoxContainer>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>

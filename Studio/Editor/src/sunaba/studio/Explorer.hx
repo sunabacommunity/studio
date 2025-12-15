@@ -15,6 +15,8 @@ import sys.FileSystem;
 import sunaba.core.Callable;
 import sunaba.studio.explorer.FileHandler;
 import sunaba.core.VariantType;
+import sunaba.studio.explorer.NewFileWidget;
+import sunaba.desktop.ConfirmationDialog;
 
 class Explorer extends EditorWidget {
     var reloadButton: Button;
@@ -34,6 +36,9 @@ class Explorer extends EditorWidget {
     public var sourceDirectory = "";
 
     public var fileHandlers: Array<FileHandler> = [];
+
+    public var newFileDialog: ConfirmationDialog;
+    public var newFileWidget: NewFileWidget;
 
     public override function editorInit() {
         trace("Hello, World!");
@@ -91,6 +96,15 @@ class Explorer extends EditorWidget {
         }));
 
         singleColumnTree = getNodeT(Tree, "vbox/view/singleColumn/tree");
+
+        newFileDialog = getNodeT(ConfirmationDialog, "newFileDialog");
+        newFileDialog.contentScaleFactor = getWindow().contentScaleFactor;
+        var nfwMinSize = newFileDialog.minSize;
+        nfwMinSize.x = Std.int(nfwMinSize.x * newFileDialog.contentScaleFactor);
+        nfwMinSize.y = Std.int(nfwMinSize.y * newFileDialog.contentScaleFactor);
+        newFileDialog.minSize = nfwMinSize;
+        newFileWidget = new NewFileWidget(this);
+        newFileDialog.addChild(newFileWidget);
     }
 
     public function startExplorer() {
