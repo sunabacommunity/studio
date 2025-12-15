@@ -101,11 +101,10 @@ class NewFileWidget extends Widget {
 
         _explorer.newFileDialog.confirmed.add(() -> {
             if (pathType == PathType.assetFile) {
-                trace(assetFilePath);
                 assetLastSelected.createFile(assetFilePath);
             }
             else if (pathType == PathType.scriptFile) {
-                trace(scriptFilePath);
+                scriptLastSelected.createFile(sceneFilePath);
             }
             _explorer.refresh();
         });
