@@ -485,6 +485,13 @@ class SceneInspector extends EditorWidget {
             }
         }
 
+        if (selectedEntity != null) {
+            var transform: SpatialTransform = selectedEntity.getComponent(SpatialTransform);
+            if (transform != null) {
+                sceneEditor.gizmo.deselect(transform);
+            }
+        }
+
         var transform: SpatialTransform = entityIndex[selectedEntityIndex].getComponent(SpatialTransform);
         if (transform != null) {
             sceneEditor.gizmo.select(transform);
