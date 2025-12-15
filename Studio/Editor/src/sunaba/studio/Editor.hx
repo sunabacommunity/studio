@@ -837,7 +837,6 @@ class Editor extends Widget {
                     DisplayService.cursorSetShape(CursorShape.hsize);
                     return;
                 }
-                trace(mousePosition.x > windowsize.x + 50.0);
                 if (mousePosition.x > windowsize.x - resizeThreshold) { // Right
                     DisplayService.cursorSetShape(CursorShape.hsize);
                     return;
