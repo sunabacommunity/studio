@@ -584,6 +584,9 @@ class Editor extends Widget {
                 sceneFile.save(path);
                 sceneRoot.queueFree();
             });
+            explorer.newFileWidget.addScriptFileTemplate("Empty Script", ".hx", explorer.loadIcon("studio://icons/16_2x/document.png"), (path: String) -> {
+                sourceIo.saveText(path, "");
+            });
             explorer.startExplorer();
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
