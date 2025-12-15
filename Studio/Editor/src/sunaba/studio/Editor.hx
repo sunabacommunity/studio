@@ -577,6 +577,12 @@ class Editor extends Widget {
             explorer.fileHandlers.push(new HxFileHandler(explorer));
             explorer.fileHandlers.push(new VscnFileHandler(explorer));
             explorer.fileHandlers.push(new VpfbFileHandler(explorer));
+            explorer.newFileWidget.addAssetFileTemplate("Empty Scene", ".vscn", explorer.loadIcon("studio://icons/16_2x/clapperboard.png"), (path: String) -> {
+                var sceneRoot = new SceneRoot();
+                var sceneFile = SceneFile.create(sceneRoot);
+                sceneFile.save(path);
+                sceneRoot.queueFree();
+            });
             explorer.startExplorer();
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
