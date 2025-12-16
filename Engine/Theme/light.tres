@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://du72lx2fs2us4" path="res://Engine/Theme/pressed_button13.png" id="6_g8kvn"]
 [ext_resource type="StyleBox" uid="uid://b56wjbkyw1sow" path="res://Engine/Theme/white.tres" id="7_yeopq"]
 [ext_resource type="Texture2D" uid="uid://nvfxhw175hwr" path="res://Engine/Theme/pipette.png" id="8_f3mdq"]
+[ext_resource type="FontFile" uid="uid://b6784stmn10i4" path="res://Engine/Theme/fonts/FragmentMono-Regular.ttf" id="8_fvuun"]
 [ext_resource type="Texture2D" uid="uid://cqhyncn3sshnb" path="res://Engine/Theme/color.png" id="9_ravag"]
 [ext_resource type="Texture2D" uid="uid://cry2cyifqgubt" path="res://Engine/Theme/spectrum.png" id="10_iplnv"]
 [ext_resource type="Texture2D" uid="uid://y872c5gpgvtg" path="res://Engine/Theme/arrow-180.png" id="11_qoqjg"]
@@ -39,9 +40,7 @@
 [ext_resource type="Texture2D" uid="uid://wvk3q6nx6cf5" path="res://Engine/Theme/grey_panel.png" id="26_hvbnu"]
 [ext_resource type="FontFile" uid="uid://cwpcp5tic3f10" path="res://Engine/Theme/fonts/NunitoSans-Bold.ttf" id="30_njkil"]
 [ext_resource type="StyleBox" uid="uid://djrog4w1wovc5" path="res://Engine/Theme/topbar.tres" id="34_gtgn1"]
-[ext_resource type="FontFile" uid="uid://d2fx2sayq5pyt" path="res://Engine/Theme/fonts/NunitoSans-Regular.ttf" id="36_qe2d6"]
 [ext_resource type="FontFile" uid="uid://d2fx2sayq5pyt" path="res://Engine/Theme/fonts/NunitoSans-Regular.ttf" id="41_fvuun"]
-
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ufuef"]
 texture = ExtResource("3")
@@ -246,7 +245,7 @@ CheckBox/styles/pressed = null
 CheckButton/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
 CheckButton/colors/font_pressed_color = Color(0, 0, 0, 1)
 CodeEdit/colors/font_color = Color(0, 0, 0, 1)
-CodeEdit/fonts/font = ExtResource("6_cfwri")
+CodeEdit/fonts/font = ExtResource("8_fvuun")
 ColorPicker/icons/add_preset = ExtResource("5_vde3i")
 ColorPicker/icons/expanded_arrow = ExtResource("13_e7mjp")
 ColorPicker/icons/folded_arrow = ExtResource("14_itrav")
@@ -365,7 +364,7 @@ RichTextLabel/colors/font_selected_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/selection_color = Color(0.129412, 0.666667, 0.894118, 0.8)
 RichTextLabel/fonts/bold_font = ExtResource("30_njkil")
 RichTextLabel/fonts/mono_font = ExtResource("6_cfwri")
-RichTextLabel/fonts/normal_font = ExtResource("36_qe2d6")
+RichTextLabel/fonts/normal_font = ExtResource("41_fvuun")
 SpinBox/icons/down = ExtResource("22_yrekc")
 SpinBox/icons/down_disabled = ExtResource("22_yrekc")
 SpinBox/icons/down_hover = ExtResource("22_yrekc")

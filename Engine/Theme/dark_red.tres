@@ -7,6 +7,7 @@
 [ext_resource type="StyleBox" uid="uid://djvjycnw2wwep" path="res://Engine/Theme/button_red.tres" id="5_g3ome"]
 [ext_resource type="FontFile" uid="uid://btoh80w8pdwdj" path="res://Engine/Theme/fonts/FiraCode-Regular.ttf" id="6_jq2hb"]
 [ext_resource type="Texture2D" uid="uid://6sfbvfg3atf7" path="res://Engine/Theme/dark/grey_panel.png" id="7_03ey2"]
+[ext_resource type="FontFile" uid="uid://b6784stmn10i4" path="res://Engine/Theme/fonts/FragmentMono-Regular.ttf" id="7_mpyv7"]
 [ext_resource type="StyleBox" uid="uid://nlmo78inhosd" path="res://Engine/Theme/empty.tres" id="8_s571a"]
 [ext_resource type="StyleBox" uid="uid://bw2nalo6mrfem" path="res://Engine/Theme/panel_focus.tres" id="9_gts5a"]
 [ext_resource type="Texture2D" uid="uid://dxrvtdos1xhiq" path="res://Engine/Theme/focus_button13_red.png" id="10_hrlrj"]
@@ -14,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://dafpvty7c2x6q" path="res://Engine/Theme/dark/banner.png" id="12_kgg5i"]
 [ext_resource type="Texture2D" uid="uid://iuq6u6o8uybw" path="res://Engine/Theme/dark/grey_button13.png" id="13_isy6m"]
 [ext_resource type="FontFile" uid="uid://cwpcp5tic3f10" path="res://Engine/Theme/fonts/NunitoSans-Bold.ttf" id="14_jc602"]
-[ext_resource type="FontFile" uid="uid://d2fx2sayq5pyt" path="res://Engine/Theme/fonts/NunitoSans-Regular.ttf" id="15_afhuq"]
 [ext_resource type="StyleBox" uid="uid://vsre08ftarbp" path="res://Engine/Theme/tab_bg.tres" id="16_54m86"]
 [ext_resource type="StyleBox" uid="uid://de1k7xu0s8ba2" path="res://Engine/Theme/tab_fg.tres" id="17_agt0v"]
 [ext_resource type="Texture2D" uid="uid://bgffefa6ul6au" path="res://Engine/Theme/dark/grey_tab.png" id="18_nfev7"]
@@ -22,7 +22,6 @@
 [ext_resource type="Texture2D" uid="uid://byb3sj4xvhp6y" path="res://Engine/Theme/expand.png" id="20_o1tc1"]
 [ext_resource type="Texture2D" uid="uid://cqe50bdau567b" path="res://Engine/Theme/dark/window.png" id="21_od2p8"]
 [ext_resource type="FontFile" uid="uid://d2fx2sayq5pyt" path="res://Engine/Theme/fonts/NunitoSans-Regular.ttf" id="22_h4jox"]
-
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bksoy"]
 texture = ExtResource("7_03ey2")
@@ -309,7 +308,7 @@ CheckBox/styles/hover = null
 CheckBox/styles/hover_pressed = null
 CheckBox/styles/normal = null
 CheckBox/styles/pressed = null
-CodeEdit/fonts/font = ExtResource("6_jq2hb")
+CodeEdit/fonts/font = ExtResource("7_mpyv7")
 FileDialog/colors/file_icon_modulate = Color(0.2, 0.72549, 0.94902, 1)
 FileDialog/colors/folder_icon_modulate = Color(0.2, 0.72549, 0.94902, 1)
 FoldableContainer/styles/focus = SubResource("StyleBoxEmpty_c4270")
@@ -391,7 +390,7 @@ RichTextLabel/colors/font_selected_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/selection_color = Color(0.129412, 0.666667, 0.894118, 0.8)
 RichTextLabel/fonts/bold_font = ExtResource("14_jc602")
 RichTextLabel/fonts/mono_font = ExtResource("6_jq2hb")
-RichTextLabel/fonts/normal_font = ExtResource("15_afhuq")
+RichTextLabel/fonts/normal_font = ExtResource("22_h4jox")
 TabBar/colors/font_color_bg = Color(1, 1, 1, 1)
 TabBar/colors/font_color_disabled = Color(0.129412, 0.129412, 0.129412, 0.2)
 TabBar/colors/font_color_fg = Color(1, 1, 1, 1)

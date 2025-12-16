@@ -8,6 +8,7 @@
 [ext_resource type="StyleBox" uid="uid://dblfb66ahi7w8" path="res://Engine/Theme/button_dark.tres" id="4_at747"]
 [ext_resource type="FontFile" uid="uid://btoh80w8pdwdj" path="res://Engine/Theme/fonts/FiraCode-Regular.ttf" id="6_clcbm"]
 [ext_resource type="Texture2D" uid="uid://6sfbvfg3atf7" path="res://Engine/Theme/dark/grey_panel.png" id="6_hwutb"]
+[ext_resource type="FontFile" uid="uid://b6784stmn10i4" path="res://Engine/Theme/fonts/FragmentMono-Regular.ttf" id="7_8cu2s"]
 [ext_resource type="StyleBox" uid="uid://vsre08ftarbp" path="res://Engine/Theme/tab_bg.tres" id="8_tw88j"]
 [ext_resource type="StyleBox" uid="uid://nlmo78inhosd" path="res://Engine/Theme/empty.tres" id="9_1cga8"]
 [ext_resource type="StyleBox" uid="uid://bw2nalo6mrfem" path="res://Engine/Theme/panel_focus.tres" id="9_pwen5"]
@@ -20,9 +21,7 @@
 [ext_resource type="FontFile" uid="uid://cwpcp5tic3f10" path="res://Engine/Theme/fonts/NunitoSans-Bold.ttf" id="15_hpgrm"]
 [ext_resource type="Texture2D" uid="uid://d2qlqkqsuico2" path="res://Engine/Theme/windowIcons/close20dark.png" id="16_il6h1"]
 [ext_resource type="Texture2D" uid="uid://dafpvty7c2x6q" path="res://Engine/Theme/dark/banner.png" id="18_c2xtr"]
-[ext_resource type="FontFile" uid="uid://d2fx2sayq5pyt" path="res://Engine/Theme/fonts/NunitoSans-Regular.ttf" id="21_unv6f"]
 [ext_resource type="FontFile" uid="uid://d2fx2sayq5pyt" path="res://Engine/Theme/fonts/NunitoSans-Regular.ttf" id="22_8cu2s"]
-
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ghsb1"]
 texture = ExtResource("6_hwutb")
@@ -294,7 +293,7 @@ CheckBox/styles/hover = null
 CheckBox/styles/hover_pressed = null
 CheckBox/styles/normal = null
 CheckBox/styles/pressed = null
-CodeEdit/fonts/font = ExtResource("6_clcbm")
+CodeEdit/fonts/font = ExtResource("7_8cu2s")
 FileDialog/colors/file_icon_modulate = Color(0.2, 0.72549, 0.94902, 1)
 FileDialog/colors/folder_icon_modulate = Color(0.2, 0.72549, 0.94902, 1)
 FoldableContainer/styles/focus = SubResource("StyleBoxEmpty_c4270")
@@ -376,7 +375,7 @@ RichTextLabel/colors/font_selected_color = Color(1, 1, 1, 1)
 RichTextLabel/colors/selection_color = Color(0.129412, 0.666667, 0.894118, 0.8)
 RichTextLabel/fonts/bold_font = ExtResource("15_hpgrm")
 RichTextLabel/fonts/mono_font = ExtResource("6_clcbm")
-RichTextLabel/fonts/normal_font = ExtResource("21_unv6f")
+RichTextLabel/fonts/normal_font = ExtResource("22_8cu2s")
 TabBar/colors/font_color_bg = Color(1, 1, 1, 1)
 TabBar/colors/font_color_disabled = Color(0.129412, 0.129412, 0.129412, 0.2)
 TabBar/colors/font_color_fg = Color(1, 1, 1, 1)
