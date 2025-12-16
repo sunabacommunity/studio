@@ -110,6 +110,18 @@
                             iconAlignment="1"
                             customMinimumSize="40,40"/>
                         <sunaba.ui.Button
+                            name="undo"
+                            flat="true"
+                            icon="studio://icons/16_1-5x/arrow-curve-180-left.png"
+                            iconAlignment="1"
+                            customMinimumSize="40,40"/>
+                        <sunaba.ui.Button
+                            name="redo"
+                            flat="true"
+                            icon="studio://icons/16_1-5x/arrow-curve.png"
+                            iconAlignment="1"
+                            customMinimumSize="40,40"/>
+                        <sunaba.ui.Button
                             name="reload"
                             flat="true"
                             icon="studio://icons/16_1-5x/plug--reload.png"

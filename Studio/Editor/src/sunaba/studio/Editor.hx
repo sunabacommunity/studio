@@ -79,6 +79,8 @@ class Editor extends Widget {
     var workspaceChildern: Array<EditorWidget> = [];
 
     public var saveFileButton: Button;
+    public var undoButton: Button;
+    public var redoButton: Button;
     public var reloadButton: Button;
     public var buildButton: Button;
 
@@ -144,6 +146,14 @@ class Editor extends Widget {
         rightTabContainer.tabsVisible = false;
 
         saveFileButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/saveFile");
+        undoButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/undo");
+        undoButton.pressed.add(() -> {
+            undo();
+        });
+        redoButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/redo");
+        redoButton.pressed.add(() -> {
+            redo();
+        });
         reloadButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/reload");
         reloadButton.pressed.connect(Callable.fromFunction(function() {
             buildPlugin();
@@ -369,10 +379,10 @@ class Editor extends Widget {
             var editMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Edit");
             editMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
-                    Debug.error("'Undo' not implemented");
+                    undo();
                 }
                 else if (id == 1) {
-                    Debug.error("'Redo' not implemented");
+                    redo();
                 }
                 else if (id == 3) {
                     Debug.error("'Cut' not implemented");
@@ -1354,6 +1364,15 @@ class Editor extends Widget {
         else {
             return InputService.isKeyLabelPressed(Key.ctrl);
         }
+    }
+
+
+    public function undo() {
+        Debug.error("'Undo' not implemented");
+    }
+
+    public function redo() {
+        Debug.error("'Redo' not implemented");
     }
 
     public function save() {
