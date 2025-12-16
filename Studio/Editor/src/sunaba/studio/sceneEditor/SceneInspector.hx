@@ -233,6 +233,7 @@ class SceneInspector extends EditorWidget {
                 }
             }
 
+            sceneEditor.gizmo.clear();
             refreshInspector();
             sceneEditor.checkScene();
         }));
@@ -421,6 +422,7 @@ class SceneInspector extends EditorWidget {
                     break;
                 }
             }
+            sceneEditor.gizmo.clear();
             refreshInspector();
             getEditor().explorer.buildTreeRoot();
             sceneEditor.checkScene();
@@ -572,6 +574,9 @@ class SceneInspector extends EditorWidget {
         if (_sceneEditor == null) {
             if (!nothingSelected) {
                 nothingSelected == true;
+                if (sceneEditor != null) {
+                    sceneEditor.gizmo.clear();
+                }
                 sceneEditor = null;
                 scene = null;
                 prefab = null;
@@ -582,12 +587,15 @@ class SceneInspector extends EditorWidget {
         }
         if (_sceneEditor != sceneEditor) {
             nothingSelected = false;
+            if (sceneEditor != null) {
+                sceneEditor.gizmo.clear();
+            }
             sceneEditor = _sceneEditor;
             scene = sceneEditor.scene;
             prefab = sceneEditor.prefab;
             mode = sceneEditor.fileType;
             selectedEntityIndex = -1;
-            refreshSceneTree();
+            refreshSceneTree();        
             refreshInspector();
         }
     }
@@ -655,13 +663,6 @@ class SceneInspector extends EditorWidget {
         }
         if (sceneEditor != null) {
             sceneEditor.checkScene();
-            if (selectedEntity != null) {
-                var transform: SpatialTransform = selectedEntity.getComponent(SpatialTransform);
-                if (transform != null) {
-                    sceneEditor.gizmo.deselect(transform);
-                }
-            }
-            sceneEditor.gizmo.clear();
         }
         
 
@@ -685,10 +686,6 @@ class SceneInspector extends EditorWidget {
                     entityIcon.texture = entityIcon24;
                     buildComponentTree(selectedEntity);
                     entityPrefabButton.show();
-                }
-                var transform: SpatialTransform = entityIndex[selectedEntityIndex].getComponent(SpatialTransform);
-                if (transform != null) {
-                    sceneEditor.gizmo.select(transform);
                 }
             }
             else if (mode == FileType.SceneType) {
@@ -742,6 +739,7 @@ class SceneInspector extends EditorWidget {
             deleteButton.pressed.add(() -> {
                 var compType = std.Type.getClass(component);
                 entity.removeComponent(compType);
+                sceneEditor.gizmo.clear();
                 refreshInspector();
             });
             foldableContainer.addTitleBarControl(deleteButton);
