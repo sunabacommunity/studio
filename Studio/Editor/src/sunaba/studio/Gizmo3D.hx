@@ -199,6 +199,11 @@ class Gizmo3D extends Behavior {
         node.native.call("deselect", args);
     }
 
+    public function clear() {
+        var args = new ArrayList();
+        node.native.call("clear", args);
+    }
+
     public function isSelected(target: SpatialTransform): Bool {
         var args = new ArrayList();
         args.append(target.node.native);

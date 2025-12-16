@@ -329,6 +329,10 @@ func _get_ctrl_key():
 func select(target : Node3D) -> void:
 	_selections[target] = _get_editor_data()
 
+func clear():
+	for node in _selections.keys():
+		deselect(node)
+
 ## Remove a node from the list of nodes currently being edited.
 func deselect(target : Node3D) -> bool:
 	var item = _selections.get(target)
