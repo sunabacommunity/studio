@@ -30,6 +30,8 @@ public partial class HxNetHost: RefCounted
     }
 
     public string Ip;
+
+    public string Host;
     
     public string Reverse()
     {
