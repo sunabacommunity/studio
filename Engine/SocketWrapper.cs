@@ -51,7 +51,17 @@ namespace Sunaba.Engine
                     SocketType.Stream,
                     ProtocolType.Tcp
                 );
-                var ipAddress = IPAddress.Parse(address);
+                
+                // Try to parse as IP address first, if it fails, resolve as hostname
+                IPAddress ipAddress;
+                if (!IPAddress.TryParse(address, out ipAddress))
+                {
+                    var addresses = Dns.GetHostAddresses(address);
+                    if (addresses.Length == 0)
+                        return Result<TcpServer>.Failure("Unable to resolve host: " + address);
+                    ipAddress = addresses[0];
+                }
+                
                 var endpoint = new IPEndPoint(ipAddress, port);
 
                 socket.Bind(endpoint);
@@ -82,17 +92,30 @@ namespace Sunaba.Engine
 
                 if (locaddr != null && locport.HasValue)
                 {
-                    var localEndpoint = new IPEndPoint(
-                        IPAddress.Parse(locaddr),
-                        locport.Value
-                    );
+                    IPAddress localIpAddress;
+                    if (!IPAddress.TryParse(locaddr, out localIpAddress))
+                    {
+                        var addresses = Dns.GetHostAddresses(locaddr);
+                        if (addresses.Length == 0)
+                            return Result<TcpClient>.Failure("Unable to resolve local host: " + locaddr);
+                        localIpAddress = addresses[0];
+                    }
+                    
+                    var localEndpoint = new IPEndPoint(localIpAddress, locport.Value);
                     socket.Bind(localEndpoint);
                 }
 
-                var remoteEndpoint = new IPEndPoint(
-                    IPAddress.Parse(address),
-                    port
-                );
+                // Try to parse as IP address first, if it fails, resolve as hostname
+                IPAddress remoteIpAddress;
+                if (!IPAddress.TryParse(address, out remoteIpAddress))
+                {
+                    var addresses = Dns.GetHostAddresses(address);
+                    if (addresses.Length == 0)
+                        return Result<TcpClient>.Failure("Unable to resolve host: " + address);
+                    remoteIpAddress = addresses[0];
+                }
+
+                var remoteEndpoint = new IPEndPoint(remoteIpAddress, port);
                 socket.Connect(remoteEndpoint);
 
                 return Result<TcpClient>.Success(new TcpClient(socket));

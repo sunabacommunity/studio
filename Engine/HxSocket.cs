@@ -27,7 +27,10 @@ public partial class HxSocket : RefCounted
 
     public void Close()
     {
-        _socket.Close();
+        if (_socket != null)
+        {
+            _socket.Close();
+        }
     }
 
     public int Connect(HxNetHost host, int port)
@@ -41,22 +44,38 @@ public partial class HxSocket : RefCounted
         Input = new HxSocketInput(res.Value._socket);
         Output = new HxSocketOutput(res.Value._socket);
         _socket = res.Value;
-        _socket.SetTimeout(_timeout.Value);
+        if (_timeout.HasValue)
+        {
+            _socket.SetTimeout(_timeout.Value);
+        }
         return 0;
     }
 
     public int Listen(int connections)
     {
-        var res = SocketWrapper.Tcp();
-        if (res.Message != null)
+        try
         {
-            Msg = res.Message;
+            var res = SocketWrapper.Tcp();
+            if (res.Message != null)
+            {
+                Msg = res.Message;
+                return -1;
+            }
+
+            res.Value.Listen(connections);
+            _socket = res.Value;
+            if (_timeout.HasValue)
+            {
+                _socket.SetTimeout(_timeout.Value);
+            }
+
+            return 0;
+        }
+        catch (SocketException se)
+        {
+            Msg = se.Message;
             return -1;
         }
-        res.Value.Listen(connections);
-        _socket = res.Value;
-        _socket.SetTimeout(_timeout.Value);
-        return 0;
     }
 
     public void Shutdown(bool read, bool write)
@@ -144,8 +163,7 @@ public partial class HxSocket : RefCounted
         _timeout = timeout;
         if (_socket != null)
         {
-            TcpClient client = new TcpClient(_socket._socket);
-            client.SetTimeout(timeout);
+            _socket.SetTimeout(timeout);
         }
     }
 
@@ -156,8 +174,11 @@ public partial class HxSocket : RefCounted
 
     public void SetFastSend(bool b)
     {
-        TcpClient client = new TcpClient(_socket._socket);
-        client.SetOption(SocketOption.TcpNoDelay, true);
+        if (_socket != null)
+        {
+            TcpClient client = new TcpClient(_socket._socket);
+            client.SetOption(SocketOption.TcpNoDelay, true);
+        }
     }
 
     public Dictionary Select(Array read, Array write, Array others, float? timeout = null)
