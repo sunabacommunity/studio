@@ -8,6 +8,7 @@ import sunaba.core.StringArray;
 import sunaba.ui.RichTextLabel;
 import sunaba.ui.LineEdit;
 import sunaba.ShellConsole;
+import sunaba.ui.OptionButton;
 import sunaba.core.Callable;
 
 
@@ -17,10 +18,13 @@ class Console extends EditorWidget {
 
 	private var console: ShellConsole;
 
+	private var mode = ConsoleLineEditMode.command;
+
     public override function editorInit() {
         load("studio://Console.suml");
 
         var txt: String = "";
+		mode = ConsoleLineEditMode.command;
 
 		output = getNodeT(RichTextLabel, "vbox/panel/output");
 		output.selectionEnabled = true;
@@ -34,7 +38,20 @@ class Console extends EditorWidget {
 			trace("Input element not found in ConsoleWidget");
 			return;
 		}
-		input = getNodeT(LineEdit, "vbox/input");
+		input = getNodeT(LineEdit, "vbox/hbox/input");
+
+		var option = getNodeT(OptionButton, "vbox/hbox/option");
+		option.addItem("Command Mode", ConsoleLineEditMode.command);
+		option.addItem("Code Mode", ConsoleLineEditMode.code);
+		option.itemSelected.add((id: Int) -> {
+			if (id != ConsoleLineEditMode.command && id != ConsoleLineEditMode.code)
+				Debug.error("Invalid Mode");
+			mode = id;
+			if (id == ConsoleLineEditMode.command)
+				input.placeholderText = "Enter console commands here...";
+			else if (id == ConsoleLineEditMode.code)
+				input.placeholderText = "Enter shell code here...";
+		});
 		console = new ShellConsole();
 		console.io = io;
 		console.print.add(function(log: String) {
@@ -45,7 +62,10 @@ class Console extends EditorWidget {
 		input.textSubmitted.add(function(text: String) {
 			if (text != "") {
 				try {
-					console.eval(text);
+					if (mode == ConsoleLineEditMode.code)
+						console.eval(text);
+					else if (mode == ConsoleLineEditMode.command)
+						console.cmd(text);
 				}
 				catch(e) {
 					txt = txt + '[color=red]Error: ' + e + '[/color]\n';
@@ -93,7 +113,16 @@ class Console extends EditorWidget {
         console.addCommand(name, func);
     }
 
-    public function eval(code: String) {
+	public function evalCmd(command: String) {
+		console.cmd(command);
+	}
+
+    public function evalCode(code: String) {
         console.eval(code);
     }
+}
+
+enum abstract ConsoleLineEditMode(Int) from Int to Int {
+	var command = 0;
+	var code = 1;	
 }

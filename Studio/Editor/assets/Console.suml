@@ -16,9 +16,15 @@
                     offsetLeft="5"
                     offsetRight="-5"/>
             </sunaba.ui.Panel>
-            <sunaba.ui.LineEdit
-                name="input"
-                text="Enter console commands here..."/>
+            <sunaba.ui.HBoxContainer
+                name="hbox">
+                <sunaba.ui.LineEdit
+                    name="input"
+                    sizeFlagsHorizontal="3"
+                    placeholderText="Enter console commands here..."/>
+                <sunaba.ui.OptionButton
+                    name="option"/>
+            </sunaba.ui.HBoxContainer>
         </sunaba.ui.VBoxContainer>
     </body>
 </suml>
