@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true">
+            <sunaba.ui.Panel
+                name="panel"
+                sizeFlagsVertical="3">
+                <sunaba.ui.RichTextLabel
+                    name="output"
+                    fullRect="true"
+                    offsetBottom="-5"
+                    offsetTop="5"
+                    offsetLeft="5"
+                    offsetRight="-5"/>
+            </sunaba.ui.Panel>
+            <sunaba.ui.LineEdit
+                name="input"
+                text="Enter console commands here..."/>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>

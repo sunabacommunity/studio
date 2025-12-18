@@ -104,6 +104,7 @@ class Editor extends Widget {
 
     public var explorer: Explorer;
     public var sceneInspector: SceneInspector;
+    public var console: Console;
 
     public var projectIo: FileSystemIo;
     public var sourceIo: FileSystemIo;
@@ -611,6 +612,8 @@ class Editor extends Widget {
             ioManager.register(localPluginIo);
 
             sceneInspector = new SceneInspector(this, EditorArea.rightSidebar);
+
+            console = new Console(this, EditorArea.dock);
 
             //loadProjectPlugin();
         }

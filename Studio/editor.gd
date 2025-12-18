@@ -1,8 +1,8 @@
-extends DesktopApp
-
+extends EditorApp
 
 func _init() -> void:
 	init(false, [])
+	printlnInit()
 	var args = OS.get_cmdline_args()
 	var sproj_path = ""
 	for arg in args:

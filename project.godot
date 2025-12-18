@@ -27,6 +27,7 @@ config/windows_native_icon="res://Studio/studio.ico"
 ResourcePathDB="*res://Engine/ResourcePathDB.gd"
 PlatformService="*res://Engine/PlatformService.cs"
 StudioUtils="*res://Studio/StudioUtils.cs"
+DotNetOutputRedirect="*res://Studio/DotNetOutputRedirect.cs"
 
 [debug_draw_3d]
 
