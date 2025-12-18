@@ -72,11 +72,13 @@ class Editor extends Widget {
 
     var leftTabContainer: TabContainer;
     var centerTabContainer: TabContainer;
+    var bottomCenterTabContainer: TabContainer;
     var rightTabContainer: TabContainer;
 
     var leftSidebarChildren: Array<EditorWidget> = [];
     var rightSidebarChildren: Array<EditorWidget> = [];
     var workspaceChildern: Array<EditorWidget> = [];
+    var dockChildren: Array<EditorWidget> = [];
 
     public var saveFileButton: Button;
     public var undoButton: Button;
@@ -139,8 +141,9 @@ class Editor extends Widget {
         leftTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/leftSidebar");
         leftTabContainer.hide();
         leftTabContainer.tabsVisible = false;
-        centerTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/workspace");
+        centerTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/vsplit/workspace");
         centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
+        bottomCenterTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/vsplit/dock");
         rightTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/rightSidebar");
         rightTabContainer.hide();
         rightTabContainer.tabsVisible = false;
@@ -1213,6 +1216,16 @@ class Editor extends Widget {
         return centerTabContainer.getTabTitle(index);
     }
 
+    public function getDockTabIcon(widget: EditorWidget, icon: Texture2D) {
+        var index = dockChildren.indexOf(widget);
+        return bottomCenterTabContainer.getTabIcon(index);
+    }
+
+    public function setDockTabTitle(widget: EditorWidget, title: String) {
+        var index = dockChildren.indexOf(widget);
+        bottomCenterTabContainer.setTabTitle(index, title);
+    }
+
     public function addLeftSidebarChild(child: EditorWidget) {
         leftSidebarChildren.push(child);
         leftTabContainer.addChild(child);
@@ -1241,6 +1254,12 @@ class Editor extends Widget {
         centerTabContainer.currentTab = centerTabContainer.getTabIdxFromControl(child);
     }
 
+    public function addDockChild(child: EditorWidget) {
+        dockChildren.push(child);
+        bottomCenterTabContainer.addChild(child);
+        bottomCenterTabContainer.currentTab = bottomCenterTabContainer.getTabIdxFromControl(child);
+    }
+
     public function getCurrentWorkspaceChild() {
         return workspaceChildern[centerTabContainer.currentTab];
     }
@@ -1251,6 +1270,10 @@ class Editor extends Widget {
 
     public function getCurrentRightSidebarChild() {
         return rightSidebarChildren[rightTabContainer.currentTab];
+    }
+
+    public function getCurrentDockChild() {
+        return dockChildren[bottomCenterTabContainer.currentTab];
     }
 
     var isSaveKeyPressed: Bool = false;

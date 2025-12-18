@@ -183,9 +183,16 @@
                             name="hsplit2"
                             sizeFlagsHorizontal="3"
                             splitOffset="200">
-                        <sunaba.ui.TabContainer
-                                sizeFlagsHorizontal="3"
-                                name="workspace"/>
+                            <sunaba.ui.VSplitContainer
+                                name="vsplit"
+                                sizeFlagsHorizontal="3">
+                                <sunaba.ui.TabContainer
+                                    sizeFlagsVertical="3"
+                                    name="workspace"/>
+                                <sunaba.ui.TabContainer
+                                    name="dock"
+                                    customMinimumSize="0, 250"/>
+                            </sunaba.ui.VSplitContainer>
                         <sunaba.ui.TabContainer
                                 name="rightSidebar"
                                 customMinimumSize="200, 0"/>
