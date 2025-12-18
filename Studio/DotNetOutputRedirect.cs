@@ -29,6 +29,7 @@ public partial class DotNetOutputRedirect : Node
 			if (_out.Contains(line))
 				continue;
 			
+			GD.Print(line);
 			_out.Add(line);
 			EmitSignalPrintln(line);
 		}	
