@@ -646,6 +646,16 @@ class Editor extends Widget {
                 return 0;
             });
 
+            var osArgs = OSService.getCmdlineArgs();
+            for (i in 0...osArgs.size()) {
+                var arg = osArgs.get(i);
+                if (OSService.getName() != "macOS") {
+                    if (arg == "--no-custom-titlebar") {
+                        customTitlebar = false;
+                    }
+                }
+            }
+
             //loadProjectPlugin();
         }
         catch(e: Exception) {
