@@ -1,5 +1,8 @@
 package sunaba.studio;
 
+import sunaba.io.DataFileType;
+import sunaba.spatial.models.gltf.GLTFCamera;
+import sunaba.spatial.Camera;
 import sunaba.spatial.SpatialTransform;
 import sunaba.spatial.models.gltf.GLTFNode;
 import lua.Coroutine;
@@ -169,7 +172,8 @@ class ModelImportService {
             }
 
             if (rootEntity != null) {
-
+                var prefab = Prefab.create(rootEntity, destPath);
+                prefab.save(DataFileType.msgPack);
             }
         }
     }
@@ -197,6 +201,17 @@ class ModelImportService {
 
         if (node.camera != -1) {
             var cameras = state.getCameras();
+            var modelCamera: GLTFCamera = new GLTFCamera(cameras.get(node.camera));
+            var camera = entity.addComponent(Camera);
+            camera.node = modelCamera.toNode();
+        }
+        
+        var children = node.children.toArray();
+        var nodes = state.getNodes();
+        for (childIdx in children) {
+            var childNode = new GLTFNode(nodes.get(childIdx));
+            var child = createEntity(document, state, childNode);
+            entity.addChild(child);
         }
 
         return entity;
