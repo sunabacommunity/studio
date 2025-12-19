@@ -24,7 +24,7 @@ class ModelImportService {
        } 
     }
 
-    public static function import(srcPath: String, destPath: String, binaryFile: Bool = false, ?io: IoInterface): Void {
+    public static function inport(srcPath: String, destPath: String, binaryFile: Bool = false, ?io: IoInterface): Void {
         if (io == null) {
             var ioNative: NativeReference = untyped __lua__("_G.__ioManager");
             io = new IoManager(ioNative);
@@ -38,7 +38,7 @@ class ModelImportService {
             destPath += ".smdl";
 
         var destPathArray = destPath.split("\\").join("/").split("/");
-        var modelName = destPathArray[destPathArray.length].split(".")[0];
+        var modelName = destPathArray[destPathArray.length - 1].split(".")[0];
         destPathArray = destPathArray.slice(0, destPathArray.length);
         var destDir = destPathArray.join("/");
         if (!StringTools.endsWith(destDir, "/"))

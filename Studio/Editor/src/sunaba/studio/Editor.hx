@@ -662,7 +662,7 @@ class Editor extends Widget {
                 var destPath = args[1];
                 ModelImportService.isRunningCoroutine = false;
 
-                ModelImportService.import(srcPath, destPath);
+                ModelImportService.inport(srcPath, destPath);
                 return 0;
             });
 
