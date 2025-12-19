@@ -262,7 +262,15 @@ class Editor extends Widget {
             DisplayService.windowSetWindowButtonsOffset(new Vector2i(35, 37), window.getWindowId());
         }
         else {
-            window.borderless = true;
+            var useCustomTitlebar = true;
+            var osArgs = Sys.args();
+            for (i in 0...osArgs.length) {
+                var arg = osArgs[i];
+                if (arg == "--no-custom-titlebar") {
+                    useCustomTitlebar = false;
+                }
+            }
+            window.borderless = useCustomTitlebar;
         }
         haxePath = StudioUtils.singleton.getToolchainDirectory() + "/haxe";
         if (Sys.systemName() == "Windows") {
@@ -646,9 +654,9 @@ class Editor extends Widget {
                 return 0;
             });
 
-            var osArgs = OSService.getCmdlineArgs();
-            for (i in 0...osArgs.size()) {
-                var arg = osArgs.get(i);
+            var osArgs = Sys.args();
+            for (i in 0...osArgs.length) {
+                var arg = osArgs[i];
                 if (OSService.getName() != "macOS") {
                     if (arg == "--no-custom-titlebar") {
                         customTitlebar = false;

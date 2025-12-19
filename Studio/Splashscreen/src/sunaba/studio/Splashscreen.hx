@@ -83,16 +83,8 @@ class Splashscreen extends Widget {
         return window.borderless;
     }
     function set_customTitlebar(value: Bool): Bool {
-        var minimizeButton = getNodeT(Button, "vbox/titlebar/hbox/minimizeButton");
-        minimizeButton.visible = value;
-        var maximizeButton = getNodeT(Button, "vbox/titlebar/hbox/maximizeButton");
-        maximizeButton.visible = value;
-        var closeButton = getNodeT(Button, "vbox/titlebar/hbox/closeButton");
-        closeButton.visible = value;
-        var iconContainer = getNodeT(Control, "vbox/titlebar/hbox/iconContainer");
-        iconContainer.visible = value;
-        var windowTitle = getNodeT(Label, "vbox/titlebar/windowTitle");
-        windowTitle.visible = value;
+        var titlebarControl = getNodeT(Control, "vbox/titlebar");
+        titlebarControl.visible = value;
         return window.borderless = value;
     }
 
@@ -289,9 +281,10 @@ class Splashscreen extends Widget {
             closeButton.hide();
         }
         else {
-            var osArgs = OSService.getCmdlineArgs();
-            for (i in 0...osArgs.size()) {
-                var arg = osArgs.get(i);
+            var osArgs = Sys.args();
+            for (i in 0...osArgs.length) {
+                var arg = osArgs[i];
+                trace(arg);
                 if (arg == "--no-custom-titlebar") {
                     customTitlebar = false;
                 }
@@ -477,8 +470,7 @@ class Splashscreen extends Widget {
         var appView = new DesktopAppView(new NativeObject("res://Studio/editor_app.gd", new ArrayList(), ScriptType.gdscript));
         appView.native.call("printlnInit", new ArrayList());
         getParent().addChild(appView);
-        var args = appView.args;
-        args.add(path);
+        appView.args = StringArray.fromArray(Sys.args());
         appView.init();
         appView.setVar("projectPath", path);
 
