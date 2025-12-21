@@ -62,6 +62,8 @@ ${If} ${RunningX64}
   CreateShortCut "$DESKTOP\Sunaba Studio.lnk" "$INSTDIR\Sunaba.Studio.exe"
   File "bin\windows-x86_64-debug\sunaba.windows.template_debug.x86_64.dll"
   File "bin\windows-x86_64-debug\libdd3d.windows.editor.x86_64.dll"
+  File "bin\windows-x86_64-debug\libgodotsteam.windows.template_debug.x86_64.dll"
+  File "bin\windows-x86_64-release\sunaba_api64.dll"
   File "Studio\project.ico" 
   SetOutPath "$INSTDIR\data_Sunaba.Studio_windows_x86_64"
   SetOverwrite try
