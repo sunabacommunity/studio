@@ -10,7 +10,7 @@
                 offsetTop="5"
                 offsetLeft="5"
                 offsetRight="-5"
-                separation="0">
+                separation="5">
             <sunaba.ui.Control
                     name="menuBarControl"
                     customMinimumSize="0, 27">
