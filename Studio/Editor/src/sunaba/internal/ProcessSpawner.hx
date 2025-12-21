@@ -21,4 +21,8 @@ class ProcessSpawner extends Node {
         spawnArgs.append(args);
         native.call("Spawn", spawnArgs);
     }
+
+    public function stop() {
+        native.call("Stop", new ArrayList());
+    }
 }

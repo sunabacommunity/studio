@@ -61,6 +61,11 @@ public partial class ProcessSpawner: Node
         _process.Start();
     }
 
+    public void Stop()
+    {
+        _process.Close();
+    }
+
     private List<string> _lines = new();
 
     public override void _Process(double delta)
