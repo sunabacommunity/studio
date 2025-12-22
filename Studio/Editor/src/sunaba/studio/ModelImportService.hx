@@ -177,8 +177,10 @@ class ModelImportService {
                     rootEntity.addComponent(SpatialTransform);
                     yeild();
                 }
-                for (i in 0...rootNodes.size()) {
+                for (i in 0...rootNodes.size() + 1) {
                     var nodeIdx = rootNodes.get(i);
+                    if (nodeIdx == null)
+                        continue;
                     var node = new GLTFNode(nodes.get(nodeIdx));
                     yeild();
 
