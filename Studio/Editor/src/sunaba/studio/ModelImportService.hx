@@ -1,5 +1,9 @@
 package sunaba.studio;
 
+import sunaba.spatial.lighting.SpotLight;
+import sunaba.spatial.lighting.OmniLight;
+import sunaba.spatial.lighting.DirectionalLight;
+import sunaba.spatial.models.gltf.GLTFLight;
 import sunaba.spatial.mesh.MeshLoader;
 import sunaba.spatial.mesh.MeshDisplay;
 import sunaba.spatial.mesh.MeshData;
@@ -258,15 +262,54 @@ class ModelImportService {
 
         if (node.mesh  != -1) {
             var meshes = state.getMeshes();
+            yeild();
             var mesh = new GLTFMesh(meshes.get(node.mesh));
+            yeild();
 
             var meshData = MeshData.fromImporterMesh(mesh.mesh);
+            yeild();
 
             entity.addComponent(MeshDisplay);
+            yeild();
 
             var meshLoader = entity.addComponent(MeshLoader);
+            yeild();
             meshLoader.meshData = meshData;
+            yeild();
         }
+        yeild();
+
+        if (node.light != -1) {
+            var lights = state.getLights();
+            yeild();
+            var light = new GLTFLight(lights.get(node.light));
+            yeild();
+            var lightNode = light.toNode();
+            yeild();
+            if (lightNode.native.getClass() == "DirectionalLight3D") {
+                yeild();
+                var directionalLight = entity.addComponent(DirectionalLight);
+                yeild();
+                directionalLight.node = lightNode;
+                yeild();
+            }
+            else if (lightNode.native.getClass() == "OmniLight3D") {
+                yeild();
+                var omniLight = entity.addComponent(OmniLight);
+                yeild();
+                omniLight.node = lightNode;
+                yeild();
+            }
+            else if (lightNode.native.getClass() == "SpotLight3D") {
+                yeild();
+                var spotLight = entity.addComponent(SpotLight);
+                yeild();
+                spotLight.node = lightNode;
+                yeild();
+            }
+            yeild();
+        }
+        yeild();
         
         var children = node.children.toArray();
         yeild();
