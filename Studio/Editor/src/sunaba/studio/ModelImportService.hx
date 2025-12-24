@@ -1,5 +1,11 @@
 package sunaba.studio;
 
+import sunaba.core.Variant;
+import sunaba.animation.AnimationLibrary;
+import sunaba.core.ArrayList;
+import sunaba.animation.Animation;
+import sunaba.spatial.models.gltf.GLTFAnimation;
+import sunaba.animation.AnimationPlayer;
 import sunaba.spatial.lighting.SpotLight;
 import sunaba.spatial.lighting.OmniLight;
 import sunaba.spatial.lighting.DirectionalLight;
@@ -211,7 +217,8 @@ class ModelImportService {
 
             if (rootEntity != null) {
                 if (modelState.createAnimations == true) {
-                    
+                    var animationPlayer = rootEntity.addComponent(AnimationPlayer);
+                    importAnimations(modelDocument, modelState, animationPlayer);
                 }
 
                 var prefab = Prefab.create(rootEntity, destPath);
@@ -226,6 +233,29 @@ class ModelImportService {
 
             scene.destroy();
             yeild();
+        }
+    }
+
+    private static inline function importAnimations(document: GLTFDocument, state: GLTFState, animationPlayer: AnimationPlayer) {
+        var gdscene = document.generateScene(state);
+
+        var animPlayerNode: Node = null;
+        for (i in 0...gdscene.getChildCount()) {
+            var node = gdscene.getChild(i);
+            if (node.native.isClass("AnimationPlayer")) {
+                animPlayerNode = node;
+            }
+        }
+        if (animPlayerNode != null) {
+            var animationList : ArrayList = animPlayerNode.native.call("get_animation_list", new ArrayList());
+            var modelAnimationLibrary = new AnimationLibrary();
+            for (i in 0...animationList.size()) {
+                var animationName: String = animationList.get(i);
+                var getAnimationArgs : Array<Variant> = [animationName];
+                var animation = new Animation(animPlayerNode.native.call("get_animation", getAnimationArgs));
+                modelAnimationLibrary.addAnimation(animationName, animation);
+            }
+            animationPlayer.addAnimationLibrary(state.sceneName, modelAnimationLibrary);
         }
     }
 
