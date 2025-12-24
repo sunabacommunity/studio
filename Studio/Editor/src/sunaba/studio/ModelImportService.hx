@@ -210,6 +210,10 @@ class ModelImportService {
             yeild();
 
             if (rootEntity != null) {
+                if (modelState.createAnimations == true) {
+                    
+                }
+
                 var prefab = Prefab.create(rootEntity, destPath);
                 yeild();
                 var fileType = DataFileType.json;
