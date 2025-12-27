@@ -20,10 +20,11 @@ class Console extends EditorWidget {
 
 	private var mode = ConsoleLineEditMode.command;
 
+	var txt: String = "";
+
     public override function editorInit() {
         load("studio://Console.suml");
 
-        var txt: String = "";
 		mode = ConsoleLineEditMode.command;
 
 		output = getNodeT(RichTextLabel, "vbox/panel/output");
@@ -108,6 +109,16 @@ class Console extends EditorWidget {
         var finalMsgStr = finalMsg.join(" ");
         console.log(finalMsgStr);
     }
+
+	public function error(...messages: String) {
+		var finalMsg : Array<String> = [];
+        for (msg in messages) {
+            finalMsg.push(msg);
+        }
+        var finalMsgStr = finalMsg.join(" ");
+		txt = txt + '[color=red]Error: ' + finalMsgStr + '[/color]\n';
+		output.parseBbcode('[code]' + txt + '[/code]');
+	}
 
     public function addCommand(name: String, func: Array<String>->Int) {
         console.addCommand(name, func);
