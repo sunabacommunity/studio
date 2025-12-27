@@ -241,6 +241,7 @@ class ModelImportService {
             }
 
             scene.destroy();
+            gdscene.queueFree();
             yeild();
         }
     }
