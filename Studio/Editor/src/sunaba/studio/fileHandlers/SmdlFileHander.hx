@@ -14,6 +14,12 @@ class SmdlFileHandler extends FileHandler {
         var sceneEditor = new SceneEditor(editor, EditorArea.workspace);
         editor.setWorkspaceTabIcon(sceneEditor, explorer.loadIcon(iconPath));
 
-        sceneEditor.openPrefab(assetPath);
+        try {
+            sceneEditor.openPrefab(assetPath);
+        }
+        catch(e) {
+            Debug.error(e.toString(), "Error opening model");
+            editor.console.error("Error opening model: " + e.toString());
+        }
     }
 }
