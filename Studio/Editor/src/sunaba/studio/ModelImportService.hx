@@ -179,71 +179,34 @@ class ModelImportService {
             var rootNodes = modelState.rootNodes;
             yeild();
 
-            var rootEntity: Entity = null;
+            var rootEntity: Entity = createEntity(modelDocument, modelState, gdscene);
+            yeild();
             
-            trace("");
-            trace(rootNodes.size());
-            trace(nodes.size());
-            if (rootNodes.size() == 0 && nodes.size() != 0) {
-                var node = new GLTFNode(nodes.get(0));
+            yeild();
+            if (modelState.createAnimations == true) {
                 yeild();
-
-                rootEntity = createEntity(modelDocument, modelState, node, gdscene);
+                var animationPlayer = rootEntity.addComponent(AnimationPlayer);
                 yeild();
-                scene.addEntity(rootEntity);
-            }
-            else if (rootNodes.size() > 0) {
-                if (rootNodes.size() != 1) {
-                    rootEntity = new Entity();
-                    rootEntity.name = modelName;
-                    rootEntity.addComponent(SpatialTransform);
-                    yeild();
-                }
-                for (i in 0...rootNodes.size() + 1) {
-                    var nodeIdx = rootNodes.get(i);
-                    if (nodeIdx == null)
-                        continue;
-                    var node = new GLTFNode(nodes.get(nodeIdx));
-                    yeild();
-
-                    var entityNodeTarget = gdscene;
-                    if (rootEntity != null) {
-                        entityNodeTarget = gdscene.getNode(node.originalName);
-                    }
-                    yeild();
-
-                    var entity = createEntity(modelDocument, modelState, node, entityNodeTarget);
-                    yeild();
-                    if (rootEntity != null) {
-                        rootEntity.addChild(entity);
-                        yeild();
-                    }
-                    else {
-                        scene.addEntity(entity);
-                        yeild();
-                        rootEntity = entity;
-                    }
-                }
+                importAnimations(modelDocument, modelState, animationPlayer, gdscene);
+                yeild();
             }
             yeild();
 
-            if (rootEntity != null) {
-                if (modelState.createAnimations == true) {
-                    var animationPlayer = rootEntity.addComponent(AnimationPlayer);
-                    importAnimations(modelDocument, modelState, animationPlayer, gdscene);
-                }
-
-                var prefab = Prefab.create(rootEntity, destPath);
+            var prefab = Prefab.create(rootEntity, destPath);
+            yeild();
+            var fileType = DataFileType.json;
+            yeild();
+            if (binaryFile == true) {
                 yeild();
-                var fileType = DataFileType.json;
-                if (binaryFile == true) {
-                    fileType = DataFileType.msgPack;
-                }
-                prefab.save(null, fileType);
+                fileType = DataFileType.msgPack;
                 yeild();
             }
+            yeild();
+            prefab.save(null, fileType);
+            yeild();
 
             scene.destroy();
+            yeild();
             gdscene.queueFree();
             yeild();
         }
@@ -287,7 +250,7 @@ class ModelImportService {
         yeild();
     }
 
-    private static function createEntity(document: GLTFDocument, state: GLTFState, node: GLTFNode, gdnode: Node): Entity {
+    private static function createEntity(document: GLTFDocument, state: GLTFState, gdnode: Node): Entity {
         if (document == null) {
             throw 'ModelImporter: document could not be found';
             return null;
@@ -296,128 +259,114 @@ class ModelImportService {
             throw 'ModelImporter: state could not be found';
             return null;
         }
-        if (node == null) {
-            throw 'ModelImporter: GLTFNode could not be found';
+        if (gdnode == null) {
+            throw 'ModelImporter: Node could not be found';
             return null;
         }
         
         var entity = new Entity();
         yeild();
-        entity.name = node.originalName;
+        entity.name = gdnode.name;
         yeild();
         var transform = entity.addComponent(SpatialTransform);
         yeild();
-        transform.position = node.position;
+        if (!gdnode.getParent().isNull()) {
+            yeild();
+            gdnode.getParent().removeChild(gdnode);
+            yeild();
+        }
         yeild();
-        transform.quaternion = node.rotation;
-        yeild();
-        transform.scale = node.scale;
+        transform.node = gdnode;
         yeild();
 
-        if (node.camera != -1) {
-            var cameras = state.getCameras();
-            yeild();
-            var modelCamera: GLTFCamera = new GLTFCamera(cameras.get(node.camera));
+        if (gdnode.native.isClass("Camera3D")) {
             yeild();
             var camera = entity.addComponent(Camera);
             yeild();
-            camera.node = modelCamera.toNode();
+            camera.node = gdnode;
             yeild();
         }
 
-        if (node.mesh  != -1) {
-            var meshes = state.getMeshes();
+        if (gdnode.native.isClass("MeshInstance3D")) {
             yeild();
-            var mesh = new GLTFMesh(meshes.get(node.mesh));
-            yeild();
-
-            var meshData = MeshData.fromImporterMesh(mesh.mesh);
-            yeild();
-
-            var meshDisplay = entity.addComponent(MeshDisplay);
-            yeild();
-            meshDisplay.skeleton = node.native.get("skeleton");
-            yeild();
-            if (gdnode.native.get("skin").getType() == VariantType.object) {
+            var node = getGltfNodeFromGodotNode(document, state, gdnode);
+            if (node != null) {
                 yeild();
-                if (gdnode.native.get("skin").toNativeReference().isValid()) {
+                var meshes = state.getMeshes();
+                yeild();
+                var mesh = new GLTFMesh(meshes.get(node.mesh));
+                yeild();
+
+                var meshData = MeshData.fromImporterMesh(mesh.mesh);
+                yeild();
+
+                var meshDisplay = entity.addComponent(MeshDisplay);
+                yeild();
+                meshDisplay.skeleton = gdnode.native.get("skeleton");
+                yeild();
+                if (gdnode.native.get("skin").getType() == VariantType.object) {
                     yeild();
-                    meshDisplay.skin = new Skin(gdnode.native.get("skin"));
+                    if (gdnode.native.get("skin").toNativeReference().isValid()) {
+                        yeild();
+                        meshDisplay.skin = new Skin(gdnode.native.get("skin"));
+                        yeild();
+                    }
                     yeild();
                 }
                 yeild();
-            }
-            yeild();
 
-            var meshLoader = entity.addComponent(MeshLoader);
+                var meshLoader = entity.addComponent(MeshLoader);
             yeild();
             meshLoader.meshData = meshData;
             yeild();
+            }
         }
         yeild();
 
-        if (node.light != -1) {
-            var lights = state.getLights();
+        if (gdnode.native.getClass() == "DirectionalLight3D") {
             yeild();
-            var light = new GLTFLight(lights.get(node.light));
+            var directionalLight = entity.addComponent(DirectionalLight);
             yeild();
-            var lightNode = light.toNode();
+            directionalLight.node.queueFree();
             yeild();
-            if (lightNode.native.getClass() == "DirectionalLight3D") {
-                yeild();
-                var directionalLight = entity.addComponent(DirectionalLight);
-                yeild();
-                directionalLight.node.queueFree();
-                yeild();
-                directionalLight.node = lightNode;
-                yeild();
-            }
-            else if (lightNode.native.getClass() == "OmniLight3D") {
-                yeild();
-                var omniLight = entity.addComponent(OmniLight);
-                yeild();
-                omniLight.node.queueFree();
-                yeild();
-                omniLight.node = lightNode;
-                yeild();
-            }
-            else if (lightNode.native.getClass() == "SpotLight3D") {
-                yeild();
-                var spotLight = entity.addComponent(SpotLight);
-                yeild();
-                spotLight.node.queueFree();
-                yeild();
-                spotLight.node = lightNode;
-                yeild();
-            }
+            directionalLight.node = gdnode;
             yeild();
         }
-        yeild();
+        else if (gdnode.native.getClass() == "OmniLight3D") {
+            yeild();
+            var omniLight = entity.addComponent(OmniLight);
+            yeild();
+            omniLight.node.queueFree();
+            yeild();
+            omniLight.node = gdnode;
+            yeild();
+        }
+        else if (gdnode.native.getClass() == "SpotLight3D") {
+            yeild();
+            var spotLight = entity.addComponent(SpotLight);
+            yeild();
+            spotLight.node.queueFree();
+            yeild();
+            spotLight.node = gdnode;
+            yeild();
+        }
 
-        if (node.skeleton != -1) {
+        if (gdnode.native.isClass("Skeleton3D")) {
             var skeletonComponent = entity.addComponent(Skeleton);
             yeild();
             skeletonComponent.node = gdnode;
-            yeild();
-            if (!gdnode.getParent().isNull()) {
-                yeild();
-                gdnode.getParent().removeChild(gdnode);
-                yeild();
-            }
             yeild();
             entity.node = gdnode;
             yeild();
         }
         yeild();
          
-        var children = node.children.toArray();
         yeild();
-        var nodes = state.getNodes();
-        yeild();
-        for (childIdx in children) {
-            var childNode = new GLTFNode(nodes.get(childIdx));
+        for (childIdx in 0...gdnode.getChildCount()) {
             yeild();
-            var child = createEntity(document, state, childNode, gdnode.getNode(childNode.originalName));
+            var childNode = gdnode.getChild(childIdx); 
+            yeild();
+            var child = createEntity(document, state, childNode);
             yeild();
             entity.addChild(child);
             yeild();
@@ -425,5 +374,133 @@ class ModelImportService {
         yeild();
 
         return entity;
+    }
+
+    public static function getGltfNodeFromGodotNode(document: GLTFDocument, state: GLTFState, gdnode: Node, node: GLTFNode = null): GLTFNode {
+        var nodes = state.getNodes();
+        yeild();
+        if (node != null) {
+            yeild();
+            if (node.isNull()) {
+                yeild();
+                return null;
+            }
+            yeild();
+            if (node.originalName == gdnode.name) {
+                yeild();
+                return node;
+            }
+            yeild();
+            var children = node.children.toArray();
+            yeild();
+            for (childIdx in children) {
+                yeild();
+                trace(childIdx);
+                yeild();
+                var childNode = new GLTFNode(nodes.get(childIdx));
+                yeild();
+                if (childNode.isNull()) {
+                    yeild();
+                    continue;
+                }
+                yeild();
+                var result = getGltfNodeFromGodotNode(document, state, gdnode, childNode);
+                yeild();
+                if (result != null) {
+                    yeild();
+                    return result;
+                }
+                yeild();
+            }
+            yeild();
+        }
+        else {
+            trace(gdnode.name);
+            yeild();
+            var rootNodes = state.rootNodes;
+            var nodes = state.getNodes();
+            if (rootNodes.size() == 0) {
+                yeild();
+                for (i in 0...nodes.size() + 1) {
+                    yeild();
+                    var nodeIdx = nodes.get(i);
+                    trace(nodeIdx);
+                    yeild();
+                    if (nodeIdx == null)
+                        continue;
+                    yeild();
+                    var rootNode = new GLTFNode(nodes.get(nodeIdx));
+                    yeild();
+                    if (rootNode.isNull()) {
+                        yeild();
+                        continue;
+                    }
+                    yeild();
+                    var result = getGltfNodeFromGodotNode(document, state, gdnode, rootNode);
+                    yeild();
+                    if (result != null) {
+                        yeild();
+                        return result;
+                    }
+                    yeild();
+                }
+                yeild();
+            }
+            else {
+                yeild();
+                for (i in 0...rootNodes.size() + 1) {
+                    yeild();
+                    var nodeIdx = rootNodes.get(i);
+                    trace(nodeIdx);
+                    yeild();
+                    if (nodeIdx == null)
+                        continue;
+                    yeild();
+                    var rootNode = new GLTFNode(nodes.get(nodeIdx));
+                    yeild();
+                    if (rootNode.isNull()) {
+                        yeild();
+                        continue;
+                    }
+                    yeild();
+                    var result = getGltfNodeFromGodotNode(document, state, gdnode, rootNode);
+                    yeild();
+                    if (result != null) {
+                        yeild();
+                        return result;
+                    }
+                    yeild();
+                }
+                yeild();
+                for (i in 0...nodes.size() + 1) {
+                    yeild();
+                    var nodeIdx = nodes.get(i);
+                    trace(nodeIdx);
+                    yeild();
+                    if (nodeIdx == null)
+                        continue;
+                    yeild();
+                    var rootNode = new GLTFNode(nodes.get(nodeIdx));
+                    yeild();
+                    if (rootNode.isNull()) {
+                        yeild();
+                        continue;
+                    }
+                    yeild();
+                    var result = getGltfNodeFromGodotNode(document, state, gdnode, rootNode);
+                    yeild();
+                    trace(result != null);
+                    if (result != null) {
+                        yeild();
+                        return result;
+                    }
+                    yeild();
+                }
+                yeild();
+            }
+            yeild();
+        }
+        yeild();
+        return null;
     }
 }
