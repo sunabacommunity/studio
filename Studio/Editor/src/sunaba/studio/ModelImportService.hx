@@ -322,6 +322,8 @@ class ModelImportService {
                 var meshDisplay = entity.addComponent(MeshDisplay);
                 yeild();
                 meshDisplay.skeleton = gdnode.native.get("skeleton");
+                if (meshDisplay.skeleton == "..")
+                    meshDisplay.skeleton += "/..";
                 yeild();
                 if (gdnode.native.get("skin").getType() == VariantType.object) {
                     yeild();
