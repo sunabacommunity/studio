@@ -698,7 +698,7 @@ class Editor extends Widget {
                     ModelImportService.inport(srcPath, destPath);
                 }
                 catch(e) {
-                    console.error(e.message);
+                    console.error(e.message + " : " + e.stack);
                     return -1;
                 }
 
@@ -713,7 +713,7 @@ class Editor extends Widget {
                     ModelImportService.inport(srcPath, destPath, true);
                 }
                 catch(e) {
-                    console.error(e.message);
+                    console.error(e.message + " : " + e.stack);
                     return -1;
                 }
                 
