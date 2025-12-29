@@ -327,10 +327,12 @@ class ModelImportService {
                 yeild();
                 if (gdnode.native.get("skin").getType() == VariantType.object) {
                     yeild();
-                    if (gdnode.native.get("skin").toNativeReference().isValid()) {
-                        yeild();
-                        meshDisplay.skin = new Skin(gdnode.native.get("skin"));
-                        yeild();
+                    if (gdnode.native.get("skin").toNativeReference() != null) {
+                        if (gdnode.native.get("skin").toNativeReference().isValid()) {
+                            yeild();
+                            meshDisplay.skin = new Skin(gdnode.native.get("skin"));
+                            yeild();
+                        }
                     }
                     yeild();
                 }
@@ -423,6 +425,11 @@ class ModelImportService {
         for (childIdx in 0...gdnode.getChildCount()) {
             yeild();
             var childNode = gdnode.getChild(childIdx); 
+            yeild();
+            if (childNode.name == "MeshDisplay") {
+                yeild();
+                continue;
+            }
             yeild();
             var child = createEntity(document, state, childNode, modelDir, io);
             yeild();
