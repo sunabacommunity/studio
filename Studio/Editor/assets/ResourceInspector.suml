@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="entityInspector"
+            fullRect="true">
+            <sunaba.ui.Control
+                name="toolbar"
+                customMinimumSize="0,30">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true">
+                    <sunaba.ui.Control
+                        customMinimumSize="5, 5"/>
+                    <sunaba.ui.Label
+                        text="Resource Inspector"
+                        sizeFlagsHorizontal="3"
+                        verticalAlignment="1"/>
+                    <sunaba.ui.Button
+                        name="save"
+                        iconAlignment="1"
+                        icon="studio://icons/16/disk.png"
+                        customMinimumSize="30,30"/>
+                    <sunaba.ui.Button
+                        name="close"
+                        iconAlignment="1"
+                        icon="studio://icons/16/cross-button.png"
+                        customMinimumSize="30,30"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.OptionButton
+                name="currentResource"
+                customMinimumSize="0,30"/>
+            <sunaba.ui.ScrollContainer
+                name="scroll"
+                sizeFlagsVertical="3">
+                <sunaba.ui.VBoxContainer
+                    name="vbox"
+                    sizeFlagsHorizontal="3"/>
+            </sunaba.ui.ScrollContainer>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>

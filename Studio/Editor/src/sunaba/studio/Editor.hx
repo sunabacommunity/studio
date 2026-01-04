@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import sunaba.core.AABB;
 import sunaba.studio.fileHandlers.SmdlBinaryFileHandler;
 import sunaba.core.Signal;
 import sunaba.core.native.NativeObject;
@@ -108,6 +109,7 @@ class Editor extends Widget {
 
     public var explorer: Explorer;
     public var sceneInspector: SceneInspector;
+    public var resourceInspector: ResourceInspector;
     public var console: Console;
 
     public var projectIo: FileSystemIo;
@@ -676,6 +678,8 @@ class Editor extends Widget {
             ioManager.register(localPluginIo);
 
             sceneInspector = new SceneInspector(this, EditorArea.rightSidebar);
+
+            resourceInspector = new ResourceInspector(this, EditorArea.rightSidebar);
 
             console = new Console(this, EditorArea.dock);
 
