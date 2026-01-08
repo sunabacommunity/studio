@@ -101,6 +101,9 @@ class ResourceInspector extends EditorWidget {
             if (res.get("value").toDictionary().get("path").toString() != "?") {
                 className = res.get("value").toDictionary().get("path");
             }
+            else if (res.get("value").toDictionary().get("class").getType() == VariantType.string){
+                className += " (" +  res.get("value").toDictionary().get("class").toString() + ")";
+            }
             currentResourceButton.addItem(className, objectIndex);
             currentResourceButton.selected = objectIndex;
         }
