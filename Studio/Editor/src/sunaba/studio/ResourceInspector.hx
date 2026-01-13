@@ -1305,7 +1305,6 @@ class ResourceInspector extends EditorWidget {
                     resButton.text = "Edit";
                     resButton.customMinimumSize = new Vector2(150.0, 20.0);
                     resButton.pressed.add(() -> {
-                        //getEditor().resourceInspector.openResource(propertyDict, false, propertyName, null, objectData);
                         openScriptableObject(propertyDict, propertyName, null, objectData);
                     });
 
