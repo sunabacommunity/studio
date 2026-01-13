@@ -1333,6 +1333,16 @@ class SceneInspector extends EditorWidget {
                             propertyContainer.addChild(resButton);
                         }
                     }
+                    else if (dict.has("path") && dict.has("classType")) {
+                        var resButton = new Button();
+                        resButton.text = "Edit";
+                        resButton.customMinimumSize = new Vector2(150.0, 20.0);
+                        resButton.pressed.add(() -> {
+                            getEditor().resourceInspector.openScriptableObject(dict, key, selectedEntity);
+                        });
+
+                        propertyContainer.addChild(resButton);
+                    }
                 }
 
                 componentVbox.addChild(propertyContainer);
