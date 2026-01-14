@@ -46,6 +46,22 @@ class ResourceInspector extends EditorWidget {
         closeButton = getNodeT(Button, "vbox/toolbar/hbox/close");
 
         currentResourceButton = getNodeT(OptionButton, "vbox/currentResource");
+        currentResourceButton.itemSelected.add((idx: Int) -> {
+            for (key in resourceList.keys()) {
+                if (key == idx) {
+                    selectedIndex = idx;
+                    buildInspectorFromResource();
+                    return;
+                }
+            }
+            for (key in scriptableObjectList.keys()) {
+                if (key == idx) {
+                    selectedIndex = idx;
+                    buildInspectorFromObject();
+                    return;
+                }
+            }
+        });
 
         inspectorVbox = getNodeT(VBoxContainer, "vbox/scroll/vbox");
     }
