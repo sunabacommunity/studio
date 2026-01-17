@@ -8,6 +8,10 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Sunaba Studio"
@@ -15,8 +19,8 @@ config/version="0.7.6"
 run/main_scene="uid://cmd0qleaq4j3n"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Sunaba"
-config/features=PackedStringArray("4.5", "C#", "Forward Plus")
-boot_splash/fullsize=false
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+boot_splash/stretch_mode=0
 boot_splash/image="uid://04u8hdxy5ltl"
 config/icon="uid://b8ivw4vau3olu"
 config/macos_native_icon="res://Studio/SunabaStudioMacIconV2.icns"
