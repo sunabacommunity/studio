@@ -116,7 +116,7 @@ class Splashscreen extends Widget {
             if (window == null)
                 return;
 
-            if (customTitlebar == false)
+            if (customTitlebar == false && OSService.getName() != "macOS")
                 return;
 
             if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed && clickcount == 0) {
