@@ -1683,7 +1683,7 @@ class Editor extends Widget {
 
         var subViewport = new SubViewport();
         playerSubViewportContainer.addChild(subViewport);
-        subViewport.guiEmbedSubwindows = true;
+        subViewport.guiEmbedSubwindows = false;
 
         var snbPath = buildSystem.zipOutputPath;
 
