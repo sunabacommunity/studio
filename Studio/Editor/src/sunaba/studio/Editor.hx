@@ -1694,6 +1694,8 @@ class Editor extends Widget {
         });
         subViewport.addChild(playerAppView);
         playerAppView.init(false);
+        var baseDir = StudioUtils.singleton.getBaseDirectory();
+        playerAppView.loadLibrary(baseDir + "basetxt.slib");
         playerAppView.loadApp(snbPath);
     }
 
