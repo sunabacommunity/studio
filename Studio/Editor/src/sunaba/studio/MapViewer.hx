@@ -1,5 +1,8 @@
 package sunaba.studio;
 
+import sunaba.ui.Button;
+import sunaba.ui.TextureRect;
+import sunaba.ui.Control;
 import lua.Coroutine;
 import haxe.macro.Expr.Catch;
 import sunaba.spatial.MapFile;
@@ -19,10 +22,56 @@ class MapViewer extends EditorWidget {
 
     var sceneName: String = "";
 
+    var throbberTextures = new Array<ImageTexture>();
+    var throbberMaxNumber = 0;
+
+    var throbberParent: Control;
+    var throbberRect: TextureRect;
+
+    var reloadButton: Button;
+
     public override function editorInit() {
         load("studio://MapViewer.suml");
 
         viewport = getNodeT(SubViewport, "vbox/container/viewport");
+
+        reloadButton = getNodeT(Button, "vbox/toolbar/hbox/reload");
+        reloadButton.pressed.add(() -> {
+            buildMap();
+        });
+
+        throbberParent = getNodeT(Control, "vbox/toolbar/hbox/throbber");
+        throbberRect = getNodeT(TextureRect, "vbox/toolbar/hbox/throbber/textureRect");
+
+        var throbberPath = "studio://throbber-animated";
+
+        trace(io.directoryExists(throbberPath));
+        trace(io.fileExists(throbberPath + "/icon0.png"));
+        var throbberTxtListN = io.getFileList(throbberPath, ".png", false);
+        var throbberTxtList = throbberTxtListN.toArray();
+        if (OSService.getName() == "macOS") {
+            for (i in 0...40) {
+                var iconPath = throbberPath + "/icon" + i + ".png";
+                if (io.fileExists(iconPath)) {
+                    throbberTxtList.push(iconPath);
+                } else {
+                    trace("Throbber icon not found: " + iconPath);
+                    break;
+                }
+            }
+        }
+        trace(throbberTxtList.length);
+        for (txtPath in throbberTxtList) {
+            var txtBytes = io.loadBytes(txtPath);
+            var image = new Image();
+            image.loadPngFromBuffer(txtBytes);
+            var imageTexture =  ImageTexture.createFromImage(image);
+            throbberTextures.push(imageTexture);
+            throbberMaxNumber++;
+        }
+
+        var texture = throbberTextures[0];
+        throbberRect.texture = texture;
     }
 
     public var mapBuildCoroutine: Coroutine<()->Void> = null;
@@ -111,19 +160,42 @@ class MapViewer extends EditorWidget {
         mapBuildCoroutine = null;
     }
 
-    public override function onProcess(delta:Float) {
+    var lastThrobberIndex = 0;
+
+    var timeAccumulator = 1.0;
+    var milisec = 0.05;
+
+    public override function onProcess(deltaTime:Float) {
         if (camera == null) return;
 
         camera.current = true;
         freeLook3d.active = visible;
 
+        timeAccumulator += deltaTime;
+        if (timeAccumulator >= milisec) {
+            timeAccumulator -= milisec;
+
+            throbberRect.texture = throbberTextures[lastThrobberIndex];
+            if (lastThrobberIndex == throbberMaxNumber - 1) {
+                lastThrobberIndex = 0;
+            }
+            else {
+                lastThrobberIndex++;
+            }
+        }
+
         if (mapBuildCoroutine != null) {
             if (Coroutine.status(mapBuildCoroutine) != CoroutineState.Dead) {
+                throbberParent.show();
                 Coroutine.resume(mapBuildCoroutine);
             }
             else {
+                throbberParent.hide();
                 mapBuildCoroutine = null;
             }
+        }
+        else {
+            throbberParent.hide();
         }
     }
 }
