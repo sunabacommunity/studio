@@ -1,7 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://lx0t7p65beo3"]
+[gd_scene format=3 uid="uid://lx0t7p65beo3"]
 
 [ext_resource type="Script" uid="uid://mwlf21opcku4" path="res://Studio/editor.gd" id="1_8t7f2"]
 
-[node name="Editor" type="Runtime"]
+[node name="Editor" type="Runtime" unique_id=627027761]
 script = ExtResource("1_8t7f2")
 metadata/_custom_type_script = "uid://0y0lttsipkph"
