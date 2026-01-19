@@ -57,7 +57,8 @@ class MapViewer extends EditorWidget {
 
         var mapFile = new MapFile(filePath);
         mapBuildCoroutine = Coroutine.create(() -> {
-            scene = mapFile.instantiateCoroutine();
+            mapFile.isRunningInCoroutine = true;
+            scene = mapFile.instantiate();
             Coroutine.yield();
             scene.isInEditor = true;
             Coroutine.yield();
