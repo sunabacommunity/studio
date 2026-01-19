@@ -1,5 +1,7 @@
 package sunaba.studio;
 
+import sunaba.input.InputService;
+import sunaba.input.InputEvent;
 import sunaba.ui.Button;
 import sunaba.ui.TextureRect;
 import sunaba.ui.Control;
@@ -11,6 +13,7 @@ import sunaba.spatial.Camera;
 import sunaba.studio.sceneEditor.FreeLook3D;
 import sunaba.spatial.SpatialTransform;
 import sunaba.core.Vector3;
+import sunaba.Key;
 
 class MapViewer extends EditorWidget {
     private var filePath: String;
@@ -196,6 +199,20 @@ class MapViewer extends EditorWidget {
         }
         else {
             throbberParent.hide();
+        }
+    }
+
+    var isReloadKeyPressed: Bool = false;
+
+    public override function onInput(event:InputEvent) {
+        if (getEditor().isControlKeyPressed() && InputService.isKeyPressed(Key.r)) {
+            if (!isReloadKeyPressed) {
+                isReloadKeyPressed = true;
+                buildMap();
+            } 
+        }
+        else {
+            isReloadKeyPressed = false;
         }
     }
 }
