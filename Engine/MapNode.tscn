@@ -9,6 +9,7 @@
 
 [sub_resource type="Resource" id="Resource_4qwiy"]
 script = ExtResource("3_h4uxv")
+inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2_oeiay")
 base_texture_dir = "user://temp/textures"
 default_material = SubResource("StandardMaterial3D_hf4oi")
