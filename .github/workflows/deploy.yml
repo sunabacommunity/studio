@@ -16,7 +16,6 @@ concurrency:
 jobs:
   deployToSteam:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.repository == 'sunabagg/studio'
     steps:
       - uses: actions/download-artifact@v5
         with:
