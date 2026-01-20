@@ -1,0 +1,41 @@
+name: Deploy
+on:
+  schedule:
+    - cron: "0 10 30 * *" # run at 10 AM UTC/ 2 AM AKDT
+    #- cron: '0 21 * * *' # run at 9 PM UTC/ 1 PM AKDT
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.ref }}
+  #cancel-in-progress: true
+
+jobs:
+  deployToSteam:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: ${{ github.event.repository.name }}
+      - name: Create Build Directory
+        run: |
+          mkdir build
+      - name: Unzip Linux Build
+        run: |
+          unzip ${{ github.workspace }}/linux-x86_64-release.zip -d ./build/linux-x86_64-release 
+      - name: Unzip Windows Build
+        run: |
+          unzip ${{ github.workspace }}/windows-x86_64-release.zip -d ./build/windows-x86_64-release 
+      - uses: game-ci/steam-deploy@v3
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          appId: 2684270
+          buildDescription: v0.7.7
+          rootPath: build
+          depot3Path: windows-x86_64-release 
+          depot4Path: linux-x86_64-release 
+          releaseBranch: nightly
