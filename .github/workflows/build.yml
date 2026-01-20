@@ -179,3 +179,13 @@ jobs:
       #    name: ${{ github.event.repository.name }}-${{ matrix.config.target }}-${{ matrix.build_type }}
       #    path: |
       #      ${{ github.workspace }}/bin/*.dmg
+  merge:
+    runs-on: ubuntu-22.04
+    needs: build
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: ${{ github.event.repository.name }}
+          pattern: ${{ github.event.repository.name }}-*
+          delete-merged: true
