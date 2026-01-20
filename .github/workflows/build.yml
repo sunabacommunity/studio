@@ -181,6 +181,7 @@ jobs:
   merge:
     runs-on: ubuntu-22.04
     needs: build
+    if: github.ref == 'refs/heads/master' && github.repository == 'sunabagg/studio'
     steps:
       - name: Merge Artifacts
         uses: actions/upload-artifact/merge@v4
