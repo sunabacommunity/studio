@@ -12,6 +12,7 @@ script = ExtResource("3_h4uxv")
 inverse_scale_factor = 16.0
 entity_fgd = ExtResource("2_oeiay")
 base_texture_dir = "user://temp/textures"
+base_material_dir = "res://materials"
 default_material = SubResource("StandardMaterial3D_hf4oi")
 
 [node name="MapNode" type="Node3D" unique_id=461835080]
