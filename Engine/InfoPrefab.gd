@@ -1,5 +1,5 @@
 extends Node3D
-class_name FuncPrefab
+class_name InfoPrefab
 
 var prefab_path: String  = ""
 var prefab_name: String = ""

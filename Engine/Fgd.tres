@@ -8,21 +8,16 @@
 [ext_resource type="Resource" uid="uid://cxy7jnh6d7msn" path="res://addons/func_godot/fgd/func_detail.tres" id="6_sb4ou"]
 [ext_resource type="Resource" uid="uid://ch3e0dix85uhb" path="res://addons/func_godot/fgd/func_detail_illusionary.tres" id="7_b7dra"]
 [ext_resource type="Resource" uid="uid://dg5x44cc7flew" path="res://addons/func_godot/fgd/func_illusionary.tres" id="8_jxfr6"]
+[ext_resource type="Resource" uid="uid://b7uo3ivmauyjq" path="res://Engine/InfoPrefab.tres" id="9_00jc5"]
 [ext_resource type="Script" uid="uid://drlmgulwbjwqu" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="9_ey2j4"]
 [ext_resource type="Script" uid="uid://d1nwwgcrner8b" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class_display_descriptor.gd" id="9_lirps"]
 [ext_resource type="Script" uid="uid://cxsqwtsqd8w33" path="res://addons/func_godot/src/fgd/func_godot_fgd_point_class.gd" id="10_00jc5"]
 
 [sub_resource type="Resource" id="Resource_7kg8h"]
 script = ExtResource("10_00jc5")
-classname = "func_prefab"
-class_properties = Dictionary[String, Variant]({
-"name": "",
-"path": ""
-})
-node_class = "FuncPrefab"
 metadata/_custom_type_script = "uid://cxsqwtsqd8w33"
 
 [resource]
 script = ExtResource("9_ey2j4")
 fgd_name = "Sunaba"
-entity_definitions = Array[Resource]([ExtResource("1_c0e3f"), ExtResource("2_3561t"), ExtResource("3_lirps"), ExtResource("4_00jc5"), ExtResource("5_7kg8h"), ExtResource("6_sb4ou"), ExtResource("7_b7dra"), ExtResource("8_jxfr6"), SubResource("Resource_7kg8h")])
+entity_definitions = Array[Resource]([ExtResource("1_c0e3f"), ExtResource("2_3561t"), ExtResource("3_lirps"), ExtResource("4_00jc5"), ExtResource("5_7kg8h"), ExtResource("6_sb4ou"), ExtResource("7_b7dra"), ExtResource("8_jxfr6"), ExtResource("9_00jc5"), SubResource("Resource_7kg8h")])
