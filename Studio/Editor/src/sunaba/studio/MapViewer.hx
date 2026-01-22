@@ -108,19 +108,17 @@ class MapViewer extends EditorWidget {
         }
 
         var mapFile = new MapFile(filePath);
-        mapBuildCoroutine = Coroutine.create(() -> {
+        scene = mapFile.instantiate();
+        scene.isInEditor = true;
+        scene.processMode = CanvasItemProcessMode.disabled;
+        viewport.addChild(scene);
+        /*mapBuildCoroutine = Coroutine.create(() -> {
             mapFile.isRunningInCoroutine = true;
-            scene = mapFile.instantiate();
-            Coroutine.yield();
-            scene.isInEditor = true;
-            Coroutine.yield();
-            scene.processMode = CanvasItemProcessMode.disabled;
-            Coroutine.yield();
-            viewport.addChild(scene);
+            
             Coroutine.yield();
             setMbcNull();
         });
-        Coroutine.resume(mapBuildCoroutine);
+        Coroutine.resume(mapBuildCoroutine);*/
     }
 
     public var camera: Camera;
