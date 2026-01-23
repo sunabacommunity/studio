@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import sunaba.desktop.AcceptDialog;
 import sunaba.core.AABB;
 import sunaba.studio.fileHandlers.SmdlBinaryFileHandler;
 import sunaba.core.Signal;
@@ -715,6 +716,32 @@ class Editor extends Widget {
                 sourceIo.saveText(path, "");
             });
             explorer.startExplorer();
+
+            addToolFunction(() -> {
+                    var textureListEditorAcceptDialog = new AcceptDialog();
+                    textureListEditorAcceptDialog.contentScaleFactor = getWindow().contentScaleFactor;
+                    textureListEditorAcceptDialog.minSize = new Vector2i(
+                        Std.int(450 * textureListEditorAcceptDialog.contentScaleFactor), 
+                        Std.int(350 * textureListEditorAcceptDialog.contentScaleFactor)
+                    );
+                    textureListEditorAcceptDialog.title = "Edit Texture Path List";
+                    textureListEditorAcceptDialog.closeRequested.add(() -> {
+                        textureListEditorAcceptDialog.queueFree();
+                    });
+                    textureListEditorAcceptDialog.confirmed.add(() -> {
+                        textureListEditorAcceptDialog.queueFree();
+                    });
+
+                    var textureListEditor = new TextureListEditor();
+                    textureListEditor.editor = this;
+
+                    textureListEditorAcceptDialog.addChild(textureListEditor);
+                    addChild(textureListEditorAcceptDialog);
+                    textureListEditorAcceptDialog.popupCentered();
+                }, 
+                "Edit Texture Path List", 
+                loadIcon("studio://icons/16/images-stack.png")
+            );
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
             localPluginIo = new FileSystemIo();

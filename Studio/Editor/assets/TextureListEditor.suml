@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true">
+            <sunaba.ui.Control
+                name="topbar"
+                customMinimumSize="0, 27">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true"
+                    customMinimumSize="0, 27">
+                    <sunaba.ui.Control sizeFlagsHorizontal="3"/>
+                    <sunaba.ui.MenuButton
+                        name="add"
+                        icon="studio://icons/16/plus.png"
+                        customMinimumSize="27, 27"/>
+                    <sunaba.ui.Button
+                        name="remove"
+                        icon="studio://icons/16/minus.png"
+                        customMinimumSize="27, 27"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.Tree
+                name="tree"
+                sizeFlagsVertical="3"/>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>
