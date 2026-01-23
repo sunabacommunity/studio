@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDFile" format=3 uid="uid://b1xpm7rqnceua"]
+
+[ext_resource type="Resource" uid="uid://nayxb8n7see2" path="res://addons/func_godot/fgd/phong_base.tres" id="1_c0e3f"]
+[ext_resource type="Resource" uid="uid://doo4ly322b4jc" path="res://addons/func_godot/fgd/vertex_merge_distance_base.tres" id="2_3561t"]
+[ext_resource type="Resource" uid="uid://bcdsueg5pysfq" path="res://addons/func_godot/fgd/cull_interior_faces.tres" id="3_lirps"]
+[ext_resource type="Resource" uid="uid://bdji3873bg32h" path="res://addons/func_godot/fgd/worldspawn.tres" id="4_00jc5"]
+[ext_resource type="Resource" uid="uid://b70vf4t5dc70t" path="res://addons/func_godot/fgd/func_geo.tres" id="5_7kg8h"]
+[ext_resource type="Resource" uid="uid://cxy7jnh6d7msn" path="res://addons/func_godot/fgd/func_detail.tres" id="6_sb4ou"]
+[ext_resource type="Resource" uid="uid://ch3e0dix85uhb" path="res://addons/func_godot/fgd/func_detail_illusionary.tres" id="7_b7dra"]
+[ext_resource type="Resource" uid="uid://dg5x44cc7flew" path="res://addons/func_godot/fgd/func_illusionary.tres" id="8_jxfr6"]
+[ext_resource type="Resource" uid="uid://disjlsqth6og3" path="res://Engine/Entities/InfoPrefab.tres" id="9_3561t"]
+[ext_resource type="Script" uid="uid://drlmgulwbjwqu" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="9_ey2j4"]
+
+[resource]
+script = ExtResource("9_ey2j4")
+fgd_name = "Sunaba"
+entity_definitions = Array[Resource]([ExtResource("1_c0e3f"), ExtResource("2_3561t"), ExtResource("3_lirps"), ExtResource("4_00jc5"), ExtResource("5_7kg8h"), ExtResource("6_sb4ou"), ExtResource("7_b7dra"), ExtResource("8_jxfr6"), ExtResource("9_3561t")])
