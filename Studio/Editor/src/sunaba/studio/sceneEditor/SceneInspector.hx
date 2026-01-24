@@ -1368,7 +1368,7 @@ class SceneInspector extends EditorWidget {
                                 };
                                 resLineEdit.textSubmitted.add(setPathFunction);
 
-                                var resFileButton = new Button();
+                                var resFileButton = new MenuButton();
                                 if (classType == "Texture2D" 
                                 ||  classType == "ImageTexture") {
                                     resFileButton.icon = getEditor().loadIcon("studio://icons/16/folder-open-image.png");
@@ -1383,43 +1383,51 @@ class SceneInspector extends EditorWidget {
                                     resFileButton.icon = getEditor().loadIcon("studio://icons/16/folder-open-document.png");
                                 }
                                 resFileButton.customMinimumSize = new Vector2(20.0, 20.0);
-                                resFileButton.pressed.add(() -> { 
-                                    var dialog = new FileDialog();
-                                    dialog.fileMode = FileDialogMode.openFile;
-                                    dialog.rootSubfolder = getEditor().explorer.assetsDirectory;
-                                    dialog.currentDir = getEditor().explorer.assetsDirectory;
-                                    if (respath != "?") {
-                                        dialog.currentFile = respath.split("/").pop();
+                                var resFileButtonPopup = resFileButton.getPopup();
+                                resFileButtonPopup.addItem("Builtin path", 0);
+                                resFileButtonPopup.addItem("Project path", 1);
+                                resFileButtonPopup.idPressed.add((id: Int) -> {
+                                    if (id == 0) {
+                                        //
                                     }
-                                    dialog.access = 2;
+                                    else if (id == 1) {
+                                        var dialog = new FileDialog();
+                                        dialog.fileMode = FileDialogMode.openFile;
+                                        dialog.rootSubfolder = getEditor().explorer.assetsDirectory;
+                                        dialog.currentDir = getEditor().explorer.assetsDirectory;
+                                        if (respath != "?") {
+                                            dialog.currentFile = respath.split("/").pop();
+                                        }
+                                        dialog.access = 2;
 
-                                    if (classType == "Texture2D" || classType == "ImageTexture") {
-                                        dialog.title = "Open Texture";
-                                        dialog.addFilter("*.bmp, *.dds, *.jpg, *.jpeg, *.ktx, *.png, *.svg, *.tga, *.webp", "Texture");
-                                    }
-                                    else if (key == "stream" || classType == "AudioStream" || classType == "AudioStreamOggVorbis" || classType == "AudioStreamWAV" || classType == "AudioStreamMP3") {
-                                        dialog.title = "Open Audio File";
-                                        dialog.addFilter("*.ogg, *.mp3, *.wav", "Audio File");
-                                    }
-                                    addChild(dialog);
-                                    dialog.hide();
+                                        if (classType == "Texture2D" || classType == "ImageTexture") {
+                                            dialog.title = "Open Texture";
+                                            dialog.addFilter("*.bmp, *.dds, *.jpg, *.jpeg, *.ktx, *.png, *.svg, *.tga, *.webp", "Texture");
+                                        }
+                                        else if (key == "stream" || classType == "AudioStream" || classType == "AudioStreamOggVorbis" || classType == "AudioStreamWAV" || classType == "AudioStreamMP3") {
+                                            dialog.title = "Open Audio File";
+                                            dialog.addFilter("*.ogg, *.mp3, *.wav", "Audio File");
+                                        }
+                                        addChild(dialog);
+                                        dialog.hide();
 
-                                    dialog.currentDir = getEditor().explorer.assetsDirectory;
+                                        dialog.currentDir = getEditor().explorer.assetsDirectory;
 
-                                    var dialogScaleFactor = getWindow().contentScaleFactor;
-                                    dialog.contentScaleFactor = dialogScaleFactor;
-                                    var minSize = new Vector2i(580, 460);
-                                    minSize.x = Std.int(minSize.x * dialogScaleFactor);
-                                    minSize.y = Std.int(minSize.y * dialogScaleFactor);
-                                    dialog.minSize = minSize;
+                                        var dialogScaleFactor = getWindow().contentScaleFactor;
+                                        dialog.contentScaleFactor = dialogScaleFactor;
+                                        var minSize = new Vector2i(580, 460);
+                                        minSize.x = Std.int(minSize.x * dialogScaleFactor);
+                                        minSize.y = Std.int(minSize.y * dialogScaleFactor);
+                                        dialog.minSize = minSize;
 
-                                    dialog.fileSelected.add((newPath: String) -> {
-                                        var realPath = getEditor().projectIo.getFileUrl(newPath);
-                                        setPathFunction(realPath);
-                                        dialog.queueFree();
-                                    });
+                                        dialog.fileSelected.add((newPath: String) -> {
+                                            var realPath = getEditor().projectIo.getFileUrl(newPath);
+                                            setPathFunction(realPath);
+                                            dialog.queueFree();
+                                        });
                                 
-                                    dialog.popupFileDialog();
+                                        dialog.popupFileDialog();
+                                    }
                                 });
 
 
