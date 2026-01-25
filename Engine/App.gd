@@ -23,9 +23,12 @@ func load_library(path: String) -> void:
 	if (!FileAccess.file_exists(path)): return
 	
 	var zipIo = IoInterfaceZip.new()
-	var zipFile = FileAccess.open(path, FileAccess.READ)
-	var zip_bytes = zipFile.get_buffer(zipFile.get_length())
-	zipIo.LoadFromBytes(zip_bytes, "temp://")
+	if (path.begins_with("res://") || path.begins_with("user://")):
+		var zipFile = FileAccess.open(path, FileAccess.READ)
+		var zip_bytes = zipFile.get_buffer(zipFile.get_length())
+		zipIo.LoadFromBytes(zip_bytes, "temp://")
+	else:
+		zipIo.LoadFromPath(path, "temp://")
 	io_manager.Register(zipIo)
 	
 	var header_json : String = io_manager.LoadText("temp://header.json")
