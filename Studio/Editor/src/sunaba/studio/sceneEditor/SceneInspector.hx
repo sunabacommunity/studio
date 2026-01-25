@@ -1,5 +1,6 @@
 package sunaba.studio.sceneEditor;
 
+import sunaba.desktop.ConfirmationDialog;
 import sunaba.audio.AudioStreamMP3;
 import sunaba.audio.AudioStreamWAV;
 import sunaba.audio.AudioStreamOggVorbis;
@@ -1388,7 +1389,123 @@ class SceneInspector extends EditorWidget {
                                 resFileButtonPopup.addItem("Project path", 1);
                                 resFileButtonPopup.idPressed.add((id: Int) -> {
                                     if (id == 0) {
-                                        //
+                                        var confirmDialog = new ConfirmationDialog();
+                                        confirmDialog.contentScaleFactor = getWindow().contentScaleFactor;
+                                        confirmDialog.minSize = new Vector2i(
+                                            Std.int(450 * confirmDialog.contentScaleFactor), 
+                                            Std.int(350 * confirmDialog.contentScaleFactor)
+                                        );
+                                        confirmDialog.title = "Select Builtin Path";
+                
+                                        var confirmDialogTree = new Tree();
+                                        confirmDialogTree.hideRoot = true;
+                                        var confirmDialogTreeRoot = confirmDialogTree.createItem();
+
+                                        var selectedItem: String = null;
+                                        confirmDialogTree.itemSelected.add(() -> {
+                                            var selected = confirmDialogTree.getSelected();
+                                            var selectedMetadata = selected.getMetadata(0);
+                                            if (selectedMetadata.getType() == VariantType.string) {
+                                                selectedItem = selectedMetadata;
+                                            }
+                                            else {
+                                            selectedItem = null;
+                                            }
+                                        });
+                                        confirmDialogTree.itemActivated.add(() -> {
+                                            var selected = confirmDialogTree.getSelected();
+                                            var selectedMetadata = selected.getMetadata(0);
+                                            if (selectedMetadata.getType() == VariantType.string) {
+                                                selectedItem = selectedMetadata;
+                                            }
+                                            else {
+                                                selectedItem = null;
+                                            }
+                                            trace(selectedItem);
+                                            if (selectedItem != null) {
+                                                setPathFunction(selectedItem);
+                                            }
+                                            confirmDialog.queueFree();
+                                        });
+                                        confirmDialog.confirmed.add(() -> {
+                                            trace(selectedItem);
+                                            if (selectedItem != null) {
+                                                setPathFunction(selectedItem);
+                                            }
+                                            confirmDialog.queueFree();
+                                        });
+                                        confirmDialog.canceled.add(() -> {
+                                            confirmDialog.queueFree();
+                                        });
+                                        confirmDialog.closeRequested.add(() -> {
+                                            confirmDialog.queueFree();
+                                        });
+
+                                        
+
+                                        var recurseDirFunc: (String, TreeItem, ?String)->Void;
+
+                                        var createFileEntry = (path: String, parent: TreeItem) -> {
+                                            var fileItem = confirmDialogTree.createItem(parent);
+                                            fileItem.setText(0, path.split("/").pop());
+                                            fileItem.setMetadata(0, path);
+                                            if (StringTools.startsWith(classType, "AudioStream")) {
+                                                fileItem.setIcon(0, getEditor().loadIcon("studio://icons/16/folder-open-document-music.png"));
+                                            }
+                                            else if (StringTools.contains(classType, "Texture")) {
+                                                fileItem.setIcon(0, getEditor().loadIcon("studio://icons/16/folder-open-image.png"));
+                                            }
+                                            else if (StringTools.contains(classType, "Texture")) {
+                                                fileItem.setIcon(0, getEditor().loadIcon("studio://icons/16/folder-open-document.png"));
+                                            }
+                                        };
+
+                                        recurseDirFunc = (dirpath: String, parent: TreeItem, ?name: String) -> {
+                                            var dirItem = confirmDialogTree.createItem(parent);
+                                            if (name == null) {
+                                                dirItem.setText(0, dirpath.split("/").pop());
+                                            }
+                                            else {
+                                                dirItem.setText(0, name);
+                                            }
+                                            dirItem.setIcon(0, getEditor().loadIcon("studio://icons/16/folder-horizontal.png"));
+                                            dirItem.collapsed = true;
+
+                                            var dirs = io.getFileList(dirpath, "/", false);
+                                            Sys.println(JSON.stringify(dirs));
+                                            for (i in 0...dirs.size()) {
+                                                var subPath: String = dirs.get(i);
+                                                trace(subPath);
+                                                recurseDirFunc(subPath, dirItem);
+                                            }
+
+                                            var vorbisFiles = io.getFileList(dirpath, ".ogg", false);
+                                            for (j in 0...vorbisFiles.size()) {
+                                                var filePath = vorbisFiles.get(j); 
+                                                createFileEntry(filePath, dirItem);
+                                            }
+
+                                            var mp3Files = io.getFileList(dirpath, ".mp3", false);
+                                            for (j in 0...mp3Files.size()) {
+                                                var filePath = mp3Files.get(j); 
+                                                createFileEntry(filePath, dirItem);
+                                            }
+
+                                            var wavFiles = io.getFileList(dirpath, ".wav", false);
+                                            for (j in 0...wavFiles.size()) {
+                                                var filePath = wavFiles.get(j); 
+                                                createFileEntry(filePath, dirItem);
+                                            }
+                                        };
+
+                                        if (StringTools.startsWith(classType, "AudioStream")) {
+                                            recurseDirFunc("basesfx://", null, "Base Sound Effects");
+                                        }
+
+
+                                        confirmDialog.addChild(confirmDialogTree);
+                                        addChild(confirmDialog);
+                                        confirmDialog.popupCentered();
                                     }
                                     else if (id == 1) {
                                         var dialog = new FileDialog();
