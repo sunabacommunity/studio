@@ -19,7 +19,7 @@ public partial class IoInterfaceZip : IoInterface
     public void LoadFromPath(string path, string pathUrl)
     {
         PathUrl = pathUrl;
-        if (path.EndsWith(".snb") || path.EndsWith(".nlib") || path.EndsWith(".zip"))
+        if (path.EndsWith(".snb") || path.EndsWith(".slib") || path.EndsWith(".zip"))
         {
             zipArchive = ZipFile.OpenRead(path);
         }
