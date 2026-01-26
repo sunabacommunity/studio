@@ -86,18 +86,7 @@ class MapViewer extends EditorWidget {
         
         buildMap();
 
-        try {
-            var envRes = ResourceLoaderService.load("res://Engine/Environments/new_environment.tres");
-            var environment = new Environment(envRes.native);
-            var worldEnv = new Node(new NativeObject("WorldEnvironment"));
-            worldEnv.native.set("environment", environment.native);
-            viewport.addChild(worldEnv);
-
-            initializeEditorScene();
-        }
-        catch(e) {
-            trace(e.toString());
-        }
+        initializeEditorScene();
     }
 
     public function buildMap() {
