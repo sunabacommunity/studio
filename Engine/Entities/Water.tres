@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="FuncGodotFGDSolidClass" format=3 uid="uid://xqd836qom44k"]
+
+[ext_resource type="Script" uid="uid://5cow84q03m6a" path="res://addons/func_godot/src/fgd/func_godot_fgd_solid_class.gd" id="1_j08r5"]
+[ext_resource type="Script" uid="uid://ceyp75xxema55" path="res://Engine/Entities/Water.gd" id="2_hpopw"]
+
+[resource]
+script = ExtResource("1_j08r5")
+script_class = ExtResource("2_hpopw")
+classname = "func_water"
+node_class = "Area3D"
+metadata/_custom_type_script = "uid://5cow84q03m6a"
