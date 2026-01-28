@@ -140,6 +140,12 @@
                         fullRect="true"
                         separation="0">
                         <sunaba.ui.Button
+                            name="build"
+                            flat="true"
+                            icon="studio://icons/16_1-5x/hammer.png"
+                            iconAlignment="1"
+                            customMinimumSize="40,40"/>
+                        <sunaba.ui.Button
                             name="play"
                             flat="true"
                             icon="studio://icons/16_1-5x/control.png"
