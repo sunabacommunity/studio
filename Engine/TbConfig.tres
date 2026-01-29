@@ -12,4 +12,5 @@ script = ExtResource("6_50vmv")
 game_name = "Sunaba"
 icon = ExtResource("5_5fla1")
 fgd_file = ExtResource("4_5fla1")
+generate_model_point_class_models = false
 metadata/_custom_type_script = "uid://cx44c4vnq8bt5"

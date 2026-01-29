@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cvukdmgn3p5p8"]
+
+[ext_resource type="PackedScene" uid="uid://bjsrwsg0yaghl" path="res://Engine/Entities/PlayerModel.glb" id="1_b0p4r"]
+
+[node name="PlayerModel" unique_id=297810325 instance=ExtResource("1_b0p4r")]
+
+[node name="MaleMesh" parent="." index="0" unique_id=849484306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4819857, 0)

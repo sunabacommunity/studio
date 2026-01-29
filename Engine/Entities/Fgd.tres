@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://dg5x44cc7flew" path="res://addons/func_godot/fgd/func_illusionary.tres" id="8_jxfr6"]
 [ext_resource type="Resource" uid="uid://disjlsqth6og3" path="res://Engine/Entities/InfoPrefab.tres" id="9_3561t"]
 [ext_resource type="Script" uid="uid://drlmgulwbjwqu" path="res://addons/func_godot/src/fgd/func_godot_fgd_file.gd" id="9_ey2j4"]
+[ext_resource type="Resource" uid="uid://cggutnxok4f5y" path="res://Engine/Entities/InfoPlayerStart.tres" id="10_el6fq"]
 [ext_resource type="Resource" uid="uid://xqd836qom44k" path="res://Engine/Entities/Water.tres" id="10_q8tke"]
 [ext_resource type="Resource" uid="uid://foxu2f8xh67r" path="res://Engine/Entities/InfoOmnilight.tres" id="11_131xi"]
 [ext_resource type="Resource" uid="uid://c56mhsogb3wjd" path="res://Engine/Entities/InfoEnvironment.tres" id="12_xcghj"]
@@ -23,4 +24,4 @@
 [resource]
 script = ExtResource("9_ey2j4")
 fgd_name = "Sunaba"
-entity_definitions = Array[Resource]([ExtResource("1_c0e3f"), ExtResource("2_3561t"), ExtResource("3_lirps"), ExtResource("4_00jc5"), ExtResource("5_7kg8h"), ExtResource("6_sb4ou"), ExtResource("7_b7dra"), ExtResource("8_jxfr6"), ExtResource("9_3561t"), ExtResource("10_q8tke"), ExtResource("11_131xi"), ExtResource("12_xcghj"), ExtResource("13_el6fq"), ExtResource("14_t8bes"), ExtResource("15_wwk4o"), ExtResource("16_vfw5e"), ExtResource("17_0tymi"), ExtResource("18_euyts")])
+entity_definitions = Array[Resource]([ExtResource("1_c0e3f"), ExtResource("2_3561t"), ExtResource("3_lirps"), ExtResource("4_00jc5"), ExtResource("5_7kg8h"), ExtResource("6_sb4ou"), ExtResource("7_b7dra"), ExtResource("8_jxfr6"), ExtResource("9_3561t"), ExtResource("10_el6fq"), ExtResource("10_q8tke"), ExtResource("11_131xi"), ExtResource("12_xcghj"), ExtResource("13_el6fq"), ExtResource("14_t8bes"), ExtResource("15_wwk4o"), ExtResource("16_vfw5e"), ExtResource("17_0tymi"), ExtResource("18_euyts")])

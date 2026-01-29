@@ -11,6 +11,7 @@ script = ExtResource("5_0byqm")
 gamepack_name = "sunaba"
 game_name = "Sunaba"
 fgd_file = ExtResource("1_70vtk")
+generate_model_point_class_models = false
 model_types = PackedStringArray("glb", "gltf", "obj")
 sound_types = PackedStringArray("wav", "ogg")
 texture_types = PackedStringArray("png", "jpg", "jpeg", "bmp", "tga")

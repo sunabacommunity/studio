@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cfp41n0qmh1c2"]
+
+[ext_resource type="Script" uid="uid://do7iok1hwtf4m" path="res://Engine/Entities/InfoPlayerStart.gd" id="1_pvff1"]
+[ext_resource type="PackedScene" uid="uid://cvukdmgn3p5p8" path="res://Engine/Entities/PlayerModel.tscn" id="2_qbqjx"]
+
+[node name="InfoPlayerStart" type="Node3D" unique_id=1802522498]
+script = ExtResource("1_pvff1")
+metadata/_custom_type_script = "uid://djqasart14t11"
+
+[node name="PlayerModel" parent="." unique_id=297810325 instance=ExtResource("2_qbqjx")]
