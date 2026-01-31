@@ -834,7 +834,7 @@ class Editor extends Widget {
                 toolchaindir += "\\";
             }
             if (StringTools.contains(toolchaindir, " ")) {
-                toolchaindir = StringTools.replace(toolchaindir, " ", "\" \"");
+                toolchaindir = StringTools.replace(toolchaindir, " ", "\" ");
             }
             var asmDir = StudioUtils.singleton.getBaseDirectory();
             asmDir = StringTools.replace(asmDir, "\\/" , "\\");
@@ -843,20 +843,14 @@ class Editor extends Widget {
             if (!StringTools.endsWith(asmDir, "\\")) {
                 asmDir += "\\";
             }
-            if (StringTools.contains(asmDir, " ")) {
-                asmDir = StringTools.replace(asmDir, " ", "\" \"");
-            }
-            if (StringTools.contains(haxePath, " ")) {
-                haxePath = StringTools.replace(haxePath, " ", "\" \"");
-            }
-            var batContent = "@echo off\r\nset PATH=" + toolchaindir + ";";
+            var batContent = "@echo off\r\nset PATH=\"" + toolchaindir + "\";";
             var haxelibPath = toolchaindir +  "haxelib.exe";
-            batContent += " && " + haxelibPath + " newrepo";
-            batContent += " && " + haxelibPath + " install " + asmDir + "msgpack-haxe.zip";
-            batContent += " && " + haxelibPath + " install " + asmDir + "libsunaba.zip";
-            batContent += " && " + haxelibPath + " install " + asmDir + "gamepak.zip";
-            batContent += " && " + haxelibPath + " install " + asmDir + "sunaba-studio-api.zip";
-            batContent += " && " + haxePath + " %*";
+            batContent += " && \"" + haxelibPath + "\" newrepo";
+            batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "msgpack-haxe.zip\"";
+            batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
+            batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
+            batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "sunaba-studio-api.zip\"";
+            batContent += " && \"" + haxePath + "\" %*";
             /*var batContent = '@echo off\r\n'
             + command
             + '\r\n'
