@@ -927,7 +927,7 @@ class Editor extends Widget {
 
     public function showAboutDialog() {
         var aboutString = "Sunaba Studio\n";
-        aboutString += "Version 0.7.7\n";
+        aboutString += "Version 0.7.8\n";
         aboutString += "(C) 2022-2025 mintkat\n";
         aboutString += "\n";
 
