@@ -1094,7 +1094,7 @@ class Editor extends Widget {
 
     public function buildPlugin() {
         if (projectFilePath == "") {
-            Debug.error("No project opened. Please open a project first.");
+            pluginBuilt = false;
             return;
         }
 
