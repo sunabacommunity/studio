@@ -833,9 +833,6 @@ class Editor extends Widget {
             if (!StringTools.endsWith(toolchaindir, "\\")) {
                 toolchaindir += "\\";
             }
-            if (StringTools.contains(toolchaindir, " ")) {
-                toolchaindir = StringTools.replace(toolchaindir, " ", "\" ");
-            }
             var asmDir = StudioUtils.singleton.getBaseDirectory();
             asmDir = StringTools.replace(asmDir, "\\/" , "\\");
             asmDir = StringTools.replace(asmDir, "/\\" , "\\");
