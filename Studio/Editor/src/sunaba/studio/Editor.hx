@@ -326,6 +326,13 @@ class Editor extends Widget {
             }
             window.borderless = useCustomTitlebar;
         }
+        var windowSize = pluginBuildWindow.size;
+        var scaleFactor = getWindow().contentScaleFactor;
+        pluginBuildWindow.minSize = new Vector2i(Std.int(windowSize.x * scaleFactor), Std.int(windowSize.y * scaleFactor));
+        pluginBuildWindow.contentScaleFactor = scaleFactor;
+        playBuildWindow.minSize = pluginBuildWindow.minSize;
+        playBuildWindow.contentScaleFactor = scaleFactor;
+
         haxePath = StudioUtils.singleton.getToolchainDirectory() + "/haxe";
         if (Sys.systemName() == "Windows") {
             haxePath += ".exe";
@@ -1105,10 +1112,6 @@ class Editor extends Widget {
             trace("Starting build task...");
 
             if (pluginBuildWindow != null) {
-                var windowSize = pluginBuildWindow.size;
-                var scaleFactor = getWindow().contentScaleFactor;
-                pluginBuildWindow.minSize = new Vector2i(Std.int(windowSize.x * scaleFactor), Std.int(windowSize.y * scaleFactor));
-                pluginBuildWindow.contentScaleFactor = scaleFactor;
                 pluginBuildWindow.popupCentered();
             }
 
@@ -1673,10 +1676,6 @@ class Editor extends Widget {
         debugMenu.setItemDisabled(0, true);
         if (playBuildWindow != null) {
             var scaleFactor = window.contentScaleFactor;
-
-            var windowSize = playBuildWindow.size;
-            playBuildWindow.minSize = new Vector2i(Std.int(windowSize.x * scaleFactor), Std.int(windowSize.y * scaleFactor));
-            playBuildWindow.contentScaleFactor = scaleFactor;
             playBuildWindow.popupCentered();
         }
 
