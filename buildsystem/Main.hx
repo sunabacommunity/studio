@@ -105,7 +105,7 @@ class Main {
             buildSunabaLibZip();
             buildSunabaStudioLibZip();
             buildGamepakLibZip();
-            buildMsgpackLibZip();
+            //buildMsgpackLibZip();
 
             var dotnetRestore = Sys.command("dotnet restore Sunaba.Studio.sln");
             if (dotnetRestore != 0) {

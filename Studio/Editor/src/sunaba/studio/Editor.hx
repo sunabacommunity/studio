@@ -850,7 +850,6 @@ class Editor extends Widget {
             var batContent = "@echo off\r\nset PATH=\"" + toolchaindir + "\";";
             var haxelibPath = toolchaindir +  "haxelib.exe";
             batContent += " && \"" + haxelibPath + "\" newrepo";
-            batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "msgpack-haxe.zip\"";
             batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
             batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
             batContent += " && \"" + haxelibPath + "\" install \"" + asmDir + "sunaba-studio-api.zip\"";
@@ -905,7 +904,6 @@ class Editor extends Widget {
                 shContent += "\nexport LD_LIBRARY_PATH=\"" + toolchaindir + "\":$LD_LIBRARY_PATH";
             }
             shContent += "\n\"" + haxelibPath + "\" newrepo";
-            shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "msgpack-haxe.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "sunaba-studio-api.zip\"";
