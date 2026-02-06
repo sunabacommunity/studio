@@ -88,7 +88,9 @@ class Explorer extends EditorWidget {
         }
 
         var texture = throbberTextures[0];
-        throbberRect.texture = texture;
+        if (texture != null && texture.isObjectValid()) {
+            throbberRect.texture = texture;
+        }
 
         reloadButton.pressed.connect(Callable.fromFunction(function() {
             if (projectDirectory != "") {
@@ -266,7 +268,8 @@ class Explorer extends EditorWidget {
         if (timeAccumulator >= milisec) {
             timeAccumulator -= milisec;
 
-            throbberRect.texture = throbberTextures[lastThrobberIndex];
+            if (throbberTextures[lastThrobberIndex] != null && throbberTextures[lastThrobberIndex].isObjectValid())
+                throbberRect.texture = throbberTextures[lastThrobberIndex];
             if (lastThrobberIndex == throbberMaxNumber - 1) {
                 lastThrobberIndex = 0;
             }
