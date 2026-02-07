@@ -184,7 +184,6 @@ public partial class ZipIo : IoInterface
                 var filePath = PathUrl + file;
                 if (file.StartsWith(path2))
                 {
-                    Console.WriteLine(file.Replace(path2, ""));
                     if (!file.Replace(path2, "").Contains("/"))
                     {
                         fileList.Add(filePath);
