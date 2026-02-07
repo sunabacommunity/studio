@@ -106,6 +106,7 @@ class Editor extends Widget {
     public var timeSinceClick = 0.1;
     public var windowTitle:Label;
     public var subtitle:String = "";
+    var windowIsMaximized: Bool = false;
 
     private var playBuildWindow: Window;
     private var pluginBuildWindow: Window;
@@ -312,6 +313,7 @@ class Editor extends Widget {
         window.extendToTitle = true;
         window.mode = WindowMode.maximized;
         window.unresizable = false;
+        windowIsMaximized = true;
         if (OSService.getName() == "macOS") {
             DisplayService.windowSetWindowButtonsOffset(new Vector2i(35, 37), window.getWindowId());
         }
@@ -349,7 +351,7 @@ class Editor extends Widget {
                 if (customTitlebar == false && OSService.getName() != "macOS")
                     return;
 
-                if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && window.mode == WindowMode.windowed && clickcount == 0) {
+                if (InputService.isMouseButtonPressed(MouseButton.left) && !titlebarLmbPressed && windowIsMaximized == false && clickcount == 0) {
                     titlebarLmbPressed = true;
                     if (eventN.isClass("InputEventMouseButton")) {
                         var eventMouseButton = new InputEventMouseButton(eventN);
@@ -392,9 +394,10 @@ class Editor extends Widget {
                     trace(clickcount);
                     clickcount = 0;
                     var maximizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/maximizeButton");
-                    if (window.mode == WindowMode.maximized) {
+                    if (windowIsMaximized == true) {
                         var maximizedSize = window.size;
                         window.mode = WindowMode.windowed;
+                        windowIsMaximized = false;
                         if (window.size.x == maximizedSize.x && window.size.y == maximizedSize.y) {
                             window.size = ogWindowSize;
                             window.moveToCenter();
@@ -407,9 +410,10 @@ class Editor extends Widget {
                             maximizeButton.text = "";
                         }
                     }
-                    else if (window.mode == WindowMode.windowed) {
+                    else if (windowIsMaximized == false) {
                         windowSize = window.size;
                         window.mode = WindowMode.maximized;
+                        windowIsMaximized = true;
                         maximizeButton.text = "🗗";
                         if (OSService.getName() == "Windows") {
                             maximizeButton.text = "";
@@ -563,7 +567,7 @@ class Editor extends Widget {
             var isMaximized = true;
             minimizeButton.pressed.add(() -> {
                 if (window.mode != WindowMode.minimized) {
-                    isMaximized = window.mode == WindowMode.maximized;
+                    isMaximized = windowIsMaximized == true;
                     window.mode = WindowMode.minimized;
                 }
                 else {
@@ -585,7 +589,7 @@ class Editor extends Widget {
             if (OSService.getName() == "Windows") {
                 maximizeButton.customMinimumSize = newCustomMinimumSize;
             }
-            if (window.mode == WindowMode.maximized) {
+            if (windowIsMaximized == true) {
                 maximizeButton.text = "🗗";
                 if (OSService.getName() == "Windows") {
                     maximizeButton.text = "";
@@ -598,13 +602,14 @@ class Editor extends Widget {
                 }
             }
             maximizeButton.pressed.add(() -> {
-                if (window.mode == WindowMode.maximized) {
+                if (windowIsMaximized == true) {
                     maximizeButton.text = "🗖";
                     if (OSService.getName() == "Windows") {
                         maximizeButton.text = "";
                     }
                     var maximizedSize = window.size;
                     window.mode = WindowMode.windowed;
+                    windowIsMaximized = false;
                     if (window.size.x == maximizedSize.x && window.size.y == maximizedSize.y) {
                         window.size = ogWindowSize;
                         window.moveToCenter();
@@ -613,13 +618,14 @@ class Editor extends Widget {
                         window.size = windowSize;
                     }
                 }
-                else if (window.mode == WindowMode.windowed) {
+                else if (windowIsMaximized == false) {
                     maximizeButton.text = "🗗";
                     if (OSService.getName() == "Windows") {
                         maximizeButton.text = "";
                     }
                     windowSize = window.size;
                     window.mode = WindowMode.maximized;
+                    windowIsMaximized = true;
                 }
             });
 
