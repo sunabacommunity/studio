@@ -159,6 +159,9 @@ class Editor extends Widget {
     private var leftSidebarVisible: Bool = true;
     private var rightSidebarVisible: Bool = true;
 
+    var leftSidebarToggled: Bool = true;
+    var rightSidebarToggled: Bool = true;
+
     public override function init() {
         load("studio://Editor.suml");
 
@@ -230,7 +233,7 @@ class Editor extends Widget {
         }*/
 
         var leftSidebarToggle: Button = getNodeT(Button, "vbox/statusbar/hbox/left/leftSidebarToggle");
-        var leftSidebarToggled: Bool = true;
+        leftSidebarToggled = true;
         leftSidebarToggle.pressed.add(() -> {
             leftSidebarToggled = !leftSidebarToggled;
             leftTabBar.visible = leftSidebarToggled;
@@ -243,7 +246,7 @@ class Editor extends Widget {
         });
 
         var rightSidebarToggle: Button = getNodeT(Button, "vbox/statusbar/hbox/left/rightSidebarToggle");
-        var rightSidebarToggled: Bool = true;
+        rightSidebarToggled = true;
         rightSidebarToggle.pressed.add(() -> {
             rightSidebarToggled = !rightSidebarToggled;
             rightTabBar.visible = rightSidebarToggled;
@@ -501,7 +504,32 @@ class Editor extends Widget {
             }));
             var viewMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/View");
             viewMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
-
+                if (id == 0) {
+                    leftSidebarToggled = !leftSidebarToggled;
+                    leftTabBar.visible = leftSidebarToggled;
+                    if (leftSidebarToggled == true) {
+                        leftTabContainer.visible = leftSidebarVisible;
+                    }
+                    else {
+                        leftTabContainer.hide();
+                    }
+                }
+                else if (id == 1) {
+                    rightSidebarToggled = !rightSidebarToggled;
+                    rightTabBar.visible = rightSidebarToggled;
+                    if (rightSidebarToggled == true) {
+                        rightTabContainer.visible = rightSidebarVisible;
+                    }
+                    else {
+                        rightTabContainer.hide();
+                    }
+                }
+                else if (id == 2) {
+                    centerTabContainer.visible = !centerTabContainer.visible; 
+                }
+                else if (id == 3) {
+                    bottomCenterTabContainer.visible = !bottomCenterTabContainer.visible; 
+                }
             }));
             toolsMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/Tools");
             toolsMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {

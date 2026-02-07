@@ -60,6 +60,10 @@
                             </sunaba.desktop.PopupMenu>
                             <sunaba.desktop.PopupMenu
                                 name="View">
+                                <menuItem label="Left Sidebar" icon="studio://icons/16/application-dock-180.png"/>
+                                <menuItem label="Right Sidebar" icon="studio://icons/16/application-dock.png"/>
+                                <menuItem label="Workspace" icon="studio://icons/16/application-dock-tab.png"/>
+                                <menuItem label="Dock" icon="studio://icons/16/application-dock-270.png"/>
                             </sunaba.desktop.PopupMenu>
                             <sunaba.desktop.PopupMenu
                                 name="Tools">
