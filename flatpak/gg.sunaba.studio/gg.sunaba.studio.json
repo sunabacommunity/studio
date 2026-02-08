@@ -5,11 +5,16 @@
   "sdk": "org.freedesktop.Sdk",
   "command": "sunaba-studio",
   "finish-args": [
+    "--share=ipc",
     "--share=network",
     "--socket=x11",
     "--socket=wayland",
-    "--device=dri",
-    "--filesystem=host"
+    "--socket=pulseaudio",
+    "--device=all",
+    "--filesystem=host",
+    "--filesystem=xdg-run/speech-dispatcher",
+    "--talk-name=org.freedesktop.Flatpak",
+    "--talk-name=org.a11y.Bus"
   ],
   "modules": [
     {

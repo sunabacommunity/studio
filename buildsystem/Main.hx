@@ -26,6 +26,8 @@ class Main {
 
     static var installFlatpak = false;
 
+    static var flatpakSingleFileBundle = false;
+
     public static function main() {
         var args = Sys.args();
 
@@ -40,7 +42,7 @@ class Main {
             Sys.println("  --target=<platform> -t=<platform>: Specify the target platform (default: auto-detect based on OS)");
             Sys.println("  --debug -d: Export in debug mode");
             Sys.println("  --release -r: Export in release mode");
-            Sys.println("  --pkgformat=<format> -p: Specify the package format (none, nsis, deb, dmg)");
+            Sys.println("  --pkgformat=<format> -p: Specify the package format (none, nsis, deb, dmg, flatpak, zip)");
             return;
         }
 
@@ -85,6 +87,9 @@ class Main {
             else if (packageFormat == PackageFormat.flatpak && arg == "--install") {
                 installFlatpak = true;
             } 
+            else if (packageFormat == PackageFormat.flatpak && arg == "--single-file-bundle") {
+                flatpakSingleFileBundle = true;
+            }
         }
 
         var currentDir = Sys.getCwd();
@@ -402,11 +407,20 @@ class Main {
         }
 
         Sys.command("flatpak-builder --force-clean " + additionalOptions +  " bin/flatpakBuild " + flatpakBasePath + "/gg.sunaba.studio.json");
+
+        File.saveContent(cwd + "/bin/flatpakBuild/.gdignore", "");
+        File.saveContent(cwd + "/repo/.gdignore", "");
+        File.saveContent(cwd + "/.flatpak-builder/.gdignore", "");
+
+        if (flatpakSingleFileBundle == true) {
+            Sys.command("flatpak build-bundle repo bin/sunaba-studio-" + targetPlatform + "-" + exportType + ".flatpak gg.sunaba.studio");
+        }
     }
 
     public static function exportDeb() {
         if (Sys.systemName() != "Linux") {
             Sys.println("Cannot build a deb package on a non-Linux environment");
+            Sys.exit(-1);
         }
 
         var cwd = Sys.getCwd();
