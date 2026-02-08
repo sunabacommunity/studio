@@ -38,7 +38,7 @@ jobs:
               os: ubuntu-latest,
               pkgformat: deb,
             }
-            - {
+          - {
               name: "🐧 Linux Flatpak",
               target: linux-x86_64,
               os: ubuntu-latest,
