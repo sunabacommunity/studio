@@ -86,6 +86,8 @@ jobs:
         if: matrix.config.target == 'linux-x86_64'
         run: |
           flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install flathub org.freedesktop.Platform
+          flatpak install flathub org.freedesktop.Sdk
 
       - name: Setup Haxelib
         run: |
