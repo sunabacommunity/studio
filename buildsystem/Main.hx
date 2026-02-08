@@ -406,8 +406,11 @@ class Main {
             additionalOptions = "--user --install-deps-from=flathub --repo=repo --install";
         }
 
-        Sys.command("flatpak-builder --force-clean " + additionalOptions +  " bin/flatpakBuild " + flatpakBasePath + "/gg.sunaba.studio.json");
+        var flatpakBuilder = Sys.command("flatpak-builder --force-clean " + additionalOptions +  " bin/flatpakBuild " + flatpakBasePath + "/gg.sunaba.studio.json");
 
+        if (flatpakBuilder != 0) {
+            Sys.exit(flatpakBuilder);
+        }
         File.saveContent(cwd + "/bin/flatpakBuild/.gdignore", "");
         File.saveContent(cwd + "/repo/.gdignore", "");
         File.saveContent(cwd + "/.flatpak-builder/.gdignore", "");
