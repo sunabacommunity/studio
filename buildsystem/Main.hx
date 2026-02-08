@@ -403,7 +403,7 @@ class Main {
 
         var additionalOptions = "";
         if (installFlatpak == true) {
-            additionalOptions = "--user --install-deps-from=flathub --repo=repo --install";
+            additionalOptions = "--user --install-deps-from=flathub --repo=" + cwd + "repo --install";
         }
 
         var flatpakBuilder = Sys.command("flatpak-builder --force-clean " + additionalOptions +  " bin/flatpakBuild " + flatpakBasePath + "/gg.sunaba.studio.json");
@@ -418,7 +418,7 @@ class Main {
             File.saveContent(cwd + ".flatpak-builder/.gdignore", "");
 
         if (flatpakSingleFileBundle == true) {
-            Sys.command("flatpak build-bundle repo bin/sunaba-studio-" + targetPlatform + "-" + exportType + ".flatpak gg.sunaba.studio");
+            Sys.command("flatpak build-bundle " + cwd + "repo " + cwd + "bin/sunaba-studio-" + targetPlatform + "-" + exportType + ".flatpak gg.sunaba.studio");
         }
     }
 
