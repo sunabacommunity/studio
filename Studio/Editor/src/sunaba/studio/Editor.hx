@@ -936,13 +936,14 @@ class Editor extends Widget {
             }
             else if (OSService.getName() == "Linux") {
                 shContent += "\nexport LD_LIBRARY_PATH=\"" + toolchaindir + "\":$LD_LIBRARY_PATH";
+                shContent += "\nexport HAXE_STD_PATH=\"" + toolchaindir + "/std\":$HAXE_STD_PATH";
             }
             shContent += "\n\"" + haxelibPath + "\" newrepo";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "libsunaba.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "gamepak.zip\"";
             shContent += "\n\"" + haxelibPath + "\" install \"" + asmDir + "sunaba-studio-api.zip\"";
             shContent += "\n\"" + haxePath + "\" \"$@\" ";
-            sys.io.File.saveContent(wrapper, shContent);
+            sys.io.File.saveContent(wrapper, shContent);//
 
 
             trace(FileSystem.exists(wrapper));
