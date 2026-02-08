@@ -411,9 +411,11 @@ class Main {
         if (flatpakBuilder != 0) {
             Sys.exit(flatpakBuilder);
         }
-        File.saveContent(cwd + "/bin/flatpakBuild/.gdignore", "");
-        File.saveContent(cwd + "/repo/.gdignore", "");
-        File.saveContent(cwd + "/.flatpak-builder/.gdignore", "");
+        File.saveContent(cwd + "bin/flatpakBuild/.gdignore", "");
+        if (FileSystem.exists(cwd + "repo/"))
+            File.saveContent(cwd + "repo/.gdignore", "");
+        if (FileSystem.exists(cwd + ".flatpak-builder/"))
+            File.saveContent(cwd + ".flatpak-builder/.gdignore", "");
 
         if (flatpakSingleFileBundle == true) {
             Sys.command("flatpak build-bundle repo bin/sunaba-studio-" + targetPlatform + "-" + exportType + ".flatpak gg.sunaba.studio");
