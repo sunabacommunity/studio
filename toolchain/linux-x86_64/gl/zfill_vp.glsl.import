@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dg0y6kltwlmh1"
+path="res://.godot/imported/zfill_vp.glsl-8aabc1f54f0bfd1aa017d67c0ffe7a16.res"
+
+[deps]
+
+source_file="res://toolchain/linux-x86_64/gl/zfill_vp.glsl"
+dest_files=["res://.godot/imported/zfill_vp.glsl-8aabc1f54f0bfd1aa017d67c0ffe7a16.res"]
+
+[params]
+

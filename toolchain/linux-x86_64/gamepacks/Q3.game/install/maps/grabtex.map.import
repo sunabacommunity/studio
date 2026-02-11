@@ -1,0 +1,14 @@
+[remap]
+
+importer="func_godot.map"
+type="Resource"
+uid="uid://bs6pbq012apev"
+path="res://.godot/imported/grabtex.map-22ddc4c275f63dc030b3865f2bc1358e.tres"
+
+[deps]
+
+source_file="res://toolchain/linux-x86_64/gamepacks/Q3.game/install/maps/grabtex.map"
+dest_files=["res://.godot/imported/grabtex.map-22ddc4c275f63dc030b3865f2bc1358e.tres"]
+
+[params]
+

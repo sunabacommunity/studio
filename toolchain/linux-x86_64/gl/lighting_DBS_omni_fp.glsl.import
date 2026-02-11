@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://es6vafh5ivsq"
+path="res://.godot/imported/lighting_DBS_omni_fp.glsl-ab3ac79954c844ddca530c40bb7306c3.res"
+
+[deps]
+
+source_file="res://toolchain/linux-x86_64/gl/lighting_DBS_omni_fp.glsl"
+dest_files=["res://.godot/imported/lighting_DBS_omni_fp.glsl-ab3ac79954c844ddca530c40bb7306c3.res"]
+
+[params]
+

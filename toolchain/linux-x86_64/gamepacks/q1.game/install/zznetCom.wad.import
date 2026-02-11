@@ -1,0 +1,16 @@
+[remap]
+
+importer="func_godot.wad"
+type="Resource"
+uid="uid://dbsweh3bjawyr"
+path="res://.godot/imported/zznetCom.wad-5f48a52b57eac70430da2964ca6d908f.res"
+
+[deps]
+
+source_file="res://toolchain/linux-x86_64/gamepacks/q1.game/install/zznetCom.wad"
+dest_files=["res://.godot/imported/zznetCom.wad-5f48a52b57eac70430da2964ca6d908f.res"]
+
+[params]
+
+palette_file="res://addons/func_godot/palette.lmp"
+generate_mipmaps=true

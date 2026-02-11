@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://dm2meymk0s728"
+path="res://.godot/imported/skybox_fp.glsl-ed056d16fbe1dd32204a778957946d00.res"
+
+[deps]
+
+source_file="res://toolchain/linux-x86_64/gl/skybox_fp.glsl"
+dest_files=["res://.godot/imported/skybox_fp.glsl-ed056d16fbe1dd32204a778957946d00.res"]
+
+[params]
+
