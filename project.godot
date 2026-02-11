@@ -19,7 +19,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Sunaba Studio"
-config/version="0.7.9"
+config/version="0.7.11"
 run/main_scene="uid://cmd0qleaq4j3n"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Sunaba"

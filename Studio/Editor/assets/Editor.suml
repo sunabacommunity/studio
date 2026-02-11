@@ -242,7 +242,7 @@
                         fullRect="true"
                         separation="0"
                         customMinimumSize="0, 27">
-                        <sunaba.ui.Label name="versionLabel" text="v0.7.9" verticalAlignment="3" customMinimumSize="27,27"/>
+                        <sunaba.ui.Label name="versionLabel" text="v0.7.11" verticalAlignment="3" customMinimumSize="27,27"/>
                         <sunaba.ui.Control customMinimumSize="10,10"/>
                     </sunaba.ui.HBoxContainer>
                 </sunaba.ui.HBoxContainer>

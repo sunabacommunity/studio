@@ -4,7 +4,7 @@ RequestExecutionLevel user
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Sunaba Studio"
-!define PRODUCT_VERSION "0.7.9"
+!define PRODUCT_VERSION "0.7.11"
 !define PRODUCT_PUBLISHER "sunaba.gg"
 !define PRODUCT_WEB_SITE "https://www.sunaba.gg"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\Sunaba.Studio.exe"
