@@ -70,6 +70,9 @@ ${If} ${RunningX64}
   SetOverwrite try
   File /r "bin\windows-x86_64-debug\data_Sunaba.Studio_windows_x86_64\*.*"
 
+  CreateShortCut "$SMPROGRAMS\Sunaba\Studio\NetRadiant Custom.lnk" "$INSTDIR\data_Sunaba.Studio_windows_x86_64\toolchain\windows-x86_64\radiant.exe"
+  CreateShortCut "$DESKTOP\NetRadiant Custom.lnk" "$INSTDIR\data_Sunaba.Studio_windows_x86_64\toolchain\windows-x86_64\radiant.exe"
+
   WriteRegStr HKCR "Software\Classes\.sproj" "" "Sunaba.Project"
   WriteRegStr HKCR "Software\Classes\Sunaba.Project" "" "Sunaba Project"
   WriteRegStr HKCR "Software\Classes\Sunaba.Project\DefaultIcon" "" "$INSTDIR\project.ico,0"
