@@ -798,8 +798,8 @@ class Editor extends Widget {
             addToolFunction(() -> {
                     openTrenchbroom();
                 }, 
-                "NetRadiant Custom", 
-                loadIcon("studio://icons/16/netradiant.png")
+                "TrenchBroom", 
+                loadIcon("studio://icons/16/trechbroom.png")
             );
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
