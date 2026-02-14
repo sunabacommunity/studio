@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 
 namespace Sunaba.Engine;
@@ -34,31 +35,31 @@ public partial class PlatformService: Node
 
 	public string GetVersion()
 	{
-		return Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+		return Assembly.GetExecutingAssembly().GetName().Version.ToString();
 	}
 	
 	public String GetCompDate()
 	{
-		String compDate = GetBuildDate(Assembly.GetExecutingAssembly()).ToString(CultureInfo.CurrentCulture);//Date.GetLinkerTimestampUtc(Assembly.GetExecutingAssembly()).ToString();
+		String compDate = GetBuildDate(Assembly.GetExecutingAssembly()).ToString(CultureInfo.InvariantCulture);//Date.GetLinkerTimestampUtc(Assembly.GetExecutingAssembly()).ToString();
 
-		return compDate;
+		return compDate + " UTC";
 	}
 
 	private static DateTime GetBuildDate(Assembly assembly)
 	{
-		const string buildVersionMetadataPrefix = "+build";
+		const string BuildVersionMetadataPrefix = "+build";
 
 		var attribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
 		if (attribute?.InformationalVersion != null)
 		{
 			var value = attribute.InformationalVersion;
-			var index = value.IndexOf(buildVersionMetadataPrefix, StringComparison.Ordinal);
+			var index = value.IndexOf(BuildVersionMetadataPrefix, StringComparison.Ordinal);
 			if (index > 0)
 			{
-				value = value.Substring(index + buildVersionMetadataPrefix.Length);
+				value = value.Substring(index + BuildVersionMetadataPrefix.Length);
 				if (DateTime.TryParseExact(value, "yyyyMMddHHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out var result))
 				{
-					return result.ToUniversalTime();
+					return result;
 				}
 			}
 		}
