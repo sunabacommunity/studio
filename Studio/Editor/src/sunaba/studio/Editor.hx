@@ -970,10 +970,13 @@ class Editor extends Widget {
 
     public function showAboutDialog() {
         var aboutString = "Sunaba Studio\n";
-        aboutString += "Version 0.7.11\n";
-        aboutString += "(C) 2022-2025 mintkat\n";
+        aboutString += "Version ";
+        aboutString += PlatformService.getVersion(); 
+        aboutString += "\n(C) 2022-2026 mintkat\n";
         aboutString += "\n";
 
+        var engineVersion = PlatformService.getEngineVersion();
+        aboutString += "Engine Version: " + engineVersion + "\n";
         var osname = OSService.getName();
         aboutString += "OS: " + osname + "\n";
         var deviceTypeStr = "Unknown";
@@ -990,6 +993,8 @@ class Editor extends Widget {
             deviceTypeStr = "XR";
         }
         aboutString += "Device Type: " + deviceTypeStr + "\n";
+        var buildDate = PlatformService.getCompDate();
+        aboutString += "Build Date: " + buildDate + "\n";
         Debug.info(aboutString, "About Sunaba Studio");
     }
 
