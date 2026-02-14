@@ -799,7 +799,13 @@ class Editor extends Widget {
                     openTrenchbroom();
                 }, 
                 "TrenchBroom", 
-                loadIcon("studio://icons/16/trechbroom.png")
+                loadIcon("studio://icons/16/trenchbroom.png")
+            );
+            addToolFunction(() -> {
+                    openNetRadiant();
+                }, 
+                "NetRadiant Custom", 
+                loadIcon("studio://icons/16/netradiant.png")
             );
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
@@ -1937,6 +1943,40 @@ class Editor extends Widget {
             }
             if (Sys.systemName() == "macOS") {
                 nrProgramName += ".app";
+            }
+        }
+        var radiantExecutablePath = toolchaindir + nrProgramName;
+        processSpawner.spawn(radiantExecutablePath, StringArray.fromArray([mapPath]));
+    }
+
+    public inline function openNetRadiant(mapPath: String = "") {
+        var processSpawner = new ProcessSpawner();
+        var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+        var nrProgramName = "radiant";
+        if (Sys.systemName() == "Windows") {
+            toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
+            toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
+            toolchaindir = StringTools.replace(toolchaindir, "/" , "\\");
+            if (!StringTools.endsWith(toolchaindir, "\\")) {
+                toolchaindir += "\\";
+            }
+            nrProgramName += ".exe";
+        }
+        else {
+            if (!StringTools.endsWith(toolchaindir, "/")) {
+                toolchaindir += "/";
+            }
+            if (StringTools.contains(toolchaindir, "//")) {
+                toolchaindir = StringTools.replace(toolchaindir, "//", "/");
+            }
+            if (Sys.systemName() == "Linux") {
+                nrProgramName += ".x86_64";
+            }
+            if (Sys.systemName() == "macOS") {
+                nrProgramName += ".arm64";
+                if (!FileSystem.exists(nrProgramName)) {
+                    Debug.error("NetRadiant Custom is not supported on Intel Macs running macOS");
+                }
             }
         }
         var radiantExecutablePath = toolchaindir + nrProgramName;

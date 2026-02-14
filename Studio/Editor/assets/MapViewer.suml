@@ -14,7 +14,7 @@
                     <sunaba.ui.CenterContainer name="throbber" customMinimumSize="32, 32">
                         <sunaba.ui.TextureRect name="textureRect" customMinimumSize="16, 16"/>
                     </sunaba.ui.CenterContainer>
-                    <sunaba.ui.Button name="edit" icon="studio://icons/16/trechbroom.png" text="Edit in TrenchBroom"/>
+                    <sunaba.ui.Button name="edit" icon="studio://icons/16/netradiant.png" text="Edit in NetRadiant Custom"/>
                     <sunaba.ui.Control sizeFlagsHorizontal="3"/>
                     <sunaba.ui.Button name="reload" text=" Reload "/>
                 </sunaba.ui.HBoxContainer>
