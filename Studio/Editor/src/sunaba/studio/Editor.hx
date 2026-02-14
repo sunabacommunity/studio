@@ -93,7 +93,7 @@ class Editor extends Widget {
     public var redoButton: Button;
     public var reloadButton: Button;
     public var publishButton: Button;
-    public var netradiantButton: Button;
+    public var trenchbroomButton: Button;
 
     public var buildButton: Button;
     public var playButton:Button;
@@ -201,9 +201,9 @@ class Editor extends Widget {
             buildPlugin();
         }));
         publishButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/publish");
-        netradiantButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/netradiant");
-        netradiantButton.pressed.add(() -> {
-            openNetRadiant();
+        trenchbroomButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/trenchbroom");
+        trenchbroomButton.pressed.add(() -> {
+            openTrenchbroom();
         });
 
         buildButton = getNodeT(Button, "vbox/toolbar/hbox/rightToolbar/build");
@@ -796,7 +796,7 @@ class Editor extends Widget {
                 loadIcon("studio://icons/16/images-stack.png")
             );
             addToolFunction(() -> {
-                    openNetRadiant();
+                    openTrenchbroom();
                 }, 
                 "NetRadiant Custom", 
                 loadIcon("studio://icons/16/netradiant.png")
@@ -1912,7 +1912,7 @@ class Editor extends Widget {
         return null;
     }
 
-    public inline function openNetRadiant(mapPath: String = "") {
+    public inline function openTrenchbroom(mapPath: String = "") {
         var processSpawner = new ProcessSpawner();
         var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
         var nrProgramName = "TrenchBroom";

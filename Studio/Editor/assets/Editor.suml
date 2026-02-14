@@ -138,9 +138,9 @@
                             iconAlignment="1"
                             customMinimumSize="40,40"/>
                         <sunaba.ui.Button
-                            name="netradiant"
+                            name="trenchbroom"
                             flat="true"
-                            icon="studio://icons/24/netradiant.png"
+                            icon="studio://icons/24/trenchbroom.png"
                             iconAlignment="1"
                             customMinimumSize="40,40"/>
                     </sunaba.ui.HBoxContainer>

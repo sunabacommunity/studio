@@ -1,4 +1,4 @@
-# Install script for directory: /home/mintkat/TrenchBroom/app
+# Install script for directory: /home/mintkat/Downloads/TrenchBroom-2025.4/app
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -43,7 +43,7 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mime/packages" TYPE FILE FILES "/home/mintkat/TrenchBroom/app/resources/linux/trenchbroom.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/mime/packages" TYPE FILE FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/app/resources/linux/trenchbroom.xml")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -53,7 +53,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/trenchbroom"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/mintkat/TrenchBroom/build/app/trenchbroom")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/trenchbroom")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/trenchbroom" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/trenchbroom")
     if(CMAKE_INSTALL_DO_STRIP)
@@ -63,48 +63,48 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/fonts")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/fonts")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/defaults")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/defaults")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/games")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/games")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/manual")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/manual")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/images")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/images")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/shader")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/shader")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/stylesheets")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/stylesheets")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/TrenchBroom/build/app/update")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE DIRECTORY FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/update")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE FILE FILES "/home/mintkat/TrenchBroom/LICENSE.txt")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE FILE FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/LICENSE.txt")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "TrenchBroom" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE FILE FILES "/home/mintkat/TrenchBroom/app/resources/linux/copyright")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/TrenchBroom" TYPE FILE FILES "/home/mintkat/Downloads/TrenchBroom-2025.4/app/resources/linux/copyright")
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/mintkat/TrenchBroom/build/app/install_local_manifest.txt"
+  file(WRITE "/home/mintkat/Downloads/TrenchBroom-2025.4/build/app/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

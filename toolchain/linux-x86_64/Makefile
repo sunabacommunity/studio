@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mintkat/TrenchBroom
+CMAKE_SOURCE_DIR = /home/mintkat/Downloads/TrenchBroom-2025.4
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mintkat/TrenchBroom/build
+CMAKE_BINARY_DIR = /home/mintkat/Downloads/TrenchBroom-2025.4/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -68,7 +68,7 @@ CMAKE_BINARY_DIR = /home/mintkat/TrenchBroom/build
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
-	cd /home/mintkat/TrenchBroom/build && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -78,7 +78,7 @@ package/fast: package
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
-	cd /home/mintkat/TrenchBroom/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -152,14 +152,14 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/mintkat/TrenchBroom/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/mintkat/TrenchBroom/build/CMakeFiles /home/mintkat/TrenchBroom/build/app//CMakeFiles/progress.marks
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mintkat/TrenchBroom/build/CMakeFiles 0
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/mintkat/Downloads/TrenchBroom-2025.4/build/CMakeFiles /home/mintkat/Downloads/TrenchBroom-2025.4/build/app//CMakeFiles/progress.marks
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mintkat/Downloads/TrenchBroom-2025.4/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/clean
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/clean
 .PHONY : clean
 
 # The main clean target
@@ -168,22 +168,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/preinstall
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/preinstall
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/mintkat/TrenchBroom/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 app/CMakeFiles/GenerateManual.dir/rule:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/GenerateManual.dir/rule
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/GenerateManual.dir/rule
 .PHONY : app/CMakeFiles/GenerateManual.dir/rule
 
 # Convenience name for target.
@@ -192,12 +192,12 @@ GenerateManual: app/CMakeFiles/GenerateManual.dir/rule
 
 # fast build rule for target.
 GenerateManual/fast:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/GenerateManual.dir/build.make app/CMakeFiles/GenerateManual.dir/build
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/GenerateManual.dir/build.make app/CMakeFiles/GenerateManual.dir/build
 .PHONY : GenerateManual/fast
 
 # Convenience name for target.
 app/CMakeFiles/TrenchBroom.dir/rule:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/TrenchBroom.dir/rule
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 app/CMakeFiles/TrenchBroom.dir/rule
 .PHONY : app/CMakeFiles/TrenchBroom.dir/rule
 
 # Convenience name for target.
@@ -206,7 +206,7 @@ TrenchBroom: app/CMakeFiles/TrenchBroom.dir/rule
 
 # fast build rule for target.
 TrenchBroom/fast:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/build
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/build
 .PHONY : TrenchBroom/fast
 
 TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.o: TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.o
@@ -214,7 +214,7 @@ TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.o: TrenchBroom_autogen/4ZAW4WEUVJ/q
 
 # target to build an object file
 TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.o:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.o
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.o
 .PHONY : TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.o
 
 TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.i: TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.i
@@ -222,7 +222,7 @@ TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.i: TrenchBroom_autogen/4ZAW4WEUVJ/q
 
 # target to preprocess a source file
 TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.i:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.i
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.i
 .PHONY : TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.i
 
 TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.s: TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.s
@@ -230,7 +230,7 @@ TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.s: TrenchBroom_autogen/4ZAW4WEUVJ/q
 
 # target to generate assembly for a file
 TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.s:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.s
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.s
 .PHONY : TrenchBroom_autogen/4ZAW4WEUVJ/qrc_resources.cpp.s
 
 src/Main.o: src/Main.cpp.o
@@ -238,7 +238,7 @@ src/Main.o: src/Main.cpp.o
 
 # target to build an object file
 src/Main.cpp.o:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/src/Main.cpp.o
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/src/Main.cpp.o
 .PHONY : src/Main.cpp.o
 
 src/Main.i: src/Main.cpp.i
@@ -246,7 +246,7 @@ src/Main.i: src/Main.cpp.i
 
 # target to preprocess a source file
 src/Main.cpp.i:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/src/Main.cpp.i
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/src/Main.cpp.i
 .PHONY : src/Main.cpp.i
 
 src/Main.s: src/Main.cpp.s
@@ -254,7 +254,7 @@ src/Main.s: src/Main.cpp.s
 
 # target to generate assembly for a file
 src/Main.cpp.s:
-	cd /home/mintkat/TrenchBroom/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/src/Main.cpp.s
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(MAKE) $(MAKESILENT) -f app/CMakeFiles/TrenchBroom.dir/build.make app/CMakeFiles/TrenchBroom.dir/src/Main.cpp.s
 .PHONY : src/Main.cpp.s
 
 # Help Target
@@ -290,6 +290,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/mintkat/TrenchBroom/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/mintkat/Downloads/TrenchBroom-2025.4/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

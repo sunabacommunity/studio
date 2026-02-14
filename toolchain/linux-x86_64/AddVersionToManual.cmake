@@ -1,6 +1,6 @@
-include(/home/mintkat/TrenchBroom/cmake/Utils.cmake)
+include(/home/mintkat/Downloads/TrenchBroom-2025.4/cmake/Utils.cmake)
 
-get_git_describe("/usr/bin/git" "/home/mintkat/TrenchBroom" GIT_DESCRIBE)
+get_git_describe("/usr/bin/git" "/home/mintkat/Downloads/TrenchBroom-2025.4" GIT_DESCRIBE)
 get_app_version(GIT_DESCRIBE APP_VERSION_YEAR APP_VERSION_NUMBER APP_VERSION_RC)
 get_app_version_str(APP_VERSION_YEAR APP_VERSION_NUMBER APP_VERSION_RC APP_VERSION_STR)
 set(APP_BUILD_TYPE "Release")
