@@ -1915,7 +1915,7 @@ class Editor extends Widget {
     public inline function openNetRadiant(mapPath: String = "") {
         var processSpawner = new ProcessSpawner();
         var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
-        var nrProgramName = "radiant";
+        var nrProgramName = "TrenchBroom";
         if (Sys.systemName() == "Windows") {
             toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
             toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
@@ -1933,13 +1933,10 @@ class Editor extends Widget {
                 toolchaindir = StringTools.replace(toolchaindir, "//", "/");
             }
             if (Sys.systemName() == "Linux") {
-                nrProgramName += ".x86_64";
+                nrProgramName = "trenchbroom";
             }
             if (Sys.systemName() == "macOS") {
-                nrProgramName += ".arm64";
-                if (!FileSystem.exists(nrProgramName)) {
-                    Debug.error("NetRadiant Custom is not supported on Intel Macs running macOS");
-                }
+                nrProgramName += ".app";
             }
         }
         var radiantExecutablePath = toolchaindir + nrProgramName;
