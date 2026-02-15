@@ -41,6 +41,11 @@ class MapViewer extends EditorWidget {
     public override function editorInit() {
         load("studio://MapViewer.suml");
 
+        if (!io.fileExists("user://models/info_player_start.glb")) {
+            var file = io.loadBytes("studio://models/info_player_start.glb");
+            io.saveBytes("user://models/info_player_start.glb", file);
+        }
+
         viewport = getNodeT(SubViewport, "vbox/container/viewport");
 
         reloadButton = getNodeT(Button, "vbox/toolbar/hbox/reload");
