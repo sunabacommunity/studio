@@ -25,7 +25,8 @@
         "cp -r * ${FLATPAK_DEST}/bin",
         "chmod +x ${FLATPAK_DEST}/bin/data_Sunaba.Studio_linuxbsd_x86_64/toolchain/linux-x86_64/haxe",
         "chmod +x ${FLATPAK_DEST}/bin/data_Sunaba.Studio_linuxbsd_x86_64/toolchain/linux-x86_64/haxelib",
-        "chmod +x ${FLATPAK_DEST}/bin/data_Sunaba.Studio_linuxbsd_x86_64/toolchain/linux-x86_64/neko"
+        "chmod +x ${FLATPAK_DEST}/bin/data_Sunaba.Studio_linuxbsd_x86_64/toolchain/linux-x86_64/neko",
+        "chmod +x ${FLATPAK_DEST}/bin/data_Sunaba.Studio_linuxbsd_x86_64/toolchain/linux-x86_64/radiant.x86_64"
       ],
       "sources": [
         {
