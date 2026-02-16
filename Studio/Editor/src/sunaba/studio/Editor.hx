@@ -570,20 +570,18 @@ class Editor extends Widget {
 
             var styleBoxEmpty = new StyleBoxEmpty();
             
-            var buttonFont = new SystemFont();
-            if (OSService.getName() == "Windows") {
-                buttonFont.fontNames = StringArray.fromArray([
+            var buttonFont: Font = new SystemFont();
+            var buttonSysFont = new SystemFont();
+            if (OSService.getName() == "Windows") {//
+                buttonSysFont.fontNames = StringArray.fromArray([
                     "Segoe Fluent icons",
                     "Segoe MDL2 Assets"
                 ]);
+                buttonFont = buttonSysFont;
             }
             else if (OSService.getName() == "Linux") {
-                var fontNames = buttonFont.fontNames;
-                fontNames.add("Noto Sans Symbols2");
-                fontNames.add("DejaVu Sans");
-                buttonFont.fontNames = fontNames;
-                trace(fontNames.toArray().toString());
-                trace(buttonFont.fontNames.toArray().toString());
+                var fontRes = ResourceLoaderService.load("res://Engine/Theme/fonts/NotoSansSymbols2-Regular.ttf");
+                buttonFont = Reference.castTo(fontRes, Font);
             }
 
             var minimizeButton = getNodeT(Button, "vbox/menuBarControl/hbox/minimizeButton");
