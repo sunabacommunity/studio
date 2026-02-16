@@ -185,6 +185,7 @@ class Editor extends Widget {
         centerTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/vsplit/workspace");
         centerTabContainer.getTabBar().tabCloseDisplayPolicy = CloseButtonDisplayPolicy.showActiveOnly;
         bottomCenterTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/vsplit/dock");
+        bottomCenterTabContainer.tabsPosition = 1;
         rightTabContainer = getNodeT(TabContainer, "vbox/hbox/hsplit1/hsplit2/rightSidebar");
         rightTabContainer.hide();
         rightTabContainer.tabsVisible = false;
