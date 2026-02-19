@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import sunaba.desktop.FileDialog;
 import haxe.Json;
 import haxe.macro.Expr.Catch;
 import sunaba.desktop.AcceptDialog;
@@ -800,11 +801,55 @@ class Editor extends Widget {
                 "Edit Texture Path List", 
                 loadIcon("studio://icons/16/images-stack.png")
             );
+            
             addToolFunction(() -> {
                     openNetRadiant();
                 }, 
                 "NetRadiant Custom", 
                 loadIcon("studio://icons/16/netradiant.png")
+            );
+
+            addToolFunction(() -> {
+                    trace("");
+                    var fileDialog = new FileDialog();
+                    fileDialog.fileMode = FileDialogMode.openFile;
+                    fileDialog.useNativeDialog = true;
+                    fileDialog.access = 2;
+                    fileDialog.title = "Open 3D Model";
+                    fileDialog.addFilter("*.gltf", "GLTF");
+                    fileDialog.addFilter("*.glb", "GLTF Binary");
+                    fileDialog.addFilter("*.fbx", "FBX");
+                    addChild(fileDialog);
+
+                    fileDialog.fileSelected.connect(Callable.fromFunction(function(srcPath: String) {
+                        var fileDialog2 = new FileDialog();
+                        fileDialog2.fileMode = FileDialogMode.saveFile;
+                        fileDialog2.access = 2;
+                        fileDialog2.currentDir = projectIo.getFilePath(_projectFile.rootUrl);
+                        fileDialog2.title = "Select 3D Model Destination";
+                        fileDialog2.addFilter("*.smdl", "Sunaba 3D Model");
+                        addChild(fileDialog2);
+
+                        fileDialog2.fileSelected.connect(Callable.fromFunction(function(_destPath: String) {
+                            try {
+                                var destPath = projectIo.getFileUrl(_destPath);
+                                trace(srcPath, destPath);
+                                ModelImportService.inport(srcPath, destPath);
+                            }
+                            catch(e) {
+                                Debug.error(e.message + " : " + e.stack);
+                            }
+                            fileDialog2.queueFree();
+                            fileDialog.queueFree();
+                        }));
+
+                        fileDialog2.popupCentered();
+                    }));
+
+                    fileDialog.popupCentered();
+                },
+                "Import 3D Model",
+                loadIcon("studio://icons/16/block.png")
             );
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
