@@ -693,9 +693,7 @@ class SceneInspector extends EditorWidget {
                 entityText.text = selectedEntity.name;
                 if (selectedEntity.isPrefab()) {
                     entityIcon.texture = prefabIcon24;
-                    if (selectedEntity == prefab) {
-                        buildComponentTree(selectedEntity);
-                    }
+                    buildComponentTree(selectedEntity);
                 }
                 else {
                     entityIcon.texture = entityIcon24;
@@ -723,9 +721,6 @@ class SceneInspector extends EditorWidget {
     }
 
     public function buildComponentTree(entity: Entity) {
-        if (entity.isPrefab() && entity != selectedEntity && entity != prefab)
-            return;
-
         for (component in entity.getConponents()) {
             var compName = component.name;
             compName = compName.split(".").pop();
@@ -1591,15 +1586,18 @@ class SceneInspector extends EditorWidget {
         var centerContainer = new CenterContainer();
         centerContainer.customMinimumSize = new Vector2(0.0, 50.0);
 
-        var button = new Button();
-        button.text = "Add Component";
-        button.customMinimumSize = new Vector2(200.0, 0.0);
-        button.alignment = HorizontalAlignment.center;
-        button.pressed.add(() -> {
-            showAddComponentTree();
-        });
+        if ((entity.isPrefab() && entity != selectedEntity && entity != prefab) == false) {
+            var button = new Button();
+            button.text = "Add Component";
+            button.customMinimumSize = new Vector2(200.0, 0.0);
+            button.alignment = HorizontalAlignment.center;
+            button.pressed.add(() -> {
+                showAddComponentTree();
+            });
 
-        centerContainer.addChild(button);
+            centerContainer.addChild(button);
+        }
+        
         entityVBox.addChild(centerContainer);
         sceneEditor.checkScene();
     }
