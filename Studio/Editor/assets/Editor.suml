@@ -306,8 +306,7 @@
                     customMinimumSize="0,10"/>
                 <sunaba.ui.ProgressBar
                     name="buildProgress"
-                    sizeFlagsVertical="3"
-                    indeterminate="true"/>
+                    sizeFlagsVertical="3"/>
             </sunaba.ui.VBoxContainer>
         </sunaba.desktop.Window>
     </body>

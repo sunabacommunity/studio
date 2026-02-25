@@ -1141,6 +1141,14 @@ class Editor extends Widget {
         if (gamepakBuildCoroutine != null) {
             if (Coroutine.status(gamepakBuildCoroutine) != CoroutineState.Dead) {
                 Coroutine.resume(gamepakBuildCoroutine);
+                if (buildProgress == null) {
+                    try {
+                        startTrack();
+                    }
+                }
+                else {
+                    buildProgress.value = buildSystem.cnt;
+                }
             }
             else {
                 gamepakBuildCoroutine = null;
@@ -1158,6 +1166,7 @@ class Editor extends Widget {
                 }
             }
         }
+        
         if (buildTask != null) {
             if (Coroutine.status(buildTask) != CoroutineState.Dead) {
                 Coroutine.resume(buildTask);
@@ -1845,6 +1854,7 @@ class Editor extends Widget {
 
     var buildSystem: Gamepak = new Gamepak();
     var gamepakBuildCoroutine:Coroutine<()->Void>;
+    var progressBarCoroutine:Coroutine<()->Void> = null;
 
     var isGamePaused = false;
 
@@ -1882,9 +1892,11 @@ class Editor extends Widget {
         };
 
         gamepakBuildCoroutine = buildSystem.buildCoroutine(projectFilePath);
+        progressBarCoroutine = getPbcrt();
         playOnBuild = true;
 
         Coroutine.resume(gamepakBuildCoroutine);
+        Coroutine.resume(progressBarCoroutine);
     }
 
     public function buildProject() {
@@ -1921,11 +1933,40 @@ class Editor extends Widget {
             var haxeBytes = ByteArrayUtils.binaryDataToBytes(bytes);
             return haxeBytes;
         };
+        
 
         gamepakBuildCoroutine = buildSystem.buildCoroutine(projectFilePath);
+        progressBarCoroutine = getPbcrt();
         playOnBuild = false;
 
         Coroutine.resume(gamepakBuildCoroutine);
+        Coroutine.resume(progressBarCoroutine);
+    }
+    
+    inline function getPbcrt(): Coroutine<()->Void> {
+        return Coroutine.create(() -> {
+            
+            //Coroutine.yield();
+            //trace(buildSystem.cnt != maxCount);
+            //while (buildSystem.cnt != maxCount) {
+            //    Coroutine.yield();
+            //    buildProgress.value = buildSystem.cnt;
+            //}
+        });
+    }
+
+    var buildProgress: ProgressBar = null;
+    
+    function startTrack() {
+        var maxCount = buildSystem.buildCoroutineCount(projectFilePath);
+        trace(maxCount);
+
+        buildProgress = getNodeT(ProgressBar, "playBuildWindow/vbox/buildProgress");
+        if (buildProgress == null) {
+            trace("ARE YOU FOCKING KIDDING ME");
+            Sys.exit(-1);
+        }
+        buildProgress.maxValue = maxCount;
     }
 
     function unpause() {
