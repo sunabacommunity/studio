@@ -403,7 +403,12 @@ class SceneEditor extends EditorWidget {
             viewport.addChild(scene);
         }
 
+        intializeCameraList();
         checkScene();
+        if (visible) {
+            getEditor().sceneInspector.openSceneEditor(this);
+        }
+        gizmo.clear();
     }
 
     public override function onDestroy() {
