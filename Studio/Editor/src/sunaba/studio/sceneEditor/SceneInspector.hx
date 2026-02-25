@@ -250,7 +250,7 @@ class SceneInspector extends EditorWidget {
 
             sceneEditor.gizmo.clear();
             refreshInspector();
-            sceneEditor.checkScene();
+            commit();
         }));
 
         addEntityDialog = getNodeT(AcceptDialog, "addEntityDialog");
@@ -321,7 +321,12 @@ class SceneInspector extends EditorWidget {
         selectedEntityIndex = -1;
 
         refreshInspector();
+        commit();
+    }
+
+    public inline function commit() {
         sceneEditor.checkScene();
+        sceneEditor.commitChange();
     }
 
     public inline function showAddEntityTree() {
@@ -440,7 +445,7 @@ class SceneInspector extends EditorWidget {
             sceneEditor.gizmo.clear();
             refreshInspector();
             getEditor().explorer.buildTreeRoot();
-            sceneEditor.checkScene();
+            commit();
         }));
 
         dialog.popupCentered();
@@ -515,7 +520,7 @@ class SceneInspector extends EditorWidget {
         }
 
         refreshInspector();
-        sceneEditor.checkScene();
+        commit();
     }
 
     public override function onProcess(deltaTime: Float) {
@@ -579,7 +584,7 @@ class SceneInspector extends EditorWidget {
             }
             refreshInspector();
             getEditor().explorer.buildTreeRoot();
-            sceneEditor.checkScene();
+            commit();
         }));
 
         dialog.popupCentered();
@@ -677,7 +682,7 @@ class SceneInspector extends EditorWidget {
             propertyGroup.queueFree();
         }
         if (sceneEditor != null) {
-            sceneEditor.checkScene();
+            commit();
         }
         
 
@@ -779,7 +784,7 @@ class SceneInspector extends EditorWidget {
                         var dataToEdit = component.getData();
                         dataToEdit.set(key, newValue);
                         component.setData(dataToEdit);
-                        sceneEditor.checkScene();
+                        commit();
                     }));
                     propertyContainer.addChild(strLineEdit);
                 }
@@ -796,7 +801,7 @@ class SceneInspector extends EditorWidget {
                         var dataToEdit = component.getData();
                         dataToEdit.set(key, newValue);
                         component.setData(dataToEdit);
-                        sceneEditor.checkScene();
+                        commit();
                     }));
                     propertyContainer.addChild(floatSpinBox);
                 }
@@ -814,7 +819,7 @@ class SceneInspector extends EditorWidget {
                         var intValue = Std.int(newValue);
                         dataToEdit.set(key, intValue);
                         component.setData(dataToEdit);
-                        sceneEditor.checkScene();
+                        commit();
                     }));
                     propertyContainer.addChild(intSpinBox);
                 }
@@ -827,7 +832,7 @@ class SceneInspector extends EditorWidget {
                         var dataToEdit = component.getData();
                         dataToEdit.set(key, newValue);
                         component.setData(dataToEdit);
-                        sceneEditor.checkScene();
+                        commit();
                     }));
                     propertyContainer.addChild(boolCheckButton);
                 }
@@ -853,7 +858,7 @@ class SceneInspector extends EditorWidget {
                                 vec2.x = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec2));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var xLabel = new Label();
                             xLabel.text = "x";
@@ -879,7 +884,7 @@ class SceneInspector extends EditorWidget {
                                 vec2.y = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec2));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var yLabel = new Label();
                             yLabel.text = "y";
@@ -911,7 +916,7 @@ class SceneInspector extends EditorWidget {
                                 vec3.x = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec3));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var xLabel = new Label();
                             xLabel.text = "x";
@@ -937,7 +942,7 @@ class SceneInspector extends EditorWidget {
                                 vec3.y = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec3));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var yLabel = new Label();
                             yLabel.text = "y";
@@ -962,7 +967,7 @@ class SceneInspector extends EditorWidget {
                                 vec3.z = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec3));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var zLabel = new Label();
                             zLabel.text = "z";
@@ -994,7 +999,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.x = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var xLabel = new Label();
                             xLabel.text = "x";
@@ -1020,7 +1025,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.y = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var yLabel = new Label();
                             yLabel.text = "y";
@@ -1045,7 +1050,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.z = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var zLabel = new Label();
                             zLabel.text = "z";
@@ -1070,7 +1075,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.z = newValue;
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var wLabel = new Label();
                             wLabel.text = "w";
@@ -1102,7 +1107,7 @@ class SceneInspector extends EditorWidget {
                                 vec2.x = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec2));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var xLabel = new Label();
                             xLabel.text = "x";
@@ -1128,7 +1133,7 @@ class SceneInspector extends EditorWidget {
                                 vec2.y = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec2));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var yLabel = new Label();
                             yLabel.text = "y";
@@ -1160,7 +1165,7 @@ class SceneInspector extends EditorWidget {
                                 vec3.x = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec3));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var xLabel = new Label();
                             xLabel.text = "x";
@@ -1186,7 +1191,7 @@ class SceneInspector extends EditorWidget {
                                 vec3.y = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec3));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var yLabel = new Label();
                             yLabel.text = "y";
@@ -1211,7 +1216,7 @@ class SceneInspector extends EditorWidget {
                                 vec3.z = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec3));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var zLabel = new Label();
                             zLabel.text = "z";
@@ -1243,7 +1248,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.x = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var xLabel = new Label();
                             xLabel.text = "x";
@@ -1269,7 +1274,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.y = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var yLabel = new Label();
                             yLabel.text = "y";
@@ -1294,7 +1299,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.z = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var zLabel = new Label();
                             zLabel.text = "z";
@@ -1319,7 +1324,7 @@ class SceneInspector extends EditorWidget {
                                 vec4.z = Std.int(newValue);
                                 dataToEdit.set(key, DataUtils.varToDict(vec4));
                                 component.setData(dataToEdit);
-                                sceneEditor.checkScene();
+                                commit();
                             }));
                             var wLabel = new Label();
                             wLabel.text = "w";
@@ -1366,7 +1371,7 @@ class SceneInspector extends EditorWidget {
                                     component.setData(dataToEdit);
                                     resLineEdit.text = newPath;
                                     respath = newPath;
-                                    sceneEditor.checkScene();
+                                    commit();
                                 };
                                 resLineEdit.textSubmitted.add(setPathFunction);
 
@@ -1599,6 +1604,6 @@ class SceneInspector extends EditorWidget {
         }
         
         entityVBox.addChild(centerContainer);
-        sceneEditor.checkScene();
+        commit();
     }
 }

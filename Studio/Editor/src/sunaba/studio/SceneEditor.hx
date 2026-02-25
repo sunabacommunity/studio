@@ -20,6 +20,8 @@ import sunaba.core.Vector2i;
 import sunaba.core.Color;
 import sunaba.core.Callable;
 import sunaba.Prefab;
+import sunaba.UndoRedo;
+import sunaba.VariantHolder;
 
 class SceneEditor extends EditorWidget {
     private var filePath: String;
@@ -50,6 +52,9 @@ class SceneEditor extends EditorWidget {
 
     public var gizmo: Gizmo3D;
 
+    public var undoRedo: UndoRedo;
+    private var valueHolder: VariantHolder;
+
     private var _gizmoMode: GizmoToolMode = GizmoToolMode.all;
     public var gizmoMode(get, set): GizmoToolMode;
     function get_gizmoMode():GizmoToolMode {
@@ -64,6 +69,8 @@ class SceneEditor extends EditorWidget {
 
     public override function editorInit() {
         load("studio://SceneEditor.suml");
+        undoRedo = new UndoRedo();
+        valueHolder = new VariantHolder();
 
         selectButton = getNodeT(Button, "vbox/toolbar/hbox/select");
         selectButton.pressed.connect(Callable.fromFunction(function() {
@@ -344,7 +351,64 @@ class SceneEditor extends EditorWidget {
         }
     }
 
+    public function commitChange() {
+        undoRedo.createAction("");
+        if (fileType == FileType.SceneType) {
+            var sceneFile = SceneFile.create(scene);
+            var sceneData = sceneFile.getData();
+            undoRedo.addDoProperty(valueHolder, "value", sceneData);
+        }
+        else if (fileType == FileType.PrefabType) {
+            var prefabFile = Prefab.create(prefab, filePath);
+            var prefabData = prefabFile.getData();
+            undoRedo.addDoProperty(valueHolder, "value", prefabData);
+        }
+        undoRedo.addUndoProperty(valueHolder, "value", valueHolder.value);
+        undoRedo.commitAction();
+    }
+
+    public override function onUndo() {
+        undoRedo.undo();
+        reloadSceneFromValue();
+    }
+
+    public override function onRedo() {
+        undoRedo.redo();
+        reloadSceneFromValue();
+    }
+
+    private inline function reloadSceneFromValue() {
+        var data: Dictionary = valueHolder.value;
+        scene.destroy();
+        if (fileType == FileType.SceneType) {
+            var sceneFile = new SceneFile();
+            sceneFile.setData(data);
+            sceneFile.path = filePath;
+            scene = sceneFile.instance();
+            scene.isInEditor = true;
+            trace(scene.getEntityCount());
+            scene.processMode = CanvasItemProcessMode.disabled;
+            viewport.addChild(scene);
+        }
+        else if (fileType == FileType.PrefabType) {
+            var prefabFile = new Prefab();
+            prefabFile.setData(data);
+            prefabFile.path = filePath;
+            scene = new SceneRoot();
+            scene.isInEditor = true;
+            scene.io = getEditor().projectIo;
+            scene.processMode = CanvasItemProcessMode.disabled;
+            prefab = prefabFile.instance();
+            scene.addEntity(prefab);
+            viewport.addChild(scene);
+        }
+
+        checkScene();
+    }
+
     public override function onDestroy() {
+        undoRedo.free();
+        valueHolder.free();
         var sceneInspector = getEditor().sceneInspector;
         if (sceneInspector.sceneEditor == this) {
             sceneInspector.openSceneEditor(null);
