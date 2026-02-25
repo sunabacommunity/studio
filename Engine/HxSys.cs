@@ -6,6 +6,7 @@ using Env = System.Environment;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using FileAccess = Godot.FileAccess;
 
 namespace Sunaba.Engine;
 
@@ -31,7 +32,8 @@ public partial class HxSys: RefCounted
         	WindowStyle = ProcessWindowStyle.Hidden,
         	RedirectStandardOutput = true,
         	RedirectStandardError = true,
-        	UseShellExecute = false
+        	UseShellExecute = false,
+	        WorkingDirectory = Env.CurrentDirectory
     	};
 
     	if (OS.GetName() == "Windows")
@@ -82,6 +84,16 @@ public partial class HxSys: RefCounted
     	//process.WaitForExit();
     	return process.ExitCode;
 	}
+
+	public string GetCwd()
+	{
+		return Env.CurrentDirectory;
+	}
+
+	public void SetCwd(string path)
+	{
+		Env.CurrentDirectory = path;
+	} 
 }
 
 
