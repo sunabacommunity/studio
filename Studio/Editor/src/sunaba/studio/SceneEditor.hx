@@ -1,5 +1,8 @@
 package sunaba.studio;
 
+import haxe.io.Input;
+import sunaba.input.InputService;
+import sunaba.input.InputEvent;
 import sunaba.ui.SpinBox;
 import sunaba.SubViewport;
 import sunaba.ui.Button;
@@ -292,6 +295,22 @@ class SceneEditor extends EditorWidget {
         Gc.collect();
     }
 
+    public override function onInput(event:InputEvent) {
+        if (visible) {
+            if (getEditor().isControlKeyPressed()) {
+                if (InputService.isKeyPressed(Key.z)) {
+                    if (InputService.isKeyPressed(Key.shift)) {
+                        onRedo();
+                    }
+                    else {
+                        onUndo();
+                    }
+                }
+            }
+            
+        }
+    }
+
     private var savedSceneJsonInitialized: Bool = false;
 
     public function checkScene() {
@@ -353,6 +372,7 @@ class SceneEditor extends EditorWidget {
 
     public function commitChange() {
         undoRedo.createAction("");
+        var value: Dictionary = valueHolder.value;
         if (fileType == FileType.SceneType) {
             var sceneFile = SceneFile.create(scene);
             var sceneData = sceneFile.getData();
@@ -363,7 +383,7 @@ class SceneEditor extends EditorWidget {
             var prefabData = prefabFile.getData();
             undoRedo.addDoProperty(valueHolder, "value", prefabData);
         }
-        undoRedo.addUndoProperty(valueHolder, "value", valueHolder.value);
+        undoRedo.addUndoProperty(valueHolder, "value", value);
         undoRedo.commitAction();
     }
 
