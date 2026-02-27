@@ -2058,6 +2058,7 @@ class Editor extends Widget {
         studioUtils.queueFree();
         playerAppView.loadLibrary(baseDir + "basetxt.slib");
         playerAppView.loadLibrary(baseDir + "basesfx.slib");
+        playerAppView.loadLibrary(baseDir + "basechar.slib");
         playerAppView.loadApp(snbPath);
     }
 

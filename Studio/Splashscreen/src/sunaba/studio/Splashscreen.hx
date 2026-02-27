@@ -523,6 +523,7 @@ class Splashscreen extends Widget {
 
         appView.loadLibrary(baseDir + "basetxt.slib");
         appView.loadLibrary(baseDir + "basesfx.slib");
+        appView.loadLibrary(baseDir + "basechar.slib");
         appView.loadApp(baseDir + "editor.snb");
 		studioUtils.call("queue_free", new ArrayList());
         queueFree();
