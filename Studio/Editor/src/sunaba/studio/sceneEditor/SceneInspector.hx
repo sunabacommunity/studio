@@ -662,6 +662,7 @@ class SceneInspector extends EditorWidget {
 
         for (i in 0...scene.getEntityCount()) {
             var entity = scene.getEntity(i);
+            if (entity.hidden) continue;
             buildEntityTree(sceneItem, entity);
         }
     }
@@ -687,6 +688,7 @@ class SceneInspector extends EditorWidget {
 
             for (i in 0...entity.getChildCount()) {
                 var child = entity.getChild(i);
+                if (child.hidden) continue;
                 buildEntityTree(item, child);
             }
         }
