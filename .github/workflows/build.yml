@@ -209,7 +209,7 @@ jobs:
       #    path: |
       #      ${{ github.workspace }}/bin/*.dmg
   merge:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-m
     needs: build
     steps:
       - name: Merge Artifacts
