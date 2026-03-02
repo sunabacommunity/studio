@@ -382,7 +382,7 @@ bones/31/position = Vector3(-2.150773e-08, 0.113589406, -8.032657e-09)
 bones/31/rotation = Quaternion(0.0069544977, -9.179114e-05, -0.016443724, 0.9998406)
 bones/31/scale = Vector3(1, 0.9999999, 0.99999994)
 
-[node name="Dress1" type="MeshInstance3D" parent="Rig/Skeleton3D" unique_id=642186547]
+[node name="Dress" type="MeshInstance3D" parent="Rig/Skeleton3D" unique_id=642186547]
 mesh = SubResource("ArrayMesh_cda3j")
 skin = SubResource("Skin_hifij")
 blend_shapes/Boobs = 0.0
