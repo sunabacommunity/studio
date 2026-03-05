@@ -25,7 +25,7 @@ public partial class LspBridge : Node
     private List<string> _completionInserts = new();
     
     public string haxePath = "haxe"; // Set this to your Haxe executable path
-    public string hxmlPath = "build.hxml"; // Set this to your haxe-ls.xml path
+    public string hxmlPath = "ide.hxml"; // Set this to your haxe-ls.xml path
 
     public string codePath;
 
@@ -211,7 +211,7 @@ public partial class LspBridge : Node
         };
     }
 
-    private void OnShowMessage(ShowMessageParams m) => GD.Print("[LSP] " + m.Message);
+    private void OnShowMessage(ShowMessageParams m) => Console.WriteLine("[LSP] " + m.Message);
 
     public override void _ExitTree()
     {

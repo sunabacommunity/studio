@@ -1,5 +1,6 @@
 package sunaba.studio.codeEditor;
 
+import sys.FileSystem;
 import haxe.io.Path;
 import sunaba.core.Color;
 import sunaba.ui.CodeHighlighter;
@@ -129,10 +130,17 @@ class HaxePlugin extends CodeEditorPlugin {
         }
         else {
             nodePath += "bin/node";
+            Sys.command("chmod", ["+x", nodePath]);
+            Sys.command("chmod", ["+X", nodePath]);
         }
         lspBridge.editor = codeEditor.codeEdit;
-        lspBridge.haxePath = codeEditor.getEditor().haxePath;
-        lspBridge.hxmlPath = codeEditor.getEditor().generateHaxeBuildHxml();
+        var haxePath = Path.addTrailingSlash(StudioUtils.singleton.getToolchainDirectory()) + "haxe";
+        if (OSService.getName() == "Windows") {
+            haxePath += ".exe";
+        }
+        lspBridge.haxePath = haxePath;
+        codeEditor.getEditor().generateHaxeBuildHxml();
+        lspBridge.hxmlPath = "ide.hxml";
         lspBridge.codePath = codeEditor.path;
         lspBridge.startServer(nodePath, Path.addTrailingSlash(StudioUtils.singleton.getToolchainDirectory()) + "server.js");
         codeEditor.addChild(lspBridge);
