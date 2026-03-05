@@ -5,6 +5,7 @@ using Godot;
 
 namespace Sunaba.Engine.Interop;
 
+[GlobalClass]
 public partial class DotNetInteropService : Node
 {
     private readonly List<Type> _types = new List<Type>();
