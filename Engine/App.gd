@@ -2,6 +2,7 @@ extends Runtime
 class_name App
 
 var io_manager: IoManager = IoManager.new()
+var dotnet_interop: DotNetInteropService = DotNetInteropService.new()
 
 func init(sandboxed: bool = false, classnames: PackedStringArray = []) -> void:
 	init_state(sandboxed, classnames)
@@ -16,6 +17,7 @@ func init(sandboxed: bool = false, classnames: PackedStringArray = []) -> void:
 	
 	bind_object("__ioManager", io_manager)
 	set_var("__can_debug", false)
+	bind_object("__dotnetInterop", dotnet_interop)
 
 func load_library(path: String) -> String:
 	if (path.is_empty()): return ""
