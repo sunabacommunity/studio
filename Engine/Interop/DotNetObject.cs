@@ -7,7 +7,7 @@ namespace Sunaba.Engine.Interop;
 
 public partial class DotNetObject: RefCounted
 {
-    protected object Obj;
+    protected readonly object Obj;
 
     public DotNetObject()
     {
@@ -19,10 +19,10 @@ public partial class DotNetObject: RefCounted
         Obj = obj;
     }
 
-    public Variant Get(string varName)
+    public Variant GetMember(string varName)
     {
-        var proeprtyies = Obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
-        foreach (var prop in proeprtyies)
+        var properties = Obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        foreach (var prop in properties)
         {
             if (prop.Name == varName)
             {
@@ -119,7 +119,7 @@ public partial class DotNetObject: RefCounted
         return null;
     }
 
-    public void Set(string varName, Variant value)
+    public void SetMember(string varName, Variant value)
     {
         var properties  = Obj.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
         foreach (var prop in properties)
@@ -131,7 +131,7 @@ public partial class DotNetObject: RefCounted
         }
     }
 
-    public Variant Call(string name, Array args)
+    public Variant CallMethod(string name, Array args)
     {
         var methods = Obj.GetType().GetMethods(BindingFlags.Public | BindingFlags.Instance);
         List<object> argList = new List<object>();
