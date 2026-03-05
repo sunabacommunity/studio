@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ public partial class LspBridge : Node
     private ILanguageClient _lsp;
     private Process _server;
     private CancellationTokenSource _cts = new();
+    private List<CodeCompletionOption> _completionOptions = new();
 
     public override async void _Ready()
     {
@@ -43,6 +45,10 @@ public partial class LspBridge : Node
 
         // 3. Wire Godot events
         Editor.TextChanged += OnTextChanged;
+        Editor.CodeCompletionRequested += () =>
+        {
+            _ = RequestCompletionAsync();
+        };
     }
 
     public void StartServer(string exePath, string arguments = "")
@@ -112,13 +118,6 @@ public partial class LspBridge : Node
                             Color       = Colors.Red
                         });*/
         }
-    }
-
-    // Manual completion trigger (Ctrl+Space wired in input map)
-    public override void _Input(InputEvent @event)
-    {
-        if (@event.IsActionPressed("ui_completion") && Editor.HasFocus())
-            _ = RequestCompletionAsync();
     }
 
     private async Task RequestCompletionAsync()
