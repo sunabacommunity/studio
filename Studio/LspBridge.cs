@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
+using Newtonsoft.Json.Linq;
 using OmniSharp.Extensions.LanguageServer.Client;
 using OmniSharp.Extensions.LanguageServer.Protocol;
 using OmniSharp.Extensions.LanguageServer.Protocol.Client;
@@ -11,6 +12,7 @@ using OmniSharp.Extensions.LanguageServer.Protocol.Client.Capabilities;
 using OmniSharp.Extensions.LanguageServer.Protocol.Document;
 using OmniSharp.Extensions.LanguageServer.Protocol.Models;
 using OmniSharp.Extensions.LanguageServer.Protocol.Window;
+using OmniSharp.Extensions.LanguageServer.Protocol.Workspace;
 
 namespace Sunaba.Studio;
 
@@ -21,6 +23,11 @@ public partial class LspBridge : Node
     private Process _server;
     private CancellationTokenSource _cts = new();
     private List<string> _completionInserts = new();
+    
+    public string haxePath = "haxe"; // Set this to your Haxe executable path
+    public string hxmlPath = "build.hxml"; // Set this to your haxe-ls.xml path
+
+    public string codePath;
 
     public override async void _Ready()
     {
@@ -32,6 +39,11 @@ public partial class LspBridge : Node
                 .OnPublishDiagnostics(OnDiagnostics)
                 .OnShowMessage(OnShowMessage);
             
+            o.InitializationOptions = new
+            {
+                hxmlPath
+            };
+            
             o.WithCapability(new CompletionCapability
             {
                 CompletionItem = new()
@@ -42,6 +54,19 @@ public partial class LspBridge : Node
             });
         });
         await _lsp.Initialize(_cts.Token);
+
+        // Set LSP settings
+        _lsp.Workspace.DidChangeConfiguration(new DidChangeConfigurationParams
+        {
+            Settings = JObject.FromObject(new
+            {
+                haxe = new
+                {
+                    executable = haxePath
+                }
+                // Add other settings as needed
+            })
+        });
 
         // 3. Wire Godot events
         Editor.TextChanged += OnTextChanged;
@@ -71,9 +96,8 @@ public partial class LspBridge : Node
         _cts = new();
         try
         {
-            await Task.Delay(500, _cts.Token);
             var uri = DocumentUri.FromFileSystemPath(
-                ProjectSettings.GlobalizePath("res://Main.cs"));
+                codePath);
 
             // 0.19.9 uses OptionalVersionedTextDocumentIdentifier
             _lsp.TextDocument.DidChangeTextDocument(new DidChangeTextDocumentParams
@@ -126,7 +150,7 @@ public partial class LspBridge : Node
         var caret  = Editor.GetCaretColumn();   // 0-based column
         var line   = Editor.GetCaretLine();     // 0-based line
         var uri    = DocumentUri.FromFileSystemPath(
-            ProjectSettings.GlobalizePath("res://Main.cs"));
+            codePath);
 
         var items = await _lsp.TextDocument.RequestCompletion(
             new CompletionParams

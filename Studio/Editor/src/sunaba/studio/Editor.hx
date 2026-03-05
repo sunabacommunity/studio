@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import haxe.io.Path;
 import sunaba.desktop.FileDialog;
 import haxe.Json;
 import haxe.macro.Expr.Catch;
@@ -1426,6 +1427,50 @@ class Editor extends Widget {
         command += " " + this.projectFile.compilerFlags.join(" ");
 
         return command;
+        //if (Sys.systemName() != "Windows") {
+            //command += '; echo $? > ' + hiddenDir + '/build.log &';
+            
+            //return command;
+        //} else {
+            // Create wrapper batch file
+            //var wrapper = hiddenDir + "/run_build.bat";
+            //var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+            //toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
+            //toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
+            //toolchaindir = StringTools.replace(toolchaindir, "/" , "\\");
+            //var batContent = "@echo off\r\nset PATH=" + toolchaindir + "; && PATH && " + command;
+            /*var batContent = '@echo off\r\n'
+            + command
+            + '\r\n'
+            + 'echo %ERRORLEVEL% > "'
+            + StringTools.replace(hiddenDir, "/", "\\")
+            + '\\build.log"\r\n';*/
+            //sys.io.File.saveContent(wrapper, batContent);
+
+            //var newcmd = wrapper;
+            //return StringTools.replace(wrapper, ".bat", "");
+            //return command;
+        //}
+    }
+
+    public inline function generateHaxeBuildHxml():String {
+        var hxml = " --class-path " + explorer.projectDirectory + "/" + this.projectFile.scriptdir + "\n-main "
+        + this.projectFile.pluginEntrypoint + "\n--library libsunaba\n--library gamepak\n--library sunaba-studio";
+        hxml += "\n-D source-map";
+        var hiddenDir = explorer.projectDirectory + "/.studio";
+        if (!FileSystem.exists(hiddenDir))
+            FileSystem.createDirectory(hiddenDir);
+        hxml += "\n-lua " + hiddenDir + "/plugin.lua -D lua-vanilla";
+
+        var librariesStr = "";
+        for (lib in this.projectFile.libraries)
+            librariesStr += "\n--library " + lib;
+        hxml += " " + this.projectFile.compilerFlags.join("\n");
+
+        var hxmlPath = Path.addTrailingSlash(explorer.projectDirectory) + "ide.hxml";
+        File.saveContent(hxmlPath, hxml);
+
+        return hxmlPath;
         //if (Sys.systemName() != "Windows") {
             //command += '; echo $? > ' + hiddenDir + '/build.log &';
             
