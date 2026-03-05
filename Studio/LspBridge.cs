@@ -167,6 +167,7 @@ public partial class LspBridge : Node
             Editor.AddCodeCompletionOption((CodeEdit.CodeCompletionKind)kind, item.Label, item.InsertText ?? item.Label);
             _completionInserts.Add(item.InsertText ?? item.Label);
         }
+        Editor.UpdateCodeCompletionOptions(true);
     }
 
     private void OnCodeCompletionSelected(int index)
