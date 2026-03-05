@@ -20,7 +20,7 @@ public partial class LspBridge : Node
     private ILanguageClient _lsp;
     private Process _server;
     private CancellationTokenSource _cts = new();
-    private List<CodeCompletionOption> _completionOptions = new();
+    private List<string> _completionInserts = new();
 
     public override async void _Ready()
     {
@@ -89,6 +89,7 @@ public partial class LspBridge : Node
             });
         }
         catch (OperationCanceledException) { /* user typed again */ }
+        Editor.RequestCodeCompletion();
     }
 
     // Diagnostics → underline spans (Godot 4.2 does not have built-in squiggles)
@@ -134,39 +135,55 @@ public partial class LspBridge : Node
                 Position     = new Position(line, caret)
             });
 
-        ShowCompletionPopup(items);
-    }
-
-    private void ShowCompletionPopup(CompletionList list)
-    {
-        var popup = GetNode<PopupPanel>("CompletionPopup");
-        popup.Visible = false;
-        foreach (Node n in popup.GetChildren()) n.QueueFree();
-
-        var vbox = new VBoxContainer();
-        popup.AddChild(vbox);
-
-        foreach (var item in list.Items ?? Array.Empty<CompletionItem>())
+        _completionInserts.Clear();
+        //Editor.CancelCodeCompletion();
+        foreach (var item in items.Items ?? Array.Empty<CompletionItem>())
         {
-            var lbl = new Label { Text = item.Label };
-            lbl.GuiInput += (ev) =>
-            {
-                if (ev is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
-                    InsertCompletion(item);
-            };
-            vbox.AddChild(lbl);
+            var kind = MapCompletionKind(item.Kind);
+            Editor.AddCodeCompletionOption((CodeEdit.CodeCompletionKind)kind, item.Label, item.InsertText ?? item.Label);
+            _completionInserts.Add(item.InsertText ?? item.Label);
         }
-
-        var gpos = Editor.GetViewport().GetMousePosition(); // near cursor
-        popup.Position = (Vector2I)gpos;
-        popup.Size     = new Vector2I(300, 200);
-        popup.Show();
     }
 
-    private void InsertCompletion(CompletionItem item)
+    private void OnCodeCompletionSelected(int index)
     {
-        GetNode<PopupPanel>("CompletionPopup").Hide();
-        Editor.InsertTextAtCaret(item.InsertText ?? item.Label);
+        if (index >= 0 && index < _completionInserts.Count)
+        {
+            Editor.InsertTextAtCaret(_completionInserts[index]);
+        }
+    }
+
+    private int MapCompletionKind(CompletionItemKind? kind)
+    {
+        return kind switch
+        {
+            CompletionItemKind.Text => 0, // PlainText
+            CompletionItemKind.Method => 2, // Function
+            CompletionItemKind.Function => 2, // Function
+            CompletionItemKind.Constructor => 11, // Class
+            CompletionItemKind.Field => 5, // Member
+            CompletionItemKind.Variable => 4, // Variable
+            CompletionItemKind.Class => 11, // Class
+            CompletionItemKind.Interface => 11, // Class
+            CompletionItemKind.Module => 11, // Class
+            CompletionItemKind.Property => 5, // Member
+            CompletionItemKind.Unit => 0, // PlainText
+            CompletionItemKind.Value => 7, // Constant
+            CompletionItemKind.Enum => 6, // Enum
+            CompletionItemKind.Keyword => 1, // Keyword
+            CompletionItemKind.Snippet => 12, // Snippet
+            CompletionItemKind.Color => 13, // Color
+            CompletionItemKind.File => 9, // FilePath
+            CompletionItemKind.Reference => 8, // NodePath
+            CompletionItemKind.Folder => 10, // Directory
+            CompletionItemKind.EnumMember => 6, // Enum
+            CompletionItemKind.Constant => 7, // Constant
+            CompletionItemKind.Struct => 11, // Class
+            CompletionItemKind.Event => 3, // Signal
+            CompletionItemKind.Operator => 0, // PlainText
+            CompletionItemKind.TypeParameter => 11, // Class
+            _ => 0 // PlainText
+        };
     }
 
     private void OnShowMessage(ShowMessageParams m) => GD.Print("[LSP] " + m.Message);

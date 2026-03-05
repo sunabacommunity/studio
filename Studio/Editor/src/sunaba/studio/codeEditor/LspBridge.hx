@@ -11,12 +11,13 @@ class LspBridge extends Node {
     }
     function set_editor(value: CodeEdit) {
         native.set("Editor", value);
-        return editor;
+        return value;
     }
     public override function nativeInit(?_native:NativeObject) {
         if  (_native == null) {
             _native = new NativeObject("res://Studio/LspBridge.cs", new ArrayList(), 2);
         }
+        native = _native;
     }
 
     public function startServer(exePath: String, arguments: String = "") {
