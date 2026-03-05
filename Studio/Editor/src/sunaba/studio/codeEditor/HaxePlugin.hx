@@ -1,5 +1,6 @@
 package sunaba.studio.codeEditor;
 
+import haxe.io.Path;
 import sunaba.core.Color;
 import sunaba.ui.CodeHighlighter;
 
@@ -56,6 +57,8 @@ class HaxePlugin extends CodeEditorPlugin {
     var functionNames : Array<String> = [
         "trace"
     ];
+
+    var lspBridge: LspBridge;
 
     public override function init() {
         highlighter = new CodeHighlighter();
@@ -117,5 +120,18 @@ class HaxePlugin extends CodeEditorPlugin {
         highlighter.addColorRegion("'", "'", Color.code("#9bda7b"), false);
 
         codeEditor.languageName = "Haxe";
+
+        lspBridge = new LspBridge();
+
+        var nodePath = Path.addTrailingSlash(StudioUtils.singleton.getToolchainDirectory());
+        if (OSService.getName() == "Windows") {
+            nodePath += "node.exe";
+        }
+        else {
+            nodePath += "bin/node";
+        }
+        lspBridge.editor = codeEditor.codeEdit;
+        lspBridge.startServer(nodePath, Path.addTrailingSlash(StudioUtils.singleton.getToolchainDirectory()) + "server.js");
+        codeEditor.addChild(lspBridge);
     }
 }
