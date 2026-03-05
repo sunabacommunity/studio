@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using Godot;
 using Sledge.Formats.GameData;
@@ -12,6 +13,8 @@ public partial class SledgeModule: Node
 {
     public void Bind(DotNetInteropService interopService)
     {
+        interopService.AddType(typeof(MemoryStream));
+        interopService.AddType(typeof(StreamWriter));
         var asm1 = typeof(Box).Assembly;
         _bindAsm(interopService, asm1);
         var asm2 = typeof(FgdFormat).Assembly;
