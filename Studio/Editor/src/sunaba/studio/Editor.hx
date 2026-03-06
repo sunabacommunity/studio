@@ -121,6 +121,7 @@ class Editor extends Widget {
     public var sceneInspector: SceneInspector;
     public var resourceInspector: ResourceInspector;
     public var console: Console;
+    public var characterEditor: CharacterEditor;
 
     public var projectIo: FileSystemIo;
     public var sourceIo: FileSystemIo;
@@ -880,6 +881,10 @@ class Editor extends Widget {
             resourceInspector = new ResourceInspector(this, EditorArea.rightSidebar);
 
             console = new Console(this, EditorArea.dock);
+
+            bottomCenterTabContainer.currentTab = 0;
+
+            characterEditor = new CharacterEditor(this, EditorArea.dock);
 
             console.addCommand("toggle-custom-titlebar", (args) -> {
                 if (OSService.getName() == "macOS") {
@@ -1721,7 +1726,6 @@ class Editor extends Widget {
     public function addDockChild(child: EditorWidget) {
         dockChildren.push(child);
         bottomCenterTabContainer.addChild(child);
-        bottomCenterTabContainer.currentTab = bottomCenterTabContainer.getTabIdxFromControl(child);
     }
 
     public function getCurrentWorkspaceChild() {

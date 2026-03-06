@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.TabContainer
+            name="tabs"
+            fullRect="true">
+            <sunaba.ui.Control
+                name="Body">
+            </sunaba.ui.Control>
+            <sunaba.ui.Control
+                name="Face">
+            </sunaba.ui.Control>
+            <sunaba.ui.Control
+                name="Headwear">
+            </sunaba.ui.Control>
+            <sunaba.ui.Control
+                name="Clothes">
+            </sunaba.ui.Control>
+            <sunaba.ui.Control
+                name="Dress">
+            </sunaba.ui.Control>
+        </sunaba.ui.TabContainer>
+    </body>
+</suml>
