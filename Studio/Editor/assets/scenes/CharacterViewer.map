@@ -1,0 +1,22 @@
+// Game: Sunaba
+// Format: Valve
+// entity 0
+{
+"mapversion" "220"
+"wad" ""
+"classname" "worldspawn"
+// brush 0
+{
+( -21712 -64 -32 ) ( -21712 -63 -32 ) ( -21712 -64 -31 ) blockout/gray_check [ 0 -1 0 0 ] [ 0 0 -1 256 ] 90 0.0625 0.0625
+( -64 -32672 -32 ) ( -64 -32672 -31 ) ( -63 -32672 -32 ) blockout/gray_check [ 1 0 0 0 ] [ 0 0 -1 256 ] 180 0.0625 0.0625
+( -64 -64 -32 ) ( -63 -64 -32 ) ( -64 -63 -32 ) blockout/gray_check [ -1 0 0 0 ] [ 0 -1 0 0 ] 90 0.0625 0.0625
+( 64 64 0 ) ( 64 65 0 ) ( 65 64 0 ) blockout/gray_check [ 1 0 0 0 ] [ 0 -1 0 0 ] 90 0.0625 0.0625
+( 64 23344 0 ) ( 65 23344 0 ) ( 64 23344 1 ) blockout/gray_check [ -1 0 0 0 ] [ 0 0 -1 256 ] 270 0.0625 0.0625
+( 26224 64 0 ) ( 26224 64 1 ) ( 26224 65 0 ) blockout/gray_check [ 0 1 0 0 ] [ 0 0 -1 256 ] 0 0.0625 0.0625
+}
+}
+// entity 1
+{
+"classname" "info_environmet_standard"
+"origin" "-56 24 8"
+}

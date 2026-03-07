@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suml fullscreen="true">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+                name="vbox"
+                fullRect="true">
+            <!--sunaba.ui.Control
+                    name="toolbar"
+                    customMinimumSize="0, 32">
+                <sunaba.ui.HBoxContainer
+                        name="hbox"
+                        fullRect="true">
+                    <sunaba.ui.CenterContainer name="throbber" customMinimumSize="32, 32">
+                        <sunaba.ui.TextureRect name="textureRect" customMinimumSize="16, 16"/>
+                    </sunaba.ui.CenterContainer>
+                    <sunaba.ui.Button name="edit" icon="studio://icons/16/netradiant.png" text="Edit in NetRadiant Custom"/>
+                    <sunaba.ui.Control sizeFlagsHorizontal="3"/>
+                    <sunaba.ui.Button name="reload" text=" Reload "/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control-->
+            <sunaba.ui.SubViewportContainer
+                    name="container"
+                    stretch="true"
+                    sizeFlagsVertical="3">
+                <sunaba.SubViewport name="viewport" ownWorld_3d="true" size="352, 240"/>
+            </sunaba.ui.SubViewportContainer>
+        </sunaba.ui.VBoxContainer>
+    </body>
+</suml>

@@ -66,6 +66,7 @@ import sunaba.SystemFont;
 import sunaba.HorizontalAlignment;
 import sunaba.core.native.ScriptType;
 import sunaba.internal.ProcessSpawner;
+import sunaba.studio.fileHandlers.VchrFileHandler;
 
 class Editor extends Widget {
     var sProjPath = "";
@@ -767,6 +768,7 @@ class Editor extends Widget {
             explorer.fileHandlers.push(new SmdlFileHandler(explorer));
             explorer.fileHandlers.push(new SmdlBinaryFileHandler(explorer));
             explorer.fileHandlers.push(new MapFileHandler(explorer));
+            explorer.fileHandlers.push(new VchrFileHandler(explorer));
             explorer.newFileWidget.addAssetFileTemplate("Empty Scene", ".vscn", explorer.loadIcon("studio://icons/16_2x/clapperboard.png"), (path: String) -> {
                 var sceneRoot = new SceneRoot();
                 var sceneFile = SceneFile.create(sceneRoot);
