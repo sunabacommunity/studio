@@ -64,7 +64,6 @@ ${If} ${RunningX64}
   File "bin\windows-x86_64-release\libdd3d.windows.template_release.x86_64.enabled.dll"
   File "bin\windows-x86_64-release\libgodotsteam.windows.template_release.x86_64.dll"
   File "bin\windows-x86_64-release\steam_api64.dll"
-  File "bin\windows-x86_64-release\libimgui-godot-native.windows.release.x86_64.dll"
   File "Studio\project.ico" 
   SetOutPath "$INSTDIR\data_Sunaba.Studio_windows_x86_64"
   SetOverwrite try
