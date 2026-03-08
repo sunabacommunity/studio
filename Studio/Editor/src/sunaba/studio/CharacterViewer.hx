@@ -33,7 +33,7 @@ class CharacterViewer extends EditorWidget {
         filePath = path;
 
         initializeEditorScene();
-        trace("");
+        getEditor().setWorkspaceTabTitle(this, filePath.split("/").pop());
     }
 
     var characterEntity: Entity;
