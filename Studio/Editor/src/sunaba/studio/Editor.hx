@@ -2177,6 +2177,10 @@ class Editor extends Widget {
             }
         }
         var radiantExecutablePath = toolchaindir + nrProgramName;
+        if (Sys.systemName() != "Windows") {
+            Sys.command("chmod", ["+x", radiantExecutablePath]);
+            Sys.command("chmod", ["+X", radiantExecutablePath]);
+        }
         processSpawner.spawn(radiantExecutablePath, StringArray.fromArray([mapPath]));
     }
 
