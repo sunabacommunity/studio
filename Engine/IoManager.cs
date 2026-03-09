@@ -15,6 +15,20 @@ namespace Sunaba.Engine
             PathUrl = "ioInterfaceMulti://";
         }
 
+        public string[] GetPathUrls()
+        {
+            List<string> pathUrls = new();
+            foreach (var ioInterface in IoInterfaces)
+            {
+                if (!pathUrls.Contains(ioInterface.PathUrl))
+                {
+                    pathUrls.Add(ioInterface.PathUrl);
+                }
+            }
+
+            return pathUrls.ToArray();
+        }
+
         public override string GetFilePath(string path)
         {
             for (int i = 0; i < IoInterfaces.Count; i++)
