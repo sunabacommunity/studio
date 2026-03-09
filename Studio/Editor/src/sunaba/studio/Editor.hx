@@ -99,6 +99,7 @@ class Editor extends Widget {
     public var reloadButton: Button;
     public var publishButton: Button;
     public var trenchbroomButton: Button;
+    public var netradiantButton: Button;
 
     public var buildButton: Button;
     public var playButton:Button;
@@ -210,6 +211,10 @@ class Editor extends Widget {
         publishButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/publish");
         trenchbroomButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/trenchbroom");
         trenchbroomButton.pressed.add(() -> {
+            openTrenchbroom();
+        });
+        netradiantButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/netradiant");
+        netradiantButton.pressed.add(() -> {
             openNetRadiant();
         });
 
@@ -2155,7 +2160,7 @@ class Editor extends Widget {
             if (!StringTools.endsWith(toolchaindir, "\\")) {
                 toolchaindir += "\\";
             }
-            nrProgramName += ".exe";
+            nrProgramName += "\\TrenchBroom.exe";
         }
         else {
             if (!StringTools.endsWith(toolchaindir, "/")) {
