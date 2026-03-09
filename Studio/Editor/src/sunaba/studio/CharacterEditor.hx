@@ -18,6 +18,7 @@ import sunaba.ui.ColorPicker;
 import sunaba.core.Color;
 import sunaba.ui.TabContainer;
 import sunaba.ui.Button;
+import sunaba.core.Variant;
 
 class CharacterEditor extends EditorWidget {
     public var characterViewer: CharacterViewer = null;
@@ -96,7 +97,7 @@ class CharacterEditor extends EditorWidget {
         bodyTypeOptionPopup.addItem("Male", BodyType.male);
         bodyTypeOptionPopup.addItem("Female", BodyType.female);
         skinColorButton = getNodeT(ColorPickerButton, "vbox/tabs/Body/hbox/vbox/skinColor/colorButton");
-        skinColorButton.colorChanged.add((color: Color) -> {
+        skinColorButton.colorChanged.add((color: Variant) -> {
             data.skinTone = color;
         });
         skinColorPicker.addPreset(Color.html("#ffdbac"));
