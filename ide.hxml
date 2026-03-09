@@ -3,3 +3,5 @@
 --library libsunaba
 --library gamepak
 --lua bin/Main.lua
+--macro addClassPath("buildsystem/")
+--macro addClassPath("Studio/Splashscreen/src")
