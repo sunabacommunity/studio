@@ -2173,7 +2173,7 @@ class Editor extends Widget {
                 nrProgramName = "trenchbroom";
             }
             if (Sys.systemName() == "macOS") {
-                nrProgramName += ".app";
+                nrProgramName = nrProgramName + ".app/Contents/MacOS/" + nrProgramName;
             }
         }
         var radiantExecutablePath = toolchaindir + nrProgramName;
