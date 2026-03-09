@@ -12,6 +12,10 @@ public partial class StudioUtils : Node
 	public string GetToolchainDirectory()
 	{
 		var baseDir = GetBaseDirectory();
+		if (OS.HasFeature("editor"))
+		{
+			baseDir = ProjectSettings.GlobalizePath("res://");
+		}
 		var toolchainDirectory = baseDir + "/toolchain/";
 		if (OS.GetName() == "Windows")
 		{
