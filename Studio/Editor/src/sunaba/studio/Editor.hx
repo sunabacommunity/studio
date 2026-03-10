@@ -77,6 +77,7 @@ class Editor extends Widget {
     }
 
     public var haxePath:String = "haxe"; // Default path to Haxe compiler
+    public var haxeExecutablePath:String = "haxe";
 
     public var isGameRunning: Bool = false;
 
@@ -997,6 +998,7 @@ class Editor extends Widget {
             + '\\build.log"\r\n';*/
             sys.io.File.saveContent(wrapper, batContent);
 
+            haxeExecutablePath = haxePath;
             haxePath = StringTools.replace(wrapper, ".bat", "");
         }
         else {
@@ -1051,6 +1053,7 @@ class Editor extends Widget {
             //Sys.command("/bin/chmod", ["+x", wrapper]);
             OSService.execute("chmod", StringArray.fromArray(["+x", wrapper]));
 
+            haxeExecutablePath = haxePath;
             haxePath = wrapper;
         }
 
@@ -1315,7 +1318,10 @@ class Editor extends Widget {
 
             Coroutine.yield();
 
+            Sys.setCwd(explorer.projectDirectory);
+
             var exitCode = Sys.command(commandName, args);
+            haxePath = haxeExecutablePath;
 
             trace("Build command result: " + exitCode);
 
@@ -1939,7 +1945,7 @@ class Editor extends Widget {
             playBuildWindow.popupCentered();
         }
 
-        buildSystem.haxePath = haxePath;
+        buildSystem.haxePath = haxeExecutablePath;
 
         buildSystem.chmodder = (shpath: String) -> {
             OSService.execute("chmod", StringArray.fromArray(["+x", shpath]));
