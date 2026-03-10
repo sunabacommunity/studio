@@ -121,16 +121,27 @@ public partial class IoInterfaceZip : IoInterface
 		var fileList = new Array<string>();
 		var files = _getFiles();
 		var path2 = GetFilePath(path);
-		if (!path2.EndsWith("/"))
+		if (!path2.EndsWith("/") && path2 != "")
 			path2 += "/";
 		if (extension != "" && extension != "/")
 		{
 			foreach (var file in files)
 			{
 				var filePath = PathUrl + file;
-				if (file.StartsWith(path2) && file.EndsWith(extension) && !file.Replace(path2, "").Contains("/"))
+				if (file.StartsWith(path2))
 				{
-					fileList.Add(filePath);
+					if (file.EndsWith(extension))
+					{
+						if (path2 == "")
+						{
+							fileList.Add(filePath);
+							continue;
+						}
+						if (!file.Replace(path2, "").Contains("/"))
+						{
+							fileList.Add(filePath);
+						}
+					}
 				}
 			}
 
@@ -165,6 +176,14 @@ public partial class IoInterfaceZip : IoInterface
 					var dirPath = PathUrl + baseDir + "/";
 					if (baseDir.StartsWith(path2))
 					{
+						if (path2 == "")
+						{
+							if (!fileList.Contains(dirPath))
+							{
+								fileList.Add(dirPath);
+							}
+							continue;
+						}
 						if (!baseDir.Replace(path2, "").Contains("/"))
 						{
 							if (!fileList.Contains(dirPath))
