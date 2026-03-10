@@ -171,20 +171,24 @@ class CharacterEditor extends EditorWidget {
         faceItemList.fixedIconSize = new Vector2i(64, 64);
         faceItemList.maxColumns = 0;
         faceItemList.iconMode = 0;
+        faceItemList.fixedColumnWidth = 160;
         headwearItemList = getNodeT(ItemList, "vbox/tabs/Headwear/hbox/itemList");
         headwearItemList.fixedIconSize = new Vector2i(64, 64);
         headwearItemList.maxColumns = 0;
         headwearItemList.iconMode = 0;
+        headwearItemList.fixedColumnWidth = 160;
         headwearTree = getNodeT(Tree, "vbox/tabs/Headwear/hbox/tree");
         clothingItemList = getNodeT(ItemList, "vbox/tabs/Clothes/hbox/itemList");
         clothingItemList.fixedIconSize = new Vector2i(64, 64);
         clothingItemList.maxColumns = 0;
         clothingItemList.iconMode = 0;
+        clothingItemList.fixedColumnWidth = 160;
         clothingTree = getNodeT(Tree, "vbox/tabs/Clothes/hbox/tree");
         dressItemList = getNodeT(ItemList, "vbox/tabs/Dress/itemList");
         dressItemList.fixedIconSize = new Vector2i(64, 64);
         dressItemList.maxColumns = 0;
         dressItemList.iconMode = 0;
+        dressItemList.fixedColumnWidth = 160;
         dressControl = getNodeT(Control, "vbox/tabs/Dress");
 
         faceItemList.itemSelected.add((index: Int) -> {
