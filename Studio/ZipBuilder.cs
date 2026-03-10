@@ -28,7 +28,22 @@ public partial class ZipBuilder : RefCounted
     public void AddToZipFile(string path, string bytes)
     {
         var tempFilePath = tempPath + path;
+        CreateDir(tempFilePath.GetBaseDir());
         File.WriteAllBytes(tempFilePath, Marshalls.Base64ToRaw(bytes));
+    }
+
+    public void CreateDir(string path)
+    {
+        var baseDir = path.GetBaseDir();
+        if (baseDir == tempPath) return;
+        if (!Directory.Exists(baseDir))
+        {
+            CreateDir(baseDir);
+        }
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
     }
 
     public void BuildZip(string path)
