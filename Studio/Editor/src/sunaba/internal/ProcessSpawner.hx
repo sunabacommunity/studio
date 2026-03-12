@@ -29,4 +29,8 @@ class ProcessSpawner extends Node {
     public function hasExited(): Bool {
         return native.call("HasExited", new ArrayList());
     }
+
+    public function getExitCode(): Int {
+        return native.call("GetExitCode", new ArrayList());
+    }
 }

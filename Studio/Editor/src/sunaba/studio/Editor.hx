@@ -1321,7 +1321,12 @@ class Editor extends Widget {
 
             Sys.setCwd(explorer.projectDirectory);
 
-            var exitCode = Sys.command(commandName, args);
+            var process = new ProcessSpawner();
+            process.spawn(commandName, args);
+            while (!process.hasExited()) {
+                Coroutine.yield();
+            }
+            var exitCode = process.getExitCode();
             haxePath = haxeExecutablePath;
 
             trace("Build command result: " + exitCode);

@@ -73,6 +73,16 @@ public partial class ProcessSpawner: Node
         return _process.HasExited;
     }
 
+    public int GetExitCode()
+    {
+        if (HasExited())
+        {
+            return _process.ExitCode;
+        }
+
+        return -9999;
+    }
+
     public override void _Process(double delta)
     {
         var output = _process.StandardOutput.ReadToEnd();
