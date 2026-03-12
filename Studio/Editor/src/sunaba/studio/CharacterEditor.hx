@@ -1,5 +1,6 @@
 package sunaba.studio;
 
+import sunaba.spatial.FemaleDress;
 import sunaba.spatial.Headwear;
 import sunaba.ui.TreeItem;
 import sunaba.core.native.NativeObject;
@@ -81,6 +82,7 @@ class CharacterEditor extends EditorWidget {
         faceTextureIndex = new Map();
         headwearIndex = new Map();
         clothingIndex = new Map();
+        dressIndex = new Map();
 
         nameLineEdit = getNodeT(LineEdit, "vbox/tabs/Body/hbox/vbox/name/lineEdit");
         nameLineEdit.textChanged.add((newText: String) -> {
@@ -234,6 +236,17 @@ class CharacterEditor extends EditorWidget {
             }
         });
 
+        dressItemList.itemSelected.add((index: Int) -> {
+            if (index == noDress) {
+                data.femaleDress = null;
+                refresh();
+                return;
+            }
+            var dress = dressIndex[index];
+            data.femaleDress = dress;
+            refresh();
+        });
+
         var applyButton = getNodeT(Button, "vbox/hbox/apply");
         applyButton.pressed.add(() -> {
             characterViewer.apply();
@@ -264,6 +277,8 @@ class CharacterEditor extends EditorWidget {
     public var headwearIndex: Map<Int, Headwear>;
 
     public var clothingIndex: Map<Int, Clothing>;
+
+    public var dressIndex: Map<Int, FemaleDress>;
 
     public function refresh() {
         nameLineEdit.text = data.name;
@@ -354,5 +369,24 @@ class CharacterEditor extends EditorWidget {
             item.setMetadata(0, data.clothes.indexOf(clothingItem));
             item.addButton(0, getEditor().loadIcon("studio://icons/16/cross.png"));
         }
+
+        var dressList = io.getFileListAll(".vdrs");
+        var dressList2 = io.getFileListAll(".vdrs.dat");
+        for (i in 0...dressList2.size()) {
+            var dressPath = dressList2.get(i);
+            dressList.append(dressPath);
+        }
+        dressItemList.clear();
+        noDress = dressItemList.addItem("None", getEditor().loadIcon("studio://icons/16_2x/question.png"), true);
+        for (i in 0...dressList.size()) {
+            var dressPath = dressList.get(i);
+            var dressData = new FemaleDress();
+            dressData.load(dressPath);
+
+            var item = dressItemList.addItem(dressData.name, getEditor().loadIcon("studio://icons/16_2x/dress.png"), true);
+            dressIndex[item] = dressData;
+        }
     }
+
+    var noDress: Int = -2;
 }
