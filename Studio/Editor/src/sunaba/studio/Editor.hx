@@ -1091,7 +1091,7 @@ class Editor extends Widget {
             if (!FileSystem.exists(hiddenDir))
                 FileSystem.createDirectory(hiddenDir);
             // Command Prompt fucking sucks
-            var wrapper = hiddenDir + "/run_haxe.bat";
+            var wrapper = hiddenDir + "/run_haxe_fast.bat";
             var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
             toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
             toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
@@ -1124,7 +1124,7 @@ class Editor extends Widget {
             var hiddenDir = explorer.projectDirectory + "/.studio";
             if (!FileSystem.exists(hiddenDir))
                 FileSystem.createDirectory(hiddenDir);
-            var wrapper = hiddenDir + "/run_haxe.sh";
+            var wrapper = hiddenDir + "/run_haxe_fast.sh";
             var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
             if (!StringTools.endsWith(toolchaindir, "/")) {
                 toolchaindir += "/";
