@@ -1085,6 +1085,94 @@ class Editor extends Widget {
         }
     }
 
+    private function generateHaxeWrapper() {
+        if (OSService.getName() == "Windows") {
+            var hiddenDir = explorer.projectDirectory + "/.studio";
+            if (!FileSystem.exists(hiddenDir))
+                FileSystem.createDirectory(hiddenDir);
+            // Command Prompt fucking sucks
+            var wrapper = hiddenDir + "/run_haxe.bat";
+            var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+            toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
+            toolchaindir = StringTools.replace(toolchaindir, "/\\" , "\\");
+            toolchaindir = StringTools.replace(toolchaindir, "/" , "\\");
+            if (!StringTools.endsWith(toolchaindir, "\\")) {
+                toolchaindir += "\\";
+            }
+            var asmDir = StudioUtils.singleton.getBaseDirectory();
+            asmDir = StringTools.replace(asmDir, "\\/" , "\\");
+            asmDir = StringTools.replace(asmDir, "/\\" , "\\");
+            asmDir = StringTools.replace(asmDir, "/" , "\\");
+            if (!StringTools.endsWith(asmDir, "\\")) {
+                asmDir += "\\";
+            }
+            var batContent = "@echo off\r\nset PATH=\"" + toolchaindir + "\";";
+            var haxelibPath = toolchaindir +  "haxelib.exe";
+            batContent += " && \"" + haxePath + "\" %*";
+            /*var batContent = '@echo off\r\n'
+            + command
+            + '\r\n'
+            + 'echo %ERRORLEVEL% > "'
+            + StringTools.replace(hiddenDir, "/", "\\")
+            + '\\build.log"\r\n';*/
+            sys.io.File.saveContent(wrapper, batContent);
+
+            haxeExecutablePath = haxePath;
+            haxePath = StringTools.replace(wrapper, ".bat", "");
+        }
+        else {
+            var hiddenDir = explorer.projectDirectory + "/.studio";
+            if (!FileSystem.exists(hiddenDir))
+                FileSystem.createDirectory(hiddenDir);
+            var wrapper = hiddenDir + "/run_haxe.sh";
+            var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+            if (!StringTools.endsWith(toolchaindir, "/")) {
+                toolchaindir += "/";
+            }
+            if (StringTools.contains(toolchaindir, "//")) {
+                toolchaindir = StringTools.replace(toolchaindir, "//", "/");
+            }
+            var asmDir = StudioUtils.singleton.getBaseDirectory();
+            if (!StringTools.endsWith(asmDir, "/")) {
+                asmDir += "/";
+            }
+            if (StringTools.contains(asmDir, "//")) {
+                asmDir = StringTools.replace(asmDir, "//", "/");
+            }
+            if (StringTools.contains(haxePath, "//")) {
+                haxePath = StringTools.replace(haxePath, "//", "/");
+            }
+            var shContent = "#!/bin/sh\n";
+            var haxelibPath = toolchaindir +  "haxelib";
+            
+            shContent += "chmod +x \"" + haxePath + "\"";
+            shContent += "\nchmod +x \"" + haxelibPath + "\"";
+            shContent += "\nchmod +x \"" + toolchaindir + "neko\"";
+            shContent += "\nexport PATH=\"" + toolchaindir + "\":$PATH";
+            if (OSService.getName() == "macOS") {
+                shContent += "\nexport DYLD_LIBRARY_PATH=\"" + toolchaindir + "\":$DYLD_LIBRARY_PATH";
+                shContent += "\nexport DYLD_FALLBACK_LIBRARY_PATH=\"" + toolchaindir + "\":$DYLD_FALLBACK_LIBRARY_PATH";
+                shContent += "\ninstall_name_tool -add_rpath \"" + toolchaindir + "\" \"" + haxelibPath + "\" 2>/dev/null || true";
+                shContent += "\ninstall_name_tool -add_rpath \"" + toolchaindir + "\" \"" + haxePath + "\" 2>/dev/null || true";
+                shContent += "\ninstall_name_tool -add_rpath \"" + toolchaindir + "\" \"" + toolchaindir + "neko\" 2>/dev/null || true";
+            }
+            else if (OSService.getName() == "Linux") {
+                shContent += "\nexport LD_LIBRARY_PATH=\"" + toolchaindir + "\":$LD_LIBRARY_PATH";
+                shContent += "\nexport HAXE_STD_PATH=\"" + toolchaindir + "/std\":$HAXE_STD_PATH";
+            }
+            shContent += "\n\"" + haxePath + "\" \"$@\" ";
+            sys.io.File.saveContent(wrapper, shContent);//
+
+
+            trace(FileSystem.exists(wrapper));
+            //Sys.command("/bin/chmod", ["+x", wrapper]);
+            OSService.execute("chmod", StringArray.fromArray(["+x", wrapper]));
+
+            haxeExecutablePath = haxePath;
+            haxePath = wrapper;
+        }
+    }
+
     private var localPluginIo: FileSystemIo;
 
     public function showAboutDialog() {
@@ -1327,7 +1415,7 @@ class Editor extends Widget {
                 Coroutine.yield();
             }
             var exitCode = process.getExitCode();
-            haxePath = haxeExecutablePath;
+            generateHaxeWrapper();
 
             trace("Build command result: " + exitCode);
 
@@ -1951,7 +2039,7 @@ class Editor extends Widget {
             playBuildWindow.popupCentered();
         }
 
-        buildSystem.haxePath = haxeExecutablePath;
+        buildSystem.haxePath = haxePath;
 
         buildSystem.chmodder = (shpath: String) -> {
             OSService.execute("chmod", StringArray.fromArray(["+x", shpath]));
