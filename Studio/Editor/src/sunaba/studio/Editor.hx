@@ -1108,7 +1108,7 @@ class Editor extends Widget {
             }
             var batContent = "@echo off\r\nset PATH=\"" + toolchaindir + "\";";
             var haxelibPath = toolchaindir +  "haxelib.exe";
-            batContent += " && \"" + haxePath + "\" %*";
+            batContent += " && \"" + haxeExecutablePath + "\" %*";
             /*var batContent = '@echo off\r\n'
             + command
             + '\r\n'
@@ -1117,7 +1117,6 @@ class Editor extends Widget {
             + '\\build.log"\r\n';*/
             sys.io.File.saveContent(wrapper, batContent);
 
-            haxeExecutablePath = haxePath;
             haxePath = StringTools.replace(wrapper, ".bat", "");
         }
         else {
@@ -1160,7 +1159,7 @@ class Editor extends Widget {
                 shContent += "\nexport LD_LIBRARY_PATH=\"" + toolchaindir + "\":$LD_LIBRARY_PATH";
                 shContent += "\nexport HAXE_STD_PATH=\"" + toolchaindir + "/std\":$HAXE_STD_PATH";
             }
-            shContent += "\n\"" + haxePath + "\" \"$@\" ";
+            shContent += "\n\"" + haxeExecutablePath + "\" \"$@\" ";
             sys.io.File.saveContent(wrapper, shContent);//
 
 
@@ -1168,7 +1167,6 @@ class Editor extends Widget {
             //Sys.command("/bin/chmod", ["+x", wrapper]);
             OSService.execute("chmod", StringArray.fromArray(["+x", wrapper]));
 
-            haxeExecutablePath = haxePath;
             haxePath = wrapper;
         }
     }
