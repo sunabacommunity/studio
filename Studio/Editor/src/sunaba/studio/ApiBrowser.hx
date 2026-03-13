@@ -308,7 +308,7 @@ class ApiBrowser extends Widget {
                 apiTabs.setTabTitle(idx, selected.getText(0));
                 apiTabs.setTabIcon(idx, selected.getIcon(0));
                 apiTabs.currentTab = idx;
-                
+
                 var highlighter = new CodeHighlighter();
                 codeEdit.syntaxHighlighter = highlighter;
 
@@ -427,7 +427,7 @@ class ApiBrowser extends Widget {
             var hxFileName = hxFilePath.split("/").pop().split(".")[0];
             var codeItem = apiTree.createItem(item);
             codeItem.setText(0, hxFileName);
-            codeItem.setIcon(0, editor.loadIcon("studio://icons/16/haxe.png"));
+            codeItem.setIcon(0, editor.loadIcon("studio://icons/16/document-code.png"));
             codeItem.setMetadata(0, hxFilePath);
         }
     }
