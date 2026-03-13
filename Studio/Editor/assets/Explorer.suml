@@ -34,12 +34,12 @@
                             icon="studio://icons/16/plus-button.png"
                             iconAlignment="1"
                             customMinimumSize="30,30"/>
-                    <sunaba.ui.MenuButton
+                    <!--sunaba.ui.MenuButton
                             name="menu"
                             flat="true"
                             icon="studio://icons/16/chevron-expand.png"
                             iconAlignment="1"
-                            customMinimumSize="30,30"/>
+                            customMinimumSize="30,30"/-->
                 </sunaba.ui.HBoxContainer>
             </sunaba.ui.Control>
             <!--sunaba.ui.Control customMinimumSize="5,5"/-->
