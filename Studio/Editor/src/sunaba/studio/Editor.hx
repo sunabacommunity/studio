@@ -122,6 +122,7 @@ class Editor extends Widget {
     private var pluginBuildWindow: Window;
 
     public var explorer: Explorer;
+    public var assetBrowser: AssetBrowser;
     public var sceneInspector: SceneInspector;
     public var resourceInspector: ResourceInspector;
     public var console: Console;
@@ -798,6 +799,8 @@ class Editor extends Widget {
                 sourceIo.saveText(path, "");
             });
             explorer.startExplorer();
+
+            assetBrowser = new AssetBrowser(this, EditorArea.dock);
 
             addToolFunction(() -> {
                     var textureListEditorAcceptDialog = new AcceptDialog();

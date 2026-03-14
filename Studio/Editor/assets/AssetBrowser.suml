@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<suml fullscreen="true" name="explorer">
+    <head></head>
+    <body>
+        <sunaba.ui.VBoxContainer
+            name="vbox"
+            fullRect="true"
+            separation="0">
+            <sunaba.ui.Control
+                name="toolbar1"
+                customMinimumSize="30, 30">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true"
+                    separation="0">
+                    <sunaba.ui.Button
+                            name="back"
+                            flat="true"
+                            icon="studio://icons/16/arrow-180.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                    <sunaba.ui.Button
+                            name="forward"
+                            flat="true"
+                            icon="studio://icons/16/arrow.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                    <sunaba.ui.Button
+                            name="up"
+                            flat="true"
+                            icon="studio://icons/16/arrow-090.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                    <sunaba.ui.Button
+                            name="reload"
+                            flat="true"
+                            icon="studio://icons/16/arrow-circle-315.png"
+                            iconAlignment="1"
+                            customMinimumSize="30,30"/>
+                    <!--sunaba.ui.CenterContainer name="throbber" customMinimumSize="30, 30">
+                        <sunaba.ui.TextureRect name="textureRect" customMinimumSize="16, 16"/>
+                    </sunaba.ui.CenterContainer-->
+                    <sunaba.ui.LineEdit
+                        name="addressBar"
+                        placeholderText="path://to/folder"
+                        sizeFlagsHorizontal="3"/>
+                    <sunaba.ui.LineEdit
+                        name="searchBar"
+                        placeholderText="Search for assets"
+                        rightIcon="studio://icons/16/magnifier.png"
+                        customMinimumSize="200,30"/>
+                    <sunaba.ui.MenuButton
+                            name="new"
+                            flat="false"
+                            icon="studio://icons/16/plus-button.png"
+                            text="New"
+                            customMinimumSize="30,30"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.Control
+                name="view"
+                sizeFlagsVertical="3">
+                <sunaba.ui.HSplitContainer
+                    name="hsplit"
+                    fullRect="true">
+                    <sunaba.ui.Tree
+                        name="tree"
+                        customMinimumSize="200, 0"/>
+                    <sunaba.ui.ItemList
+                        name="itemList"
+                        sizeFlagsHorizontal="3"/>
+                </sunaba.ui.HSplitContainer>
+            </sunaba.ui.Control>
+        </sunaba.ui.VBoxContainer>
+        <sunaba.desktop.ConfirmationDialog
+            name="newFileDialog"
+            title="New File"
+            minSize="600, 400"
+            okButtonText="Create">
+        </sunaba.desktop.ConfirmationDialog>
+    </body>
+</suml>
