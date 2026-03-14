@@ -72,6 +72,11 @@ enabled=PackedStringArray("res://addons/Gizmo3DScript/plugin.cfg", "res://addons
 
 default_inverse_scale_factor=16.0
 
+[internationalization]
+
+locale/translation_remaps={}
+locale/translations=PackedStringArray("res://editor.csv")
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
