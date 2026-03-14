@@ -225,7 +225,7 @@ class SceneEditor extends EditorWidget {
         smallGridTransform.scale = new Vector3(10, 1, 10);
 
         gizmoMode = GizmoToolMode.all;
-        gizmo.transformChanged.connect(Callable.fromFunction(function(mode: Int, value: Vector3) {
+        gizmo.transformEnd.connect(Callable.fromFunction(function(mode: Int, value: Vector3) {
             var sceneInspector = getEditor().sceneInspector;
             if (sceneInspector.sceneEditor == this) {
                 sceneInspector.refreshInspector();
