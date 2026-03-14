@@ -144,12 +144,12 @@
                                 icon="studio://icons/24/trenchbroom.png"
                                 iconAlignment="1"
                                 customMinimumSize="40,40"/>
-                        <sunaba.ui.Button
+                        <!--sunaba.ui.Button
                             name="netradiant"
                             flat="true"
                             icon="studio://icons/24/netradiant.png"
                             iconAlignment="1"
-                            customMinimumSize="40,40"/>
+                            customMinimumSize="40,40"/-->
                     </sunaba.ui.HBoxContainer>
                     <sunaba.ui.Control name="spacer" sizeFlagsHorizontal="3"/>
                     <sunaba.ui.HBoxContainer

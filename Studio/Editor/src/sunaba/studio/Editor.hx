@@ -101,7 +101,7 @@ class Editor extends Widget {
     public var reloadButton: Button;
     public var publishButton: Button;
     public var trenchbroomButton: Button;
-    public var netradiantButton: Button;
+    //public var netradiantButton: Button;
 
     public var buildButton: Button;
     public var playButton:Button;
@@ -215,10 +215,10 @@ class Editor extends Widget {
         trenchbroomButton.pressed.add(() -> {
             openTrenchbroom();
         });
-        netradiantButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/netradiant");
+        /*netradiantButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/netradiant");
         netradiantButton.pressed.add(() -> {
             openNetRadiant();
-        });
+        });*/
 
         buildButton = getNodeT(Button, "vbox/toolbar/hbox/rightToolbar/build");
         playButton = getNodeT(Button, "vbox/toolbar/hbox/rightToolbar/play");
