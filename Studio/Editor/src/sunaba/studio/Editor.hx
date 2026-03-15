@@ -2236,6 +2236,7 @@ class Editor extends Widget {
         debugMenu.setItemDisabled(2, false);
         isGameRunning = true;
         isGamePaused = false;
+        bottomCenterTabContainer.currentTab = 1;
 
         playerSubViewportContainer = new SubViewportContainer();
         centerTabContainer.addChild(playerSubViewportContainer);
