@@ -39,7 +39,7 @@ jobs:
               name: "🐧 Linux",
               target: linux-x86_64,
               os: ubuntu-latest,
-              pkgformat: none,
+              pkgformat: deb,
             }
           - {
               name: "🪟 Windows",
@@ -85,12 +85,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y haxe nsis dpkg-dev flatpak flatpak-builder
         
-      #- name: Setup Flathub (Linux)
-      #  if: matrix.config.target == 'linux-x86_64'
-      #  run: |
-      #    flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-      #    flatpak install flathub org.freedesktop.Platform/x86_64/25.08 -y
-      #    flatpak install flathub org.freedesktop.Sdk/x86_64/25.08 -y
+      - name: Setup Flathub (Linux)
+        if: matrix.config.target == 'linux-x86_64'
+        run: |
+          flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+          flatpak install flathub org.freedesktop.Platform/x86_64/25.08 -y
+          flatpak install flathub org.freedesktop.Sdk/x86_64/25.08 -y
 
       - name: Setup Haxelib
         run: |
@@ -147,10 +147,10 @@ jobs:
         run: |
           ${{ github.workspace }}/build.sh publish --${{ matrix.build_type }} --target=${{ matrix.config.target }} --pkgformat=${{ matrix.config.pkgformat }} --godot-command=godot
       
-      #- name: Build Flatpak (Linux)
-      #  if: matrix.config.target == 'linux-x86_64'
-      #  run: |
-      #    ${{ github.workspace }}/build.sh --skip --${{ matrix.build_type }} --target=${{ matrix.config.target }} --pkgformat=flatpak --install --single-file-bundle
+      - name: Build Flatpak (Linux)
+        if: matrix.config.target == 'linux-x86_64'
+        run: |
+          ${{ github.workspace }}/build.sh --skip --${{ matrix.build_type }} --target=${{ matrix.config.target }} --pkgformat=flatpak --install --single-file-bundle
 
       - name: Build Project (Zip) (Linux Release)
         if: matrix.config.target == 'linux-x86_64' && matrix.build_type == 'release'
@@ -193,14 +193,21 @@ jobs:
           cd ${{ github.workspace }}/bin/windows-x86_64-debug
           zip -r -0 ${{ github.workspace }}/bin/windows-x86_64-debug.zip *
 
-      - name: Upload artifact
+      - name: Upload artifact (Zip)
         #if: matrix.config.os != 'macos-latest'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.repository.name }}-${{ matrix.config.target }}-${{ matrix.build_type }}
+          name: ${{ github.event.repository.name }}-${{ matrix.config.target }}-${{ matrix.build_type }}-zip
+          path: |
+            ${{ github.workspace }}/bin/*.zip
+
+      - name: Upload artifact 
+        #if: matrix.config.os != 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}-${{ matrix.config.target }}-${{ matrix.build_type }}-installer
           path: |
             ${{ github.workspace }}/bin/*.exe
-            ${{ github.workspace }}/bin/*.zip
             ${{ github.workspace }}/bin/*.deb
             ${{ github.workspace }}/bin/*.flatpak
             ${{ github.workspace }}/bin/*.dmg
@@ -226,13 +233,13 @@ jobs:
     steps:
       - uses: actions/download-artifact@v5
         with:
-          name: ${{ github.event.repository.name }}-windows-x86_64-release
+          name: ${{ github.event.repository.name }}-windows-x86_64-release-zip
       - uses: actions/download-artifact@v5
         with:
-          name: ${{ github.event.repository.name }}-linux-x86_64-release 
+          name: ${{ github.event.repository.name }}-linux-x86_64-release-zip
       - uses: actions/download-artifact@v5
         with:
-          name: ${{ github.event.repository.name }}-mac-universal-release 
+          name: ${{ github.event.repository.name }}-mac-universal-release-zip
       - name: Create Build Directory
         run: |
           mkdir build
