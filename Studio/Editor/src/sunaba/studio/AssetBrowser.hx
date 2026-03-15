@@ -43,7 +43,7 @@ class AssetBrowser extends EditorWidget {
 
         newButton = getNodeT(MenuButton, "vbox/toolbar/hbox/new");
 
-        tree = getNodeT(Tree, "vbox/toolbar/view/hsplit/tree");
-        itemList = getNodeT(ItemList, "vbox/toolbar/view/hsplit/itemList");
+        tree = getNodeT(Tree, "vbox/view/hsplit/tree");
+        itemList = getNodeT(ItemList, "vbox/view/hsplit/itemList");
     }
 }
