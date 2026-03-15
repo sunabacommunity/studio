@@ -45,5 +45,8 @@ class AssetBrowser extends EditorWidget {
 
         tree = getNodeT(Tree, "vbox/view/hsplit/tree");
         itemList = getNodeT(ItemList, "vbox/view/hsplit/itemList");
+
+        currentDir = getEditor().projectIo.pathUrl;
+        
     }
 }
