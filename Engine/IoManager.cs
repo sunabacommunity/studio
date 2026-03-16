@@ -29,6 +29,18 @@ namespace Sunaba.Engine
             return pathUrls.ToArray();
         }
 
+        public IoInterface GetIoInterface(string pathUrl)
+        {
+            foreach (var ioInterface in IoInterfaces)
+            {
+                if (ioInterface.PathUrl == pathUrl)
+                {
+                    return ioInterface;
+                }
+            }
+            return null;
+        }
+
         public override string GetFilePath(string path)
         {
             for (int i = 0; i < IoInterfaces.Count; i++)
