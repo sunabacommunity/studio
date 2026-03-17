@@ -26,7 +26,7 @@ func load_library(path: String) -> String:
 		zipIo = _zipIo
 	else:
 		var ioInterfaceZip = IoInterfaceZip.new()
-		ioInterfaceZip.LoadFromPath(path, "temp://")
+		ioInterfaceZip.Open(path, "temp://")
 		zipIo = ioInterfaceZip
 	io_manager.Register(zipIo)
 	
@@ -56,7 +56,7 @@ func load_app(path: String) -> void:
 		zipIo = _zipIo
 	else:
 		var ioInterfaceZip = IoInterfaceZip.new()
-		ioInterfaceZip.LoadFromPath(path, "temp://")
+		ioInterfaceZip.Open(path, "temp://")
 		zipIo = ioInterfaceZip
 	io_manager.Register(zipIo)
 	
