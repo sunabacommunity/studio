@@ -43,6 +43,10 @@ class AssetBrowser extends EditorWidget {
         reloadButton = getNodeT(Button, "vbox/toolbar/hbox/reload");
 
         addressBar = getNodeT(LineEdit, "vbox/toolbar/hbox/addressBar");
+        addressBar.textSubmitted.add((newText: String) -> {
+            currentDir = newText;
+            refresh();
+        });
         searchBar = getNodeT(LineEdit, "vbox/toolbar/hbox/searchBar");
 
         newButton = getNodeT(MenuButton, "vbox/toolbar/hbox/new");
@@ -64,6 +68,7 @@ class AssetBrowser extends EditorWidget {
             var metadata: String = itemList.getItemMetadata(index);
             if (StringTools.endsWith(metadata, "/")) {
                 currentDir = metadata;
+                addressBar.text = currentDir;
                 refresh();
             }
             else {
@@ -72,6 +77,7 @@ class AssetBrowser extends EditorWidget {
         });
 
         currentDir = getEditor().projectIo.pathUrl;
+        addressBar.text = currentDir;
 
         fileIcon32 = getEditor().loadIcon("studio://icons/32/document.png");
         dirIcon32 = getEditor().loadIcon("studio://icons/32/blue-folder-horizontal.png");
