@@ -19,6 +19,27 @@ public partial class IoInterfaceZip : SystemIoBase
     {
     }
 
+    public override void SaveBytes(string assetPath, byte[] bytes)
+    {
+    }
+
+    public override void SaveText(string assetPath, string text)
+    {
+    }
+
+    public override int CreateDirectory(string path)
+    {
+        return -1;
+    }
+
+    public override void DeleteDirectory(string path)
+    {
+    }
+
+    public override void DeleteFile(string path)
+    {
+    }
+
     public void Open(String path, String pathUrl)
     {
         var outputDir = System.IO.Path.GetTempPath();
