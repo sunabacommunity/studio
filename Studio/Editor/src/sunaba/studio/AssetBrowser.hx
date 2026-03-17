@@ -38,14 +38,29 @@ class AssetBrowser extends EditorWidget {
         getEditor().setDockTabIcon(this, getEditor().loadIcon("studio://icons/16/blue-folder-open-image.png"));
 
         backButton = getNodeT(Button, "vbox/toolbar/hbox/back");
+        backButton.disabled = true;
         forwardButton = getNodeT(Button, "vbox/toolbar/hbox/forward");
+        forwardButton.disabled = true;
         upButton = getNodeT(Button, "vbox/toolbar/hbox/up");
+        upButton.disabled = true;
+        upButton.pressed.add(() -> {
+            if (StringTools.endsWith(currentDir, "://")) {
+                return;
+            }
+            previousDirs.push(currentDir);
+            nextDirs = [];
+            setCurrentDir(updir(currentDir));
+        });
         reloadButton = getNodeT(Button, "vbox/toolbar/hbox/reload");
+        reloadButton.pressed.add(() -> {
+            refresh();
+        });
 
         addressBar = getNodeT(LineEdit, "vbox/toolbar/hbox/addressBar");
         addressBar.textSubmitted.add((newText: String) -> {
-            currentDir = newText;
-            refresh();
+            previousDirs.push(currentDir);
+            nextDirs = [];
+            setCurrentDir(newText);
         });
         searchBar = getNodeT(LineEdit, "vbox/toolbar/hbox/searchBar");
 
@@ -55,9 +70,11 @@ class AssetBrowser extends EditorWidget {
         tree.hideRoot = true;
         tree.itemSelected.add(() -> {
             var selected = tree.getSelected();
-            var metadata = selected.getMetadata(0);
-            currentDir = metadata;
-            refresh();
+            var metadata: String = selected.getMetadata(0);
+            previousDirs.push(currentDir);
+            nextDirs = [];
+            backButton.disabled = false;
+            setCurrentDir(metadata);
         });
         itemList = getNodeT(ItemList, "vbox/view/hsplit/itemList");
         itemList.maxColumns = 0;
@@ -67,9 +84,10 @@ class AssetBrowser extends EditorWidget {
         itemList.itemActivated.add((index: Int) -> {
             var metadata: String = itemList.getItemMetadata(index);
             if (StringTools.endsWith(metadata, "/")) {
-                currentDir = metadata;
-                addressBar.text = currentDir;
-                refresh();
+                previousDirs.push(currentDir);
+                nextDirs = [];
+                backButton.disabled = false;
+                setCurrentDir(metadata);
             }
             else {
                 getEditor().explorer.openFile(metadata);
@@ -84,6 +102,26 @@ class AssetBrowser extends EditorWidget {
         
         buildTreeRoot();
         refreshItemList();
+    }
+
+    private inline function updir(dir: String) {
+        var dirPathArr = dir.split("/");
+        dirPathArr.pop();
+        dirPathArr.pop();
+        dirPathArr.push("");
+        return dirPathArr.join("/");
+    }
+
+    public function setCurrentDir(dir: String) {
+        currentDir = dir;
+        if (StringTools.endsWith(currentDir, "://")) {
+            upButton.disabled = true;
+        }
+        else {
+            upButton.disabled = false;
+        }
+        addressBar.text = currentDir;
+        refresh();
     }
 
     var dirIconTexture: ImageTexture;
