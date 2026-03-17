@@ -95,7 +95,7 @@ class AssetBrowser extends EditorWidget {
         dirIconImage.loadPngFromBuffer(dirIconBytes);
         dirIconTexture = ImageTexture.createFromImage(dirIconImage);
 
-        var pathUrlDirIconBytes = io.loadBytes("studio://icons/16/blue-folder.png");
+        var pathUrlDirIconBytes = io.loadBytes("studio://icons/16/blue-folder-network.png");
         var pathUrlDirIconImage = new Image();
         pathUrlDirIconImage.loadPngFromBuffer(pathUrlDirIconBytes);
         var pathUrlDirIconTexture = ImageTexture.createFromImage(pathUrlDirIconImage);
@@ -104,7 +104,7 @@ class AssetBrowser extends EditorWidget {
             var pathUrl = getEditor().projectIo.pathUrl;
             var pathUrlItem = tree.createItem(root);
             pathUrlItem.setText(0, StringTools.replace(pathUrl, "://", ""));
-            pathUrlItem.setIcon(0, pathUrlDirIconTexture);
+            pathUrlItem.setIcon(0, getEditor().loadIcon("studio://icons/16/application-blue-studio.png"));
             pathUrlItem.setMetadata(0, pathUrl);
             pathTreeItemMap[pathUrl] = pathUrlItem;
 
@@ -142,6 +142,7 @@ class AssetBrowser extends EditorWidget {
             var pathUrlItem = tree.createItem(root);
             pathUrlItem.setText(0, StringTools.replace(pathUrl, "://", ""));
             pathUrlItem.setIcon(0, pathUrlDirIconTexture);
+            pathUrlItem.collapsed = true;
             pathUrlItem.setMetadata(0, pathUrl);
             pathTreeItemMap[pathUrl] = pathUrlItem;
 
