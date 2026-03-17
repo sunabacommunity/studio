@@ -39,8 +39,18 @@ class AssetBrowser extends EditorWidget {
 
         backButton = getNodeT(Button, "vbox/toolbar/hbox/back");
         backButton.disabled = true;
+        backButton.pressed.add(() -> {
+            var previousDir = previousDirs.pop();
+            nextDirs.push(currentDir);
+            setCurrentDir(previousDir);
+        });
         forwardButton = getNodeT(Button, "vbox/toolbar/hbox/forward");
         forwardButton.disabled = true;
+        forwardButton.pressed.add(() -> {
+            var nextDir = nextDirs.pop();
+            previousDirs.push(currentDir);
+            setCurrentDir(nextDir);
+        });
         upButton = getNodeT(Button, "vbox/toolbar/hbox/up");
         upButton.disabled = true;
         upButton.pressed.add(() -> {
@@ -119,6 +129,18 @@ class AssetBrowser extends EditorWidget {
         }
         else {
             upButton.disabled = false;
+        }
+        if (previousDirs.length == 0) {
+            backButton.disabled = true;
+        }
+        else {
+            backButton.disabled = false;
+        }
+        if (nextDirs.length == 0) {
+            forwardButton.disabled = true;
+        }
+        else {
+            forwardButton.disabled = false;
         }
         addressBar.text = currentDir;
         refresh();
