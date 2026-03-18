@@ -317,7 +317,10 @@ class AssetBrowser extends EditorWidget {
     }
 
     public function refresh() {
-        dirTreeCoroutines = [];
+        // hack fix to prevent crashes
+        while (dirTreeCoroutines.length != 0) {
+            onProcess(0);
+        }
         pathDisabledMap = new Map();
         for (path in pathTreeItemMap.keys()) {
             var treeItem = pathTreeItemMap[path];
