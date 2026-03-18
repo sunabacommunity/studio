@@ -111,8 +111,7 @@ class AssetBrowser extends EditorWidget {
         fileIcon32 = getEditor().loadIcon("studio://icons/32/document.png");
         dirIcon32 = getEditor().loadIcon("studio://icons/32/blue-folder-horizontal.png");
         
-        buildTreeRoot();
-        refreshItemList();
+        refresh();
     }
 
     private inline function updir(dir: String) {
