@@ -171,6 +171,9 @@ class AssetBrowser extends EditorWidget {
     var dirIconTexture: ImageTexture;
 
     public function buildTreeRoot() {
+        while (dirTreeCoroutines.length != 0) {
+            onProcess(0);
+        }
         var ioManager: IoManager = cast io;
 
         var pathUrls: Array<String> = ioManager.getPathUrls();
@@ -192,7 +195,7 @@ class AssetBrowser extends EditorWidget {
             var pathUrl = getEditor().projectIo.pathUrl;
             var pathUrlItem = tree.createItem(root);
             pathUrlItem.setText(0, StringTools.replace(pathUrl, "://", ""));
-            pathUrlItem.setIcon(0, getEditor().loadIcon("studio://icons/16/application-blue-studio.png"));
+            pathUrlItem.setIcon(0, pathUrlDirIconTexture);
             pathUrlItem.setMetadata(0, pathUrl);
             pathTreeItemMap[pathUrl] = pathUrlItem;
             var collapsed = pathDisabledMap[pathUrl];
@@ -277,6 +280,9 @@ class AssetBrowser extends EditorWidget {
     var dirTreeCoroutines : Array<Coroutine<()->Void>> = new Array();
 
     private function buildDirTree(dir: String, parent: TreeItem) {
+        if (parent == null || parent.isNull()) {
+            return;
+        }
         var dirTreeCoroutine = Coroutine.create(() -> {
             Coroutine.yield();
             var item = tree.createItem(parent);
