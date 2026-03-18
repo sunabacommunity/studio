@@ -326,6 +326,7 @@ class AssetBrowser extends EditorWidget {
             var treeItem = pathTreeItemMap[path];
             pathDisabledMap[path] = treeItem.collapsed;
         }
+        pathTreeItemMap = new Map();
         buildTreeRoot();
         refreshItemList();
     }
