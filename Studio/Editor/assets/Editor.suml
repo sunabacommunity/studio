@@ -108,6 +108,12 @@
                         fullRect="true"
                         separation="0">
                         <sunaba.ui.Button
+                            name="newFile"
+                            flat="true"
+                            icon="studio://icons/16_1-5x/document--plus.png"
+                            iconAlignment="1"
+                            customMinimumSize="40,40"/>
+                        <sunaba.ui.Button
                             name="saveFile"
                             flat="true"
                             icon="studio://icons/16_1-5x/disk.png"

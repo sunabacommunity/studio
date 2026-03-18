@@ -95,6 +95,7 @@ class Editor extends Widget {
     var workspaceChildern: Array<EditorWidget> = [];
     var dockChildren: Array<EditorWidget> = [];
 
+    public var newFileButton: Button;
     public var saveFileButton: Button;
     public var undoButton: Button;
     public var redoButton: Button;
@@ -198,6 +199,7 @@ class Editor extends Widget {
         rightTabContainer.hide();
         rightTabContainer.tabsVisible = false;
 
+        newFileButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/newFile");
         saveFileButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/saveFile");
         undoButton = getNodeT(Button, "vbox/toolbar/hbox/leftToolbar/undo");
         undoButton.pressed.add(() -> {
@@ -495,6 +497,9 @@ class Editor extends Widget {
                 }
             }));
 
+            newFileButton.pressed.add(() -> {
+                assetBrowser.newFile();
+            });
             saveFileButton.pressed.connect(Callable.fromFunction(function() {
                 save();
             }));
