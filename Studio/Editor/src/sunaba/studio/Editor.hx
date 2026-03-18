@@ -488,7 +488,7 @@ class Editor extends Widget {
                     Debug.error("'Publish' not implemented");
                 }
                 else if (id == 4) {
-                    Debug.error("'Open Project in Visual Studio Code' not implemented");
+                    Debug.error("'Open Project in Code Editor' not implemented");
                 }
                 else if (id == 5) {
                     App.exit(0);
