@@ -479,7 +479,7 @@ class Editor extends Widget {
             var fileMenu: PopupMenu = getNodeT(PopupMenu, "vbox/menuBarControl/hbox/menuBarContainer/menuBar/File");
             fileMenu.idPressed.connect(Callable.fromFunction(function(id: Int) {
                 if (id == 0) {
-                    Debug.error("'New File' not implemented");
+                    assetBrowser.newFile();
                 }
                 else if (id == 1) {
                     Debug.error("'Open File' not implemented");
