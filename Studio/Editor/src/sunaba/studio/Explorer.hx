@@ -146,8 +146,8 @@ class Explorer extends EditorWidget {
 
             var newMenu = newButton.getPopup();
         
-            newMenu.addIconItem(loadIcon("stduio://icons/16/blue-folder.png"), "Folder");
-            newMenu.addIconItem(loadIcon("stduio://icons/16/document.png"), "File");
+            newMenu.addIconItem(loadIcon("studio://icons/16/blue-folder.png"), "Folder");
+            newMenu.addIconItem(loadIcon("studio://icons/16/document.png"), "File");
 
             newMenu.idPressed.add((id: Int) -> {
                 trace(id);
@@ -184,6 +184,11 @@ class Explorer extends EditorWidget {
 
             buildTreeRoot();
         }
+    }
+
+    public function newAssetFile(dirPath: String) {
+        newFileWidget.open(PathType.assetFile, dirPath);
+        newFileDialog.popupCentered();
     }
 
     public function onTreeItemActivated(item: TreeItem) {

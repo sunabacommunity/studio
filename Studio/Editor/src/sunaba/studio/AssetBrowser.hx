@@ -75,7 +75,19 @@ class AssetBrowser extends EditorWidget {
         });
         searchBar = getNodeT(LineEdit, "vbox/toolbar/hbox/searchBar");
 
-        newButton = getNodeT(MenuButton, "vbox/toolbar/hbox/new");
+        newButton = getNodeT(MenuButton, "vbox/toolbar/hbox/new");var newMenu = newButton.getPopup();
+        
+        newMenu.addIconItem(getEditor().loadIcon("studio://icons/16/blue-folder.png"), "Folder");
+        newMenu.addIconItem(getEditor().loadIcon("studio://icons/16/document.png"), "File");
+
+        newMenu.idPressed.add((id: Int) -> {
+            if (id == 0) {
+                Debug.error("Folder creation not implemented.");
+            }
+            else if (id == 1) {
+                newFile();
+            }
+        });
 
         tree = getNodeT(Tree, "vbox/view/hsplit/tree");
         tree.hideRoot = true;
@@ -112,6 +124,10 @@ class AssetBrowser extends EditorWidget {
         dirIcon32 = getEditor().loadIcon("studio://icons/32/blue-folder-horizontal.png");
         
         refresh();
+    }
+
+    public function newFile() {
+        getEditor().explorer.newAssetFile(currentDir);
     }
 
     private inline function updir(dir: String) {
