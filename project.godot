@@ -24,12 +24,11 @@ run/main_scene="uid://cmd0qleaq4j3n"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Sunaba"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
-boot_splash/stretch_mode=0
-boot_splash/image="uid://04u8hdxy5ltl"
+boot_splash/stretch_mode=4
+boot_splash/image="uid://dkv3wgassead0"
 config/icon="uid://b8ivw4vau3olu"
 config/macos_native_icon="res://Studio/SunabaStudioMacIconV2.icns"
 config/windows_native_icon="res://Studio/studio.ico"
-boot_splash/show_image.macos=false
 
 [autoload]
 
