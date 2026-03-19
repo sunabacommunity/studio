@@ -51,7 +51,7 @@ jobs:
               name: '💪🪟 Windows Arm', 
               target: windows-arm64, 
               os: ubuntu-latest, 
-              pkgformat: none 
+              pkgformat: nsis 
             }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})

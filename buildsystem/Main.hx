@@ -306,6 +306,18 @@ class Main {
             nsisScript = cwd + "studio.x86_64.debug.nsi";
         }
 
+        if (targetPlatform == "windows-arm64") {
+            nsisScript = cwd + "studio.arm64.nsi";
+            if (exportType == ExportType.debug) {
+                nsisScript = cwd + "studio.arm64.debug.nsi";
+            }
+        }
+
+        if (targetPlatform != "windows-x86_64" && targetPlatform != "windows-arm64") {
+            Sys.println("NSIS installer can only be built for 'windows-x86_64' or 'windows-arm64' targets");
+            return;
+        }
+
         if (Sys.systemName() == "Windows") {
             cwd = StringTools.replace(cwd, "/", "\\");
         }
@@ -346,6 +358,18 @@ class Main {
         var nsisScript = cwd + "studio.x86_64.system.nsi";
         if (exportType == ExportType.debug) {
             nsisScript = cwd + "studio.x86_64.system.debug.nsi";
+        }
+
+        if (targetPlatform == "windows-arm64") {
+            nsisScript = cwd + "studio.arm64.system.nsi";
+            if (exportType == ExportType.debug) {
+                nsisScript = cwd + "studio.arm64.system.debug.nsi";
+            }
+        }
+        
+        if (targetPlatform != "windows-x86_64" && targetPlatform != "windows-arm64") {
+            Sys.println("System NSIS installer can only be built for 'windows-x86_64' or 'windows-arm64' targets");
+            return;
         }
 
         if (Sys.systemName() == "Windows") {
