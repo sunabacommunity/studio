@@ -12,6 +12,7 @@ reloadable = false
 
 macos = { }
 windows.x86_64 = { }
+windows.arm64 = { }
 linux.x86_64 = { }
 linux.arm64 = { }
 
@@ -31,6 +32,7 @@ ios = {}
 
 macos.template_release = { }
 windows.template_release.x86_64 = { }
+windows.template_release.arm64 = { }
 linux.template_release.x86_64 = { }
 linux.template_release.arm64 = { }
 
@@ -49,6 +51,7 @@ ios.template_release = {}
 
 macos.template_release.forced_dd3d = { }
 windows.template_release.x86_64.forced_dd3d = { }
+windows.template_release.arm64.forced_dd3d = { }
 linux.template_release.x86_64.forced_dd3d = { }
 linux.template_release.arm64.forced_dd3d = { }
 
@@ -64,6 +67,7 @@ ios.template_release.forced_dd3d = {}
 
 macos = "libs/libdd3d.macos.editor.universal.framework"
 windows.x86_64 = "libs/libdd3d.windows.editor.x86_64.dll"
+windows.arm64 = "libs/libdd3d.windows.editor.arm64.dll"
 linux.x86_64 = "libs/libdd3d.linux.editor.x86_64.so"
 linux.arm64 = "libs/libdd3d.linux.editor.arm64.so"
 
@@ -82,6 +86,7 @@ ios = "libs/libdd3d.ios.template_debug.universal.dylib"
 
 macos.template_release = "libs/libdd3d.macos.template_release.universal.framework"
 windows.template_release.x86_64 = "libs/libdd3d.windows.template_release.x86_64.dll"
+windows.template_release.arm64 = "libs/libdd3d.windows.template_release.arm64.dll"
 linux.template_release.x86_64 = "libs/libdd3d.linux.template_release.x86_64.so"
 linux.template_release.arm64 = "libs/libdd3d.linux.template_release.arm64.so"
 
@@ -100,6 +105,7 @@ ios.template_release = "libs/libdd3d.ios.template_release.universal.dylib"
 
 macos.template_release.forced_dd3d = "libs/libdd3d.macos.template_release.universal.enabled.framework"
 windows.template_release.x86_64.forced_dd3d = "libs/libdd3d.windows.template_release.x86_64.enabled.dll"
+windows.template_release.arm64.forced_dd3d = "libs/libdd3d.windows.template_release.arm64.enabled.dll"
 linux.template_release.x86_64.forced_dd3d = "libs/libdd3d.linux.template_release.x86_64.enabled.so"
 linux.template_release.arm64.forced_dd3d = "libs/libdd3d.linux.template_release.arm64.enabled.so"
 
