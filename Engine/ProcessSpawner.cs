@@ -85,6 +85,7 @@ public partial class ProcessSpawner: Node
 
     public override void _Process(double delta)
     {
+        if (!HasExited()) return;
         var output = _process.StandardOutput.ReadToEnd();
         foreach (var line in output.Split(Env.NewLine))
         {
@@ -94,5 +95,15 @@ public partial class ProcessSpawner: Node
             _lines.Add(line);
             Console.WriteLine(line);
         }
+        output = _process.StandardError.ReadToEnd();
+        foreach (var line in output.Split(Env.NewLine))
+        {
+            if (_lines.Contains(line))
+                continue;
+            
+            _lines.Add(line);
+            Console.WriteLine(line);
+        }
+        QueueFree();
     }
 }
