@@ -81,7 +81,7 @@ public partial class HxSys: RefCounted
 		    string line = process.StandardError.ReadLine();
 		    Console.WriteLine(line);
 	    }
-    	//process.WaitForExit();
+    	process.WaitForExit();
     	return process.ExitCode;
 	}
 
