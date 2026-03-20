@@ -363,6 +363,10 @@ class AssetBrowser extends EditorWidget {
                 Coroutine.yield();
                 var dirName = dirPathArray.pop();
                 Coroutine.yield();
+                if (StringTools.startsWith(dirName, ".")) {
+                    continue;
+                }
+                Coroutine.yield();
                 var item = itemList.addIconItem(dirIcon32, true);
                 Coroutine.yield();
                 itemList.setItemText(item, dirName);
@@ -388,6 +392,10 @@ class AssetBrowser extends EditorWidget {
                 Coroutine.yield();
                 if (StringTools.endsWith(file, "/")) {
                     Coroutine.yield();
+                    continue;
+                }
+                Coroutine.yield();
+                if (StringTools.startsWith(fileName, ".")) {
                     continue;
                 }
                 Coroutine.yield();
