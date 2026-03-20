@@ -46,6 +46,7 @@
                                 <menuItem label="Publish" icon="studio://icons/16/box--arrow.png"/>
                                 <menuItem separator="true"/>
                                 <menuItem label="Open Project in Code Editor" icon="studio://icons/16/edit-code.png"/>
+                                <menuItem label="Open Project in File Manager" icon="studio://icons/16/blue-folder-stand.png"/>
                                 <menuItem label="Exit" icon="studio://icons/16/door-open-in.png"/>
                             </sunaba.desktop.PopupMenu>
                             <sunaba.desktop.PopupMenu

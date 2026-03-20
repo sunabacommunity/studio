@@ -507,6 +507,9 @@ class Editor extends Widget {
                     Debug.error("'Open Project in Code Editor' not implemented");
                 }
                 else if (id == 5) {
+                    OSService.shellOpen(explorer.projectDirectory);
+                }
+                else if (id == 6) {
                     App.exit(0);
                 }
             }));
