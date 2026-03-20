@@ -78,12 +78,13 @@ class FreeLook3D extends Behavior {
                 velocity = Clamp(velocity / speedScale, minSpeed, maxSpeed);
             }
         }
-
-        if (InputService.isKeyPressed(Key.alt)) {
-            InputService.mouseMode = MouseMode.captured;
-        }
-        else {
-            InputService.mouseMode = MouseMode.visible;
+        else if (!InputService.isMouseButtonPressed(MouseButton.right)) {
+            if (InputService.isKeyPressed(Key.alt)) {
+                InputService.mouseMode = MouseMode.captured;
+            }
+            else {
+                InputService.mouseMode = MouseMode.visible;
+            }
         }
 
         if (InputService.mouseMode == MouseMode.captured) {
