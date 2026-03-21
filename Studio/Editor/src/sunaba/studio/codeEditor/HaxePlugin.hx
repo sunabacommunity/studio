@@ -145,7 +145,7 @@ class HaxePlugin extends CodeEditorPlugin {
         codeEditor.getEditor().generateHaxeBuildHxml();
         lspBridge.hxmlPath = "ide.hxml";
         lspBridge.codePath = codeEditor.path;
-        lspBridge.startServer(nodePath, Path.addTrailingSlash(StudioUtils.singleton.getToolchainDirectory()) + "server.js");
+        lspBridge.startServer(nodePath, toolchainDir + "server.js");
         codeEditor.addChild(lspBridge);
     }
 }
