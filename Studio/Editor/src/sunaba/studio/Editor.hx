@@ -2343,7 +2343,7 @@ class Editor extends Widget {
 
     public inline function openTrenchbroom(mapPath: String = "") {
         var processSpawner = new ProcessSpawner();
-        var toolchaindir = StudioUtils.singleton.getToolchainDirectory();
+        var toolchaindir = toolchainDir;
         var nrProgramName = "TrenchBroom";
         if (Sys.systemName() == "Windows") {
             toolchaindir = StringTools.replace(toolchaindir, "\\/" , "\\");
