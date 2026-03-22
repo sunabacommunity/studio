@@ -6,7 +6,20 @@
             name="vbox"
             fullRect="true">
             <sunaba.ui.Control
-                name="toolbar"
+                name="modeToolbar"
+                customMinimumSize="0, 32">
+                <sunaba.ui.HBoxContainer
+                    name="hbox"
+                    fullRect="true">
+                    <sunaba.ui.OptionButton
+                        name="option"/>
+                </sunaba.ui.HBoxContainer>
+            </sunaba.ui.Control>
+            <sunaba.ui.VBoxContainer
+                name="toolbarVbox">
+            </sunaba.ui.VBoxContainer>
+            <sunaba.ui.Control
+                name="objectToolbar"
                 customMinimumSize="0, 32">
                 <sunaba.ui.HBoxContainer
                     name="hbox"
@@ -34,7 +47,7 @@
                 </sunaba.ui.HBoxContainer>
             </sunaba.ui.Control>
             <sunaba.ui.Control
-                name="toolbar2"
+                name="objectToolbar2"
                 customMinimumSize="0, 32">
                 <sunaba.ui.HBoxContainer
                     name="hbox"

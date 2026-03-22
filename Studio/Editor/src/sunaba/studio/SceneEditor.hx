@@ -1,5 +1,8 @@
 package sunaba.studio;
 
+import sunaba.ui.VBoxContainer;
+import sunaba.ui.Control;
+import sunaba.ui.OptionButton;
 import haxe.io.Input;
 import sunaba.input.InputService;
 import sunaba.input.InputEvent;
@@ -28,6 +31,10 @@ import sunaba.VariantHolder;
 
 class SceneEditor extends EditorWidget {
     private var filePath: String;
+
+    public var mode: Int = 0;
+
+    public var modeOptionButton: OptionButton;
 
     public var selectButton: Button;
     public var moveButton: Button;
@@ -58,6 +65,11 @@ class SceneEditor extends EditorWidget {
     public var undoRedo: UndoRedo;
     private var valueHolder: VariantHolder;
 
+    private var objectToolbar: Control;
+    private var objectToolbar2: Control;
+
+    public var toolbarVbox: VBoxContainer;
+
     private var _gizmoMode: GizmoToolMode = GizmoToolMode.all;
     public var gizmoMode(get, set): GizmoToolMode;
     function get_gizmoMode():GizmoToolMode {
@@ -70,41 +82,75 @@ class SceneEditor extends EditorWidget {
         return this._gizmoMode = value;
     }
 
+    private var _onModeChanged: GameEvent<(Int)->Void> = null;
+    public var onModeChanged(get, default): GameEvent<(Int)->Void>;
+    function get_onModeChanged(): GameEvent<(Int)->Void> {
+        if (_onModeChanged == null) {
+            _onModeChanged = new GameEvent();
+        }
+        return _onModeChanged;
+    }
+
     public override function editorInit() {
         load("studio://SceneEditor.suml");
         undoRedo = new UndoRedo();
         valueHolder = new VariantHolder();
 
-        selectButton = getNodeT(Button, "vbox/toolbar/hbox/select");
+        modeOptionButton = getNodeT(OptionButton, "vbox/modeToolbar/hbox/option");
+        modeOptionButton.addItem("Object Mode", 0);
+        modeOptionButton.getPopup().idPressed.add((id: Int) -> {
+            mode = id;
+            onModeChanged.call(mode);
+        });
+        onModeChanged.add((m) -> {
+            if (m == 0) {
+                objectToolbar.show();
+                objectToolbar2.show();
+                if (getEditor().sceneInspector.selectedEntity != null) {
+                    gizmo.select(getEditor().sceneInspector.selectedEntity.getComponent(SpatialTransform));
+                }
+            }
+            else {
+                objectToolbar.hide();
+                objectToolbar2.hide();
+                gizmo.clearSelection();
+            }
+        });
+
+        toolbarVbox = getNodeT(VBoxContainer, "vbox/toolbarVbox");
+
+        objectToolbar = getNodeT(Control, "vbox/objectToolbar");
+        selectButton = getNodeT(Button, "vbox/objectToolbar/hbox/select");
         selectButton.pressed.connect(Callable.fromFunction(function() {
             gizmoMode = GizmoToolMode.all;
         }));
-        moveButton = getNodeT(Button, "vbox/toolbar/hbox/move");
+        moveButton = getNodeT(Button, "vbox/objectToolbar/hbox/move");
         moveButton.pressed.connect(Callable.fromFunction(function() {
             gizmoMode = GizmoToolMode.move;
         }));
-        rotateButton = getNodeT(Button, "vbox/toolbar/hbox/rotate");
+        rotateButton = getNodeT(Button, "vbox/objectToolbar/hbox/rotate");
         rotateButton.pressed.connect(Callable.fromFunction(function() {
             gizmoMode = GizmoToolMode.rotate;
         }));
-        scaleButton = getNodeT(Button, "vbox/toolbar/hbox/scale");
+        scaleButton = getNodeT(Button, "vbox/objectToolbar/hbox/scale");
         scaleButton.pressed.connect(Callable.fromFunction(function() {
             gizmoMode = GizmoToolMode.scale;
         }));
 
-        translateSpinBox = getNodeT(SpinBox, "vbox/toolbar2/hbox/translateSpinBox");
+        objectToolbar2 = getNodeT(Control, "vbox/objectToolbar2");
+        translateSpinBox = getNodeT(SpinBox, "vbox/objectToolbar2/hbox/translateSpinBox");
         translateSpinBox.valueChanged.connect(Callable.fromFunction(function(value: Float) {
             if (gizmo != null) {
                 gizmo.translateSnap = value;
             }
         }));
-        rotateSpinBox = getNodeT(SpinBox, "vbox/toolbar2/hbox/rotateSpinBox");
+        rotateSpinBox = getNodeT(SpinBox, "vbox/objectToolbar2/hbox/rotateSpinBox");
         rotateSpinBox.valueChanged.connect(Callable.fromFunction(function(value: Float) {
             if (gizmo != null) {
                 gizmo.rotateSnap = value;
             }
         }));
-        scaleSpinBox = getNodeT(SpinBox, "vbox/toolbar2/hbox/scaleSpinBox");
+        scaleSpinBox = getNodeT(SpinBox, "vbox/objectToolbar2/hbox/scaleSpinBox");
         scaleSpinBox.valueChanged.connect(Callable.fromFunction(function(value: Float) {
             if (gizmo != null) {
                 gizmo.scaleSnap = value;
