@@ -892,6 +892,7 @@ class Editor extends Widget {
                         fileDialog2.currentDir = projectIo.getFilePath(_projectFile.rootUrl);
                         fileDialog2.title = "Select 3D Model Destination";
                         fileDialog2.addFilter("*.smdl", "Sunaba 3D Model");
+                        fileDialog2.contentScaleFactor = window.contentScaleFactor;
                         addChild(fileDialog2);
 
                         fileDialog2.fileSelected.connect(Callable.fromFunction(function(_destPath: String) {
