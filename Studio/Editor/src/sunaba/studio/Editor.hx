@@ -900,6 +900,7 @@ class Editor extends Widget {
                                 var destPath = projectIo.getFileUrl(_destPath);
                                 trace(srcPath, destPath);
                                 ModelImportService.inport(srcPath, destPath);
+                                assetBrowser.refresh();
                             }
                             catch(e) {
                                 Debug.error(e.message + " : " + e.stack);
