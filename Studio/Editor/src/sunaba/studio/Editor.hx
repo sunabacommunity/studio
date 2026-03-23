@@ -346,6 +346,8 @@ class Editor extends Widget {
         }
     }
 
+    var menuBarParent: Control;
+
     public override function onReady() {
         window = getWindow();
         var displayScale = DisplayService.screenGetScale(window.currentScreen);
@@ -481,6 +483,7 @@ class Editor extends Widget {
             toolBarSpacer.guiInput.connect(eventFunc);
             iconContainer.guiInput.connect(eventFunc);
             iconRect.guiInput.connect(eventFunc);
+            menuBarParent = getNodeT(Control, "vbox/menuBarControl");
 
             centerTabContainer.getTabBar().tabClosePressed.connect(Callable.fromFunction(function(tab: Int) {
                 var widget = workspaceChildern[tab];
@@ -1385,6 +1388,18 @@ class Editor extends Widget {
                 if (mousePosition.y > windowsize.y - resizeThreshold) { // Bottom
                     DisplayService.cursorSetShape(CursorShape.vsize);
                     return;
+                }
+            }
+        }
+        else if (OSService.getName() == "macOS") {
+            if (window != null) {
+                if (window.mode == WindowMode.fullscreen) {
+                    this.windowTitle.hide();
+                    menuBarParent.customMinimumSize = new Vector2(0, 0);
+                }
+                else {
+                    this.windowTitle.show();
+                    menuBarParent.customMinimumSize = new Vector2(0, 27);
                 }
             }
         }
