@@ -1404,7 +1404,7 @@ class Editor extends Widget {
             }
         }
         else if (OSService.getName() == "macOS") {
-            if (window != null) {
+            if (window != null && menuBarParent != null) {
                 if (window.mode == WindowMode.fullscreen) {
                     this.windowTitle.hide();
                     menuBarParent.customMinimumSize = new Vector2(0, 0);
