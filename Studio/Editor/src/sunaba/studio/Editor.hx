@@ -1489,6 +1489,12 @@ class Editor extends Widget {
             process.spawn(commandName, args);
             while (!process.hasExited()) {
                 Coroutine.yield();
+                if (process.getExitCode() != -9999) {
+                    break;
+                }
+                if (process.hasExited()) {
+                    break;
+                }
             }
             var exitCode = process.getExitCode();
             generateHaxeWrapper();
