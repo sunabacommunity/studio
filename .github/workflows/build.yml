@@ -39,7 +39,7 @@ jobs:
               name: "🐧 Linux",
               target: linux-x86_64,
               os: ubuntu-latest,
-              pkgformat: deb,
+              pkgformat: none,
             }
           - {
               name: "🪟 Windows",
