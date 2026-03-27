@@ -11,7 +11,10 @@ class VpfbFileHandler extends FileHandler {
 
     public override function openFile(path: String) {
         var ioManager: IoManager = cast editor.io;
-        var assetPath = ioManager.getFileUrl(path);
+        var assetPath = path;
+        if (!StringTools.contains(assetPath, "://")) {
+            assetPath = ioManager.getFileUrl(path);
+        }
 
         var sceneEditor = new SceneEditor(editor, EditorArea.workspace);
         editor.setWorkspaceTabIcon(sceneEditor, explorer.loadIcon(iconPath));
