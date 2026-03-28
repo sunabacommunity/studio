@@ -856,39 +856,6 @@ class Editor extends Widget {
             assetBrowser = new AssetBrowser(this, EditorArea.dock);
 
             addToolFunction(() -> {
-                    var textureListEditorAcceptDialog = new AcceptDialog();
-                    textureListEditorAcceptDialog.contentScaleFactor = getWindow().contentScaleFactor;
-                    textureListEditorAcceptDialog.minSize = new Vector2i(
-                        Std.int(450 * textureListEditorAcceptDialog.contentScaleFactor), 
-                        Std.int(350 * textureListEditorAcceptDialog.contentScaleFactor)
-                    );
-                    textureListEditorAcceptDialog.title = "Edit Texture Path List";
-                    textureListEditorAcceptDialog.closeRequested.add(() -> {
-                        textureListEditorAcceptDialog.queueFree();
-                    });
-                    textureListEditorAcceptDialog.confirmed.add(() -> {
-                        textureListEditorAcceptDialog.queueFree();
-                    });
-
-                    var textureListEditor = new TextureListEditor();
-                    textureListEditor.editor = this;
-
-                    textureListEditorAcceptDialog.addChild(textureListEditor);
-                    addChild(textureListEditorAcceptDialog);
-                    textureListEditorAcceptDialog.popupCentered();
-                }, 
-                "Edit Texture Path List", 
-                loadIcon("studio://icons/16/images-stack.png")
-            );
-            
-            addToolFunction(() -> {
-                    openTrenchbroom();
-                }, 
-                "TrenchBroom", 
-                loadIcon("studio://icons/16/trenchbroom.png")
-            );
-
-            addToolFunction(() -> {
                     trace("");
                     var fileDialog = new FileDialog();
                     fileDialog.fileMode = FileDialogMode.openFile;
@@ -945,6 +912,39 @@ class Editor extends Widget {
                 },
                 "Import 3D Model",
                 loadIcon("studio://icons/16/block.png")
+            );
+
+            addToolFunction(() -> {
+                    var textureListEditorAcceptDialog = new AcceptDialog();
+                    textureListEditorAcceptDialog.contentScaleFactor = getWindow().contentScaleFactor;
+                    textureListEditorAcceptDialog.minSize = new Vector2i(
+                        Std.int(450 * textureListEditorAcceptDialog.contentScaleFactor), 
+                        Std.int(350 * textureListEditorAcceptDialog.contentScaleFactor)
+                    );
+                    textureListEditorAcceptDialog.title = "Edit Texture Path List";
+                    textureListEditorAcceptDialog.closeRequested.add(() -> {
+                        textureListEditorAcceptDialog.queueFree();
+                    });
+                    textureListEditorAcceptDialog.confirmed.add(() -> {
+                        textureListEditorAcceptDialog.queueFree();
+                    });
+
+                    var textureListEditor = new TextureListEditor();
+                    textureListEditor.editor = this;
+
+                    textureListEditorAcceptDialog.addChild(textureListEditor);
+                    addChild(textureListEditorAcceptDialog);
+                    textureListEditorAcceptDialog.popupCentered();
+                }, 
+                "Edit Texture Path List", 
+                loadIcon("studio://icons/16/images-stack.png")
+            );
+            
+            addToolFunction(() -> {
+                    openTrenchbroom();
+                }, 
+                "TrenchBroom", 
+                loadIcon("studio://icons/16/trenchbroom.png")
             );
 
             var hiddenDir = explorer.projectDirectory + "/.studio";
