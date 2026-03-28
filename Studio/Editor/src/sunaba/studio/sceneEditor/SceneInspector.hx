@@ -36,6 +36,7 @@ import sunaba.spatial.physics.SphereShape;
 import sunaba.spatial.CharacterLoader;
 import sunaba.audio.AudioSource;
 import sunaba.gameplay.FPSController;
+import sunaba.ui.UiDocument;
 import sunaba.ui.VSplitContainer;
 import sunaba.SizeFlags;
 import sunaba.core.Vector2i;
@@ -141,6 +142,7 @@ class SceneInspector extends EditorWidget {
         //componentClasses.push(CharacterRig);
         componentClasses.push(CharacterLoader);
         componentClasses.push(FPSController);
+        componentClasses.push(UiDocument);
         
         var iconBin = io.loadBytes("studio://icons/16_1-5x/clapperboard--pencil.png");
         var iconImage = new Image();
