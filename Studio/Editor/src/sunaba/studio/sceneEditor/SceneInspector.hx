@@ -201,10 +201,6 @@ class SceneInspector extends EditorWidget {
             refreshInspector();
             selectedEntity = entityIndex[selectedEntityIndex];
             if (selectedEntity != null) {
-                var transform: SpatialTransform = selectedEntity.getComponent(SpatialTransform);
-                if (transform != null) {
-                    sceneEditor.gizmo.select(transform);
-                }
             }
         }));
         sceneTree.itemActivated.connect(Callable.fromFunction(function() {
@@ -722,6 +718,10 @@ class SceneInspector extends EditorWidget {
                 var selectedEntity = entityIndex[selectedEntityIndex];
                 trace(selectedEntity == null);
                 if (selectedEntity != null) {
+                    sceneEditor.gizmo.clear();
+                    if (selectedEntity.getComponent(SpatialTransform) != null) {
+                        sceneEditor.gizmo.select(selectedEntity.getComponent(SpatialTransform));
+                    }
                     entityText.text = selectedEntity.name;
                     if (selectedEntity.isPrefab()) {
                         entityIcon.texture = prefabIcon24;
@@ -747,6 +747,11 @@ class SceneInspector extends EditorWidget {
             else if (mode == FileType.PrefabType) {
                 entityText.text = prefab.name;
                 entityIcon.texture = prefabIcon24;
+
+                sceneEditor.gizmo.clear();
+                if (prefab.getComponent(SpatialTransform) != null) {
+                    sceneEditor.gizmo.select(prefab.getComponent(SpatialTransform));
+                }
 
                 buildComponentTree(prefab);
             }
