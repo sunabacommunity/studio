@@ -2404,6 +2404,7 @@ class Editor extends Widget {
         playerAppView.loadLibrary(baseDir + "basetxt.slib");
         playerAppView.loadLibrary(baseDir + "basesfx.slib");
         playerAppView.loadLibrary(baseDir + "basechar.slib");
+        playerAppView.loadLibrary(baseDir + "basegp.slib");
 
         if (fastBuild == true) {
             playerAppView.ioManager.register(projectIo);
